@@ -269,3 +269,101 @@ d) It simplifies hardware setup
 **Explanation**: `uv`’s fast dependency management ensures reproducible environments for AI projects, such as those using FastAPI in `method1-pkg`.[](https://www.datacamp.com/tutorial/python-uv)
 
 ---
+
+**Q28. What is UV in the context of Python?**  
+a) A tool for AI model training  
+b) A high-performance Python package manager (correct)  
+c) A library for image processing  
+d) A replacement for asyncio event loop  
+
+**Explanation**: UV is a modern, high-performance Python package manager written in Rust, designed for fast dependency management and project setup.
+
+---
+
+**Q29. What is a key feature of UV?**  
+a) Slow dependency resolution  
+b) Lightning-fast package installation (correct)  
+c) Limited compatibility with Python tools  
+d) High memory usage for small projects  
+
+**Explanation**: UV is known for its lightning-fast package installation and dependency resolution, making it efficient for Python projects.
+
+---
+
+**Q30. What does the `uv init --package example-pkg` command do in Method 1?**  
+a) Creates a folder named `example-pkg` only  
+b) Creates a project and installs the `example-pkg` package (correct)  
+c) Runs the `example-pkg` script  
+d) Installs a new Python version  
+
+**Explanation**: In Method 1, `uv init --package example-pkg` creates a project and installs the `example-pkg` Python package, as per the document.
+
+---
+
+**Q31. What is the difference between `uv init --package example-pkg` and `uv init example-pkg`?**  
+a) Both install the `example-pkg` package  
+b) `--package` installs `example-pkg`, without it creates a folder (correct)  
+c) Both create a folder only  
+d) `--package` runs the package, without it installs it  
+
+**Explanation**: `uv init --package example-pkg` installs the package, while `uv init example-pkg` creates a project folder without installing a package.
+
+---
+
+**Q32. What does the `uv run example-pkg` command do in the `method1-pkg` project?**  
+a) Installs a new Python version  
+b) Runs the `example-pkg` project in its environment (correct)  
+c) Creates a new project  
+d) Adds a dependency to the project  
+
+**Explanation**: `uv run example-pkg` executes the `example-pkg` project in its virtual environment, ensuring dependencies are available.
+
+---
+
+**Q33. In Method 2, what does `uv add openai-agents` do in the `test` project?**  
+a) Runs the `openai-agents` script  
+b) Adds `openai-agents` as a project dependency (correct)  
+c) Creates a new project named `openai-agents`  
+d) Installs a new Python version  
+
+**Explanation**: `uv add openai-agents` adds the `openai-agents` package as a dependency to the `pyproject.toml` file in the `test` project.
+
+---
+
+**Q34. What is the purpose of `uv run main.py` in Method 2?**  
+a) Creates a new virtual environment  
+b) Runs the `main.py` script in the project’s environment (correct)  
+c) Generates a lockfile  
+d) Installs a new Python version  
+
+**Explanation**: `uv run main.py` executes the `main.py` script in the project’s virtual environment, ensuring all dependencies are available.
+
+---
+
+**Q35. Why is UV’s compatibility with existing Python tools important for the `method1-pkg` project?**  
+a) It allows integration with tools like pip and virtualenv (correct)  
+b) It reduces memory efficiency  
+c) It slows down dependency resolution  
+d) It limits project scalability  
+
+**Explanation**: UV’s compatibility with tools like `pip` and `virtualenv` allows seamless integration into existing workflows, beneficial for `method1-pkg`.
+
+---
+
+**Q36. How does UV support virtual environment management in the `method1-pkg` project?**  
+a) By requiring manual environment setup  
+b) By creating environments automatically (correct)  
+c) By avoiding virtual environments  
+d) By generating AI prompts  
+
+**Explanation**: UV automatically creates virtual environments during project initialization (e.g., `uv init`), as used in `method1-pkg`.
+
+---
+
+**Q37. Why is UV useful for agentic AI development in the `OpenAISdk` project?**  
+a) It generates AI models directly  
+b) It manages dependencies for AI libraries efficiently (correct)  
+c) It replaces FastAPI frameworks  
+d) It slows down project execution  
+
+**Explanation**: UV’s fast dependency management ensures efficient setup of AI libraries like `openai-agents`, supporting agentic AI development in `OpenAISdk`.
