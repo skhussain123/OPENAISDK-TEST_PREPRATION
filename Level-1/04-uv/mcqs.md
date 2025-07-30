@@ -198,3 +198,74 @@ c) It generates AI prompts automatically
 d) It replaces asyncio event loops  
 
 **Explanation**: uv’s fast dependency and environment management is ideal for AI projects (e.g., with FastAPI), ensuring reproducible setups for agentic systems.[](https://docs.astral.sh/uv/)
+
+
+**Q21. What is the likely purpose of the `01-py-uv/method1-pkg` directory in the OpenAISdk repository?**  
+a) To train AI models directly  
+b) To demonstrate package management with uv (correct)  
+c) To generate images for AI applications  
+d) To manage hardware resources  
+
+**Explanation**: The `01-py-uv/method1-pkg` directory likely showcases how to use `uv` for managing a Python project’s dependencies and environment, aligning with `uv`’s core functionality.[](https://docs.astral.sh/uv/concepts/projects/dependencies/)
+
+---
+
+**Q22. What does the `uv init` command create in the `method1-pkg` project?**  
+a) A new Python version  
+b) A project directory with `pyproject.toml` (correct)  
+c) A script with inline metadata  
+d) A virtual environment only  
+
+**Explanation**: `uv init` creates a new project directory with a `pyproject.toml` file for configuration, as seen in `uv init example`. This is likely used in `method1-pkg`.[](https://docs.astral.sh/uv/concepts/projects/init/)
+
+---
+
+**Q23. Which file in the `method1-pkg` project likely defines project dependencies?**  
+a) `main.py`  
+b) `pyproject.toml` (correct)  
+c) `script.py`  
+d) `index.html`  
+
+**Explanation**: In a `uv`-managed project, `pyproject.toml` defines project metadata and dependencies, central to the `method1-pkg` setup.[](https://docs.astral.sh/uv/concepts/projects/init/)
+
+---
+
+**Q24. What is the purpose of the `uv.lock` file in the `method1-pkg` project?**  
+a) To store project source code  
+b) To lock exact dependency versions (correct)  
+c) To run Python scripts  
+d) To set Python versions  
+
+**Explanation**: The `uv.lock` file ensures reproducible installations by locking exact dependency versions, a key feature of `uv` used in `method1-pkg`.[](https://docs.astral.sh/uv/concepts/projects/dependencies/)
+
+---
+
+**Q25. What does the `uv add fastapi` command do in the `method1-pkg` project?**  
+a) Runs the FastAPI application  
+b) Adds FastAPI as a project dependency (correct)  
+c) Installs a new Python version  
+d) Creates a new script  
+
+**Explanation**: `uv add fastapi` adds the `fastapi` package to `pyproject.toml` and installs it in the project’s virtual environment, relevant for AI projects.[](https://docs.astral.sh/uv/concepts/projects/dependencies/)
+
+---
+
+**Q26. How does `uv run` benefit the `method1-pkg` project?**  
+a) It trains AI models  
+b) It runs commands in the project’s environment (correct)  
+c) It installs new Python versions  
+d) It generates lockfiles automatically  
+
+**Explanation**: `uv run` executes commands (e.g., `python main.py`) in the project’s virtual environment, ensuring dependencies are available, as used in `method1-pkg`.[](https://docs.astral.sh/uv/concepts/projects/init/)
+
+---
+
+**Q27. Why is `uv` useful for agentic AI development in the `method1-pkg` project?**  
+a) It generates AI prompts  
+b) It manages dependencies efficiently (correct)  
+c) It replaces asyncio event loops  
+d) It simplifies hardware setup  
+
+**Explanation**: `uv`’s fast dependency management ensures reproducible environments for AI projects, such as those using FastAPI in `method1-pkg`.[](https://www.datacamp.com/tutorial/python-uv)
+
+---
