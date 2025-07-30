@@ -2,17 +2,6 @@
 
 The OpenAI Agents SDK is an open‐source, lightweight framework that lets developers build and orchestrate “agentic” AI applications—systems where multiple AI “agents” work together to perform complex, multi-step tasks autonomously. 
 
-**[OpenAI Agents SDK Panaversity Classes Video Playlist](https://www.youtube.com/playlist?list=PL0vKVrkG4hWovpr0FX6Gs-06hfsPDEUe6)**
-
-**[Watch: OpenAI’s BRAND NEW Agents SDK - Crash Course](https://www.youtube.com/watch?v=e7qvd2bOITc&t=4s)**
-
-**[OpenAI Agents SDK Docs](https://openai.github.io/openai-agents-python/)**
-
-**[OpenAI Agents SDK Overview](https://medium.com/@danushidk507/openai-agents-sdk-ii-15a11d48e718)**
-
-**[OpenAI’s strategic gambit: The Agents SDK and why it changes everything for enterprise AI](https://venturebeat.com/ai/openais-strategic-gambit-the-agent-sdk-and-why-it-changes-everything-for-enterprise-ai/)**
-
-https://github.com/aurelio-labs/cookbook/blob/main/gen-ai/openai/agents-sdk-intro.ipynb
 
 ## Questions to Start Thinking
 
@@ -101,16 +90,7 @@ In summary, the OpenAI Agents SDK provides the building blocks for creating auto
 
 ---
 
-For more in-depth technical details and examples, you can explore the [official documentation](https://openai.github.io/openai-agents-python/) and check out the repository on GitHub:
-
-https://github.com/openai/openai-agents-python
-
-
-[Building AI Agents with OpenAI’s Agents SDK: A Beginner’s Guide](https://medium.com/@agencyai/building-ai-agents-with-openais-agents-sdk-a-beginner-s-guide-66751e5e7e05)
-
 ## Early Reviews
-
-[Unpacking OpenAI’s Agents SDK: A Technical Deep Dive into the Future of AI Agents](https://mtugrull.medium.com/unpacking-openais-agents-sdk-a-technical-deep-dive-into-the-future-of-ai-agents-af32dd56e9d1)
 
 Developers are giving the OpenAI Agents SDK high marks for its simplicity and power. Here’s a snapshot of the feedback from the community:
 
