@@ -328,3 +328,80 @@ d) Generates the API key
 **Explanation**: `run_config` provides runtime settings like the model and provider for the agent’s execution.
 
 ---
+
+**Q1. What does the `Agent` class do in the code line?**  
+a) Installs Python packages  
+b) Creates an AI agent (correct)  
+c) Manages virtual environments  
+d) Generates API keys  
+
+**Explanation**: The `Agent` class creates an AI agent with specific behavior and capabilities, as defined by its parameters.
+
+---
+
+**Q2. What is the purpose of the `name` parameter in `Agent(name="Assistant", ...)`?**  
+a) To specify the Python version  
+b) To identify the agent (correct)  
+c) To set the API endpoint  
+d) To define the project folder  
+
+**Explanation**: The `name` parameter ("Assistant") provides a unique identifier for the agent.this is a agent name
+
+---
+
+**Q4. What does the `instructions` parameter do in the `Agent` class?**  
+a) Specifies the API key  
+b) Defines the agent’s role or behavior (correct)  
+c) Installs dependencies  
+d) Sets the Python version  
+
+**Explanation**: The `instructions` parameter defines the agent’s behavior, in this case, "You are a helpful assistant".Agent parsona
+
+---
+**Q6. What is the role of the `model` parameter in the `Agent` class?**  
+a) To manage environment variables  
+b) To specify the AI model for the agent (correct)  
+c) To disable tracing  
+d) To create a virtual environment  
+
+**Explanation**: The `model` parameter links the agent to an AI model (e.g., `gemini-2.0-flash`) for processing tasks.
+---
+
+**Q7. What type of object is assigned to the `model` parameter in the code?**  
+a) AsyncOpenAI  
+b) OpenAIChatCompletionsModel (correct)  
+c) RunConfig  
+d) Runner  
+
+**Explanation**: The `model` parameter is assigned an `OpenAIChatCompletionsModel` object configured with `gemini-2.0-flash`.
+
+---
+
+**Q8. Why is the `Agent` class important for agentic AI development?**  
+a) It manages Python dependencies  
+b) It defines autonomous AI agents (correct)  
+c) It generates images  
+d) It replaces FastAPI servers  
+
+**Explanation**: The `Agent` class creates autonomous AI agents that can process tasks, key to agentic AI systems.
+
+---
+
+**Q18. How does the `model` parameter relate to the `AsyncOpenAI` client?**  
+a) It replaces the client  
+b) It uses the client for API communication (correct)  
+c) It disables the client  
+d) It manages the client’s dependencies  
+
+**Explanation**: The `model` uses the `AsyncOpenAI` client (via `openai_client`) to communicate with the Gemini API.
+
+---
+
+**Q19. what is the default value for the instructions parameter in the agent class?
+1. you are a help full assistance
+2. None (Correct)  -->instructions: str | ((RunContextWrapper[Any], Agent[Any]) -> MaybeAwaitable[str]) | None = None,
+3. An empty string
+4. A default sysytem prompt
+
+---
+
