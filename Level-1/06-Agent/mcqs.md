@@ -405,3 +405,300 @@ d) It manages the client’s dependencies
 
 ---
 
+**Q1. What is the primary purpose of the `AsyncOpenAI` class in the OpenAI Agents SDK?**  
+a) To manage Python dependencies  
+b) To enable asynchronous API calls to OpenAI services (correct)  
+c) To generate AI prompts  
+d) To create virtual environments  
+
+**Explanation**: `AsyncOpenAI` enables asynchronous API calls to OpenAI or compatible services, improving performance for I/O-bound tasks.
+
+---
+
+**Q2. Which parameter in `AsyncOpenAI` specifies the API endpoint?**  
+a) `api_key`  
+b) `base_url` (correct)  
+c) `timeout`  
+d) `max_retries`  
+
+**Explanation**: The `base_url` parameter defines the API endpoint, such as `https://generativelanguage.googleapis.com/v1beta/openai/` for Gemini.
+
+---
+
+**Q3. What is the default value for `max_retries` in `AsyncOpenAI`?**  
+a) 0  
+b) DEFAULT_MAX_RETRIES (correct)  
+c) None  
+d) 10  
+
+**Explanation**: The `max_retries` parameter defaults to `DEFAULT_MAX_RETRIES`, as specified in the `AsyncOpenAI` class definition.
+
+---
+
+**Q4. What does the `Agent` class do in the OpenAI Agents SDK?**  
+a) Manages virtual environments  
+b) Creates an AI agent with specific behavior (correct)  
+c) Installs Python packages  
+d) Generates API keys  
+
+**Explanation**: The `Agent` class creates an AI agent with defined behavior, instructions, and a model for task processing.
+
+---
+
+**Q5. Which `Agent` class parameter defines the agent’s behavior?**  
+a) `name`  
+b) `instructions` (correct)  
+c) `model_settings`  
+d) `tools`  
+
+**Explanation**: The `instructions` parameter, such as "You are a helpful assistant", defines the agent’s role and behavior.
+
+---
+
+**Q6. What is the purpose of the `model` parameter in the `Agent` class?**  
+a) To specify the Python version  
+b) To link the agent to an AI model (correct)  
+c) To enable tracing  
+d) To manage dependencies  
+
+**Explanation**: The `model` parameter links the agent to an AI model, such as `gemini-2.0-flash`, for processing tasks.
+
+---
+
+**Q7. What does the `handoffs` parameter in the `Agent` class allow?**  
+a) Installing dependencies  
+b) Transferring tasks to other agents (correct)  
+c) Disabling tracing  
+d) Generating API keys  
+
+**Explanation**: The `handoffs` parameter enables task delegation to other agents or handoff objects, supporting multi-agent workflows.
+
+---
+
+**Q8. What is a system prompt in the context of the `Agent` class?**  
+a) A user input prompt  
+b) Instructions defining the agent’s behavior (correct)  
+c) A tool schema  
+d) A Python script  
+
+**Explanation**: The system prompt, set via `instructions`, defines the agent’s behavior, such as "You are a helpful assistant".
+
+---
+
+**Q9. What happens to a tool’s final answer in the `Agent` workflow?**  
+a) It is stored in the `.env` file  
+b) It is sent back to the agent (correct)  
+c) It is discarded  
+d) It is sent to the API client  
+
+**Explanation**: The final answer from a tool is returned to the agent for further processing or response generation.
+
+---
+
+**Q10. What is the role of the `Runner` class in the code?**  
+a) To install dependencies  
+b) To execute AI agent tasks (correct)  
+c) To manage environment variables  
+d) To create API endpoints  
+
+**Explanation**: The `Runner` class handles the execution of AI agents, either synchronously or asynchronously.
+
+---
+
+**Q11. What does the `Runner.run_sync` method do?**  
+a) Runs the agent asynchronously  
+b) Runs the agent synchronously (correct)  
+c) Installs the agent’s model  
+d) Generates a system prompt  
+
+**Explanation**: `Runner.run_sync` executes the agent’s tasks synchronously, without requiring `await`.
+
+---
+
+**Q12. Why is `await` required for the `Runner.run` method?**  
+a) It is a synchronous method  
+b) It is an asynchronous method (correct)  
+c) It manages dependencies  
+d) It disables tracing  
+
+**Explanation**: `Runner.run` is an asynchronous method, requiring `await` and an event loop to execute.
+
+---
+
+**Q13. What is the purpose of `Runner.stream` in the OpenAI Agents SDK?**  
+a) To install dependencies in real-time  
+b) To provide real-time streaming responses (correct)  
+c) To run synchronous tasks  
+d) To disable tools  
+
+**Explanation**: `Runner.stream` delivers responses in real-time chunks, ideal for chat apps or live outputs.
+
+---
+
+**Q14. Which `Runner` method is best for simple scripts without async/await?**  
+a) `Runner.run`  
+b) `Runner.run_sync` (correct)  
+c) `Runner.stream`  
+d) `Runner.install`  
+
+**Explanation**: `Runner.run_sync` is synchronous, making it suitable for simple scripts without async/await.
+
+---
+
+**Q15. What is printed when using `print(result.final_output)` after `Runner.run_sync`?**  
+a) The API key  
+b) The agent’s final response (correct)  
+c) The model configuration  
+d) The environment variables  
+
+**Explanation**: `result.final_output` contains the agent’s final response, such as "I am doing well, thank you!".
+
+---
+
+**Q16. What is a use case for `Runner.stream`?**  
+a) Installing Python packages  
+b) Real-time chat applications (correct)  
+c) Synchronous script execution  
+d) Generating API keys  
+
+**Explanation**: `Runner.stream` is used for real-time applications like chat apps, where responses are streamed token-by-token.
+
+---
+
+**Q17. How does `asyncio.run(main())` relate to `Runner.run`?**  
+a) It disables asynchronous execution  
+b) It runs the async `main` function with `Runner.run` (correct)  
+c) It installs dependencies  
+d) It generates a system prompt  
+
+**Explanation**: `asyncio.run(main())` executes the async `main` function, which uses `await Runner.run` to run the agent.
+
+---
+
+**Q18. What does the `tool_use_behavior` parameter in the `Agent` class control?**  
+a) The Python version used  
+b) How tools are handled during execution (correct)  
+c) The API endpoint  
+d) The environment variables  
+
+**Explanation**: `tool_use_behavior` (e.g., "run_llm_again") defines how the agent processes tool outputs.
+
+---
+
+**Q19. What is the default value of `tool_use_behavior` in the `Agent` class?**  
+a) stop_on_first_tool  
+b) run_llm_again (correct)  
+c) disable_tools  
+d) generate_output  
+
+**Explanation**: The default `tool_use_behavior` is `"run_llm_again"`, as specified in the `Agent` class.
+
+---
+
+**Q20. At which level can you configure a model provider in the OpenAI Agents SDK?**  
+a) Agent, Run, and Global levels (correct)  
+b) Only Agent level  
+c) Only Run level  
+d) Only Global level  
+
+**Explanation**: The SDK allows model provider configuration at Agent, Run, and Global levels for flexibility.
+
+---
+
+**Q21. How is the model provider set at the Agent level?**  
+a) Using `set_default_openai_client`  
+b) In the `Agent` class’s `model` parameter (correct)  
+c) In the `RunConfig` class  
+d) Using `asyncio.run`  
+
+**Explanation**: The model provider is set via the `model` parameter in the `Agent` class, as shown in the Agent-level example.
+
+---
+
+**Q22. What does `RunConfig` do in the Run-level configuration?**  
+a) Installs dependencies  
+b) Specifies the model and provider for a run (correct)  
+c) Generates API keys  
+d) Disables asynchronous calls  
+
+**Explanation**: `RunConfig` sets the model and provider for a specific run, as shown in the Run-level example.
+
+---
+
+**Q23. What is the purpose of `set_default_openai_client` in Global-level configuration?**  
+a) To disable tracing  
+b) To set a default client for all agents (correct)  
+c) To run synchronous tasks  
+d) To create a virtual environment  
+
+**Explanation**: `set_default_openai_client` sets a default API client globally, used unless overridden.
+
+---
+
+**Q24. What happens if you override the model at the Run level?**  
+a) The Agent-level model is used  
+b) The Run-level model takes precedence (correct)  
+c) The Global-level model is used  
+d) The model is disabled  
+
+**Explanation**: Run-level configuration in `RunConfig` overrides Agent or Global-level settings for that run.
+
+---
+
+**Q25. Why is `set_tracing_disabled(True)` used in the Global-level example?**  
+a) To enable detailed logging  
+b) To disable tracing for all runs (correct)  
+c) To activate web search tools  
+d) To run synchronous tasks  
+
+**Explanation**: `set_tracing_disabled(True)` turns off tracing globally, reducing debugging overhead.
+
+---
+
+**Q26. What is the role of the `input_guardrails` parameter in the `Agent` class?**  
+a) To validate input data (correct)  
+b) To generate output responses  
+c) To install dependencies  
+d) To set the API endpoint  
+
+**Explanation**: `input_guardrails` validates input data to ensure it meets safety or format requirements.
+
+---
+
+**Q27. What does the `output_guardrails` parameter in the `Agent` class do?**  
+a) Manages Python versions  
+b) Validates output data (correct)  
+c) Generates API keys  
+d) Disables asynchronous calls  
+
+**Explanation**: `output_guardrails` ensures the agent’s output meets defined safety or format standards.
+
+---
+
+**Q28. Why is the `AsyncOpenAI` client useful in the `OpenAISdk` project?**  
+a) It simplifies dependency management  
+b) It supports asynchronous AI API calls (correct)  
+c) It disables model integration  
+d) It generates environment variables  
+
+**Explanation**: `AsyncOpenAI` enables efficient asynchronous API calls, ideal for AI-driven projects like `OpenAISdk`.
+
+---
+
+**Q29. What is a benefit of using `Runner.run_sync` in simple scripts?**  
+a) It requires async/await  
+b) It avoids async/await complexity (correct)  
+c) It streams responses in real-time  
+d) It installs dependencies  
+
+**Explanation**: `Runner.run_sync` allows synchronous execution, simplifying scripts without needing async/await.
+
+---
+
+**Q30. How does the `Agent` class support FastAPI integration in `OpenAISdk`?**  
+a) By replacing FastAPI servers  
+b) By enabling async AI task processing (correct)  
+c) By managing FastAPI dependencies  
+d) By disabling API endpoints  
+
+**Explanation**: The `Agent` class, with `AsyncOpenAI`, supports async task processing, making it compatible with FastAPI for AI applications.

@@ -1,3 +1,26 @@
+## OpenAI Agents SDK
+The OpenAI Agents SDK enables you to build agentic AI apps in a lightweight, easy-to-use package with very few abstractions. It's a production-ready upgrade of our previous experimentation for agents, Swarm. The Agents SDK has a very small set of primitives:
+
+
+1. Agents, which are LLMs equipped with instructions and tools
+2. Handoffs, which allow agents to delegate to other agents for specific tasks
+3. Guardrails, which enable the inputs to agents to be validated
+4. Sessions, which automatically maintains conversation history across agent runs
+
+In combination with Python, these primitives are powerful enough to express complex relationships between tools and agents, and allow you to build real-world applications without a steep learning curve. In addition, the SDK comes with built-in tracing that lets you visualize and debug your agentic flows, as well as evaluate them and even fine-tune models for your application
+
+### Why use the Agents SDK
+
+* Enough features to be worth using, but few enough primitives to make it quick to learn.
+* Works great out of the box, but you can customize exactly what happens.
+
+1. Agent loop: Built-in agent loop that handles calling tools, sending results to the LLM, and looping until the LLM is done.
+2. Python-first: Use built-in language features to orchestrate and chain agents, rather than needing to learn new abstractions.
+3. Handoffs: A powerful feature to coordinate and delegate between multiple agents.
+4. Guardrails: Run input validations and checks in parallel to your agents, breaking early if the checks fail.
+5. Sessions: Automatic conversation history management across agent runs, eliminating manual state handling.
+6. Function tools: Turn any Python function into a tool, with automatic schema generation and Pydantic-powered validation
+7. Tracing: Built-in tracing that lets you visualize, debug and monitor your workflows, as well as use the OpenAI suite of evaluation, fine-tuning and distillation tools.
 
 # Information Reguarding Agent
 ```bash
@@ -91,6 +114,7 @@ class AsyncOpenAI(
 
 #### 5. Agent
 he Agent class creates an AI agent with specific behavior and capabilities, as defined by its parameters.
+agent name: str pereamter required or all perameter optional
 ```bash
 class Agent(
     name: str,
@@ -165,3 +189,69 @@ asyncio.run(main())
 * async function ko call krwany ke liye await lagana pharta hain.
 * async.io ki library async function ko run krny ke liye use hoti hain.
 
+##### idf you print result
+* print(result)
+```bash
+- Last agent: Agent(name="Assistant", ...)
+- Final output (str):
+- Last agent: Agent(name="Assistant", ...)
+- Final output (str):
+- Final output (str):
+    I am doing well, thank you for asking! How can I help you today?
+    I am doing well, thank you for asking! How can I help you today?
+- 1 new item(s)
+- 1 raw response(s)
+- 0 input guardrail result(s)
+- 0 output guardrail result(s)
+(See `RunResult` for more details)
+```
+
+#### 8 Agents SDK is setup to use OpenAI as default providers. When using other providers you can setup at different levels:
+1. Agent Level
+2. RUN LEVEL
+3. Global Level
+
+
+##### 1. Agent Level
+You assign a specific model or model provider directly to the agent.
+```bash
+agent = Agent(
+        name="Assistant",
+        instructions="You only respond in haikus.",
+        model=OpenAIChatCompletionsModel(model="gemini-2.0-flash", openai_client=client),
+    )
+```
+
+
+##### 2. Run Level Configuration
+You provide the model or model provider during the specific run execution, using RunConfig.
+```bash
+config = RunConfig(
+    model=my_custom_model,
+    model_provider=my_custom_client
+)
+
+Runner.run_sync(agent, "Hello", run_config=config)
+```
+
+##### 3. Global Level Configuration
+You set a default model/provider globally, which is used by all agents and runs unless overridden.
+```bash
+from agents import Agent, Runner, AsyncOpenAI, set_default_openai_client, set_tracing_disabled, set_default_openai_api
+
+gemini_api_key = ""
+set_tracing_disabled(True)
+set_default_openai_api("chat_completions")
+
+external_client = AsyncOpenAI(
+    api_key=gemini_api_key,
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
+set_default_openai_client(external_client)
+
+agent: Agent = Agent(name="Assistant", instructions="You are a helpful assistant", model="gemini-2.0-flash")
+
+result = Runner.run_sync(agent, "Hello")
+
+print(result.final_output)
+```
