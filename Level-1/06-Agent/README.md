@@ -112,10 +112,11 @@ class Agent(
 )
 ```
 
-#### 6. system promt
-* user prompt
-* tool schema
-* final tool ka answer ho wapis agent ke pass jata hain
+#### 6. Agent Basic configuration
+* name: A required string that identifies your agent.
+* instructions: also known as a developer message or system prompt.
+* model: which LLM to use, and optional model_settings to configure model tuning parameters like temperature, top_p, etc.
+* tools: Tools that the agent can use to achieve its tasks.
 
 
 #### 7. Runner
@@ -140,8 +141,13 @@ agent = Agent(name="Assistant", instructions="You are a helpful assistant", mode
 async def main():
     result = await Runner.Run(agent, "Hello, how are you.", run_config=config)
     print(result.final_output)
-
+      print(result.last_agent)
+    
 asyncio.run(main())  
+```
+* result.last_agent ye humy Agent ki Class return krygi is tarha
+```bash
+Agent(name='Assistant', instructions='You are a helpful assistant.', prompt=None, handoff_description=None, handoffs=[], model=<agents.models.openai_chatcompletions.OpenAIChatCompletionsModel object at 0x0000028F049E5C90>, model_settings=ModelSettings(temperature=None, top_p=None, frequency_penalty=None, presence_penalty=None, tool_choice=None, parallel_tool_calls=None, truncation=None, max_tokens=None, reasoning=None, metadata=None, store=None, include_usage=None, response_include=None, extra_query=None, extra_body=None, extra_headers=None, extra_args=None), tools=[FunctionTool(name='english_poetry_writer_tool', description='Writes English poetry on the given topic.', params_json_schema={'properties': {'input': {'title': 'Input', 'type': 'string'}}, 'required': ['input'], 'title': 'english_poetry_writer_tool_args', 'type': 'object', 'additionalProperties': False}, on_invoke_tool=<function function_tool.<locals>._create_function_tool.<locals>._on_invoke_tool at 0x0000028F09A08860>, strict_json_schema=True, is_enabled=True)], mcp_servers=[], mcp_config={}, input_guardrails=[], output_guardrails=[], output_type=None, hooks=None, tool_use_behavior='run_llm_again', reset_tool_choice=True)
 ```
 
 ##### 2. runner.run_sync(prompt)
@@ -149,6 +155,14 @@ asyncio.run(main())
 * Purpose: Same as run(), but sync code ke liye.
 * Nature: Synchronous (without async/await).
 * Use-case: Jab aap ka code async nahi hai (like simple scripts or CLI).
+
+```bash
+result =  Runner.run_sync(agent, "Write kids Poetry funy?", run_config=config)
+print(result.final_output)
+print(result.last_agent)
+```
+* run_sync ka fucntion async function me work nh kryga qk ye Synchronous work krta hain. normal python me under run_sync chal jayega 
+lekin async function me nh chlyga..
 
 ##### 3.  runner.stream(prompt)
 * Purpose: Prompt bhejna aur real-time streaming mein response lena.
@@ -230,4 +244,39 @@ agent: Agent = Agent(name="Assistant", instructions="You are a helpful assistant
 result = Runner.run_sync(agent, "Hello")
 
 print(result.final_output)
+```
+
+##### Output types
+By default, agents produce plain text (i.e. str) outputs. If you want the agent to produce a particular type of output, you can use the output_type parameter. A common choice is to use Pydantic objects, but we support any type that can be wrapped in a Pydantic TypeAdapter - dataclasses, lists, TypedDict, etc.
+```bash
+from pydantic import BaseModel
+from agents import Agent
+
+
+class CalendarEvent(BaseModel):
+    name: str
+    date: str
+    participants: list[str]
+
+agent = Agent(
+    name="Calendar extractor",
+    instructions="Extract calendar events from text",
+    output_type=CalendarEvent,
+)
+```
+
+##### Dynamic instructions
+In most cases, you can provide instructions when you create the agent. However, you can also provide dynamic instructions via a function. The function will receive the agent and context, and must return the prompt. Both regular and async functions are accepted.
+
+```bash
+def dynamic_instructions(
+    context: RunContextWrapper[UserContext], agent: Agent[UserContext]
+) -> str:
+    return f"The user's name is {context.context.name}. Help them with their questions."
+
+
+agent = Agent[UserContext](
+    name="Triage agent",
+    instructions=dynamic_instructions,
+)
 ```
