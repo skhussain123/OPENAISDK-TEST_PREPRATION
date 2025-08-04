@@ -267,3 +267,14 @@ Ek dafa koi tool select ho gaya, to wahi bar bar use hota rahega, jab tak explic
 result = Runner.run_sync(triage_agent, "What is 2 plus 2. after result ask human to review", run_config=config,max_turns=1)
 ```
 * max_turns 1 sy eik bar loop agent loop chalyga
+
+#### strict_mode=True
+* strict_mode=True matlab ke aap sakhti kar rahe ho ke tool sirf wahi parameters le jo function define karta hai.
+* Agar model se kuch galt, kama, ya ziyadah mile — toh aapka application vo tool use hone se pehle hi rok deta hai.
+* Ye aapka tool zyada mazboot aur safe banata hai.
+
+#### strict_mode=False
+* strict_mode=False → “maryaada mein soft rehna”
+* Optional parameters ka hona imaandaari se maangna bhi nahi zaroori hota.
+* Agar model koi “bekarar” ya extra cheez pass kar deta hai (undefined field), phir bhi error nahi deta.
+* Ye setup zara flexible hai, lekin sawaal ka jawab less predictable ho sakta hai compare to strict mode.
