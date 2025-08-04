@@ -278,3 +278,12 @@ result = Runner.run_sync(triage_agent, "What is 2 plus 2. after result ask human
 * Optional parameters ka hona imaandaari se maangna bhi nahi zaroori hota.
 * Agar model koi “bekarar” ya extra cheez pass kar deta hai (undefined field), phir bhi error nahi deta.
 * Ye setup zara flexible hai, lekin sawaal ka jawab less predictable ho sakta hai compare to strict mode.
+
+
+### Custom function tools
+Sometimes, you don't want to use a Python function as a tool. You can directly create a FunctionTool if you prefer. You'll need to provide:
+* name
+* description
+* params_json_schema, which is the JSON schema for the arguments
+* on_invoke_tool, which is an async function that receives a ToolContext and the arguments as a JSON string, and must return the tool output as a string.
+
