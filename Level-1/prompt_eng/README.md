@@ -4,12 +4,7 @@ Lmm ko hum markdown me bhi input de sakty hain.na sirf markdown balky different 
 me mention hai.
 * json
 * XML
-* 
-
-
-
-
-
+* Rap
 
 The GPT-4.1 family of models represents a significant step forward from GPT-4o in capabilities across coding, instruction following, and long context. In this prompting guide, we collate a series of important prompting tips derived from extensive internal testing to help developers fully leverage the improved abilities of this new model family.
 
@@ -41,4 +36,43 @@ If you are not sure about file content or codebase structure pertaining to the u
 You MUST plan extensively before each function call, and reflect extensively on the outcomes of the previous function calls. DO NOT do this entire process by making function calls only, as this can impair your ability to solve the problem and think insightfully.
 ```
 GPT-4.1 is trained to respond very closely to both user instructions and system prompts in the agentic setting. The model adhered closely to these three simple instructions and increased our internal SWE-bench Verified score by close to 20% - so we highly encourage starting any agent prompt with clear reminders covering the three categories listed above. As a whole, we find that these three instructions transform the model from a chatbot-like state into a much more “eager” agent, driving the interaction forward autonomously and independently.
+
+
+
+# What is MarkDown 
+Markdown is a lightweight markup language with plain-text formatting syntax, designed to be easy to read and write. It allows users to format text for things like headings, lists, links, images, and more, using simple symbols (e.g., # for headings, * for emphasis). It’s widely used for creating formatted content in documentation, blogs, and platforms like GitHub, as it can be converted to HTML or other formats while remaining human-readable in its raw form. The provided cheat sheet from Markdown Guide outlines its basic and extended syntax, including elements like tables, code blocks, and emojis, though not all applications support the extended features.
+
+### Basic Syntax
+
+| **Element**         | **Markdown Syntax**                                    |
+| ------------------- | ------------------------------------------------------ |
+| **Heading**         | `# H1`<br>`## H2`<br>`### H3`                          |
+| **Bold**            | `**bold text**`                                        |
+| **Italic**          | `*italicized text*`                                    |
+| **Blockquote**      | `> blockquote`                                         |
+| **Ordered List**    | `1. First item`<br>`2. Second item`<br>`3. Third item` |
+| **Unordered List**  | `- First item`<br>`- Second item`<br>`- Third item`    |
+| **Code**            | `` `code` ``                                           |
+| **Horizontal Rule** | `---`                                                  |
+| **Link**            | `[title](https://www.example.com)`                     |
+| **Image**           | `![alt text](image.jpg)`                               |
+
+
+
+### Extended Syntax
+These elements extend the basic syntax by adding additional features. Not all Markdown applications support these elements.
+
+| **Element**           | **Markdown Syntax**                                                                            |        |             |         |             |             |        |        |       |        |           |      |    |
+| --------------------- | ---------------------------------------------------------------------------------------------- | ------ | ----------- | ------- | ----------- | ----------- | ------ | ------ | ----- | ------ | --------- | ---- | -- |
+| **Table**             | \`                                                                                             | Syntax | Description | ` <br>` | ----------- | ----------- | `<br>` | Header | Title | `<br>` | Paragraph | Text | \` |
+| **Fenced Code Block** | <pre>`<br>{<br>  "firstName": "John",<br>  "lastName": "Smith",<br>  "age": 25<br>}`</pre>     |        |             |         |             |             |        |        |       |        |           |      |    |
+| **Footnote**          | `Here's a sentence with a footnote. [^1]` <br><br> `[^1]: This is the footnote.`               |        |             |         |             |             |        |        |       |        |           |      |    |
+| **Heading ID**        | `### My Great Heading {#custom-id}`                                                            |        |             |         |             |             |        |        |       |        |           |      |    |
+| **Definition List**   | `term` <br> `: definition`                                                                     |        |             |         |             |             |        |        |       |        |           |      |    |
+| **Strikethrough**     | `~~The world is flat.~~`                                                                       |        |             |         |             |             |        |        |       |        |           |      |    |
+| **Task List**         | `- [x] Write the press release` <br> `- [ ] Update the website` <br> `- [ ] Contact the media` |        |             |         |             |             |        |        |       |        |           |      |    |
+| **Emoji**             | `That is so funny! :joy:`                                                                      |        |             |         |             |             |        |        |       |        |           |      |    |
+| **Highlight**         | `I need to highlight these ==very important words==.`                                          |        |             |         |             |             |        |        |       |        |           |      |    |
+| **Subscript**         | `H~2~O`                                                                                        |        |             |         |             |             |        |        |       |        |           |      |    |
+| **Superscript**       | `X^2^`                                                                                         |        |             |         |             |             |        |        |       |        |           |      |    |
 
