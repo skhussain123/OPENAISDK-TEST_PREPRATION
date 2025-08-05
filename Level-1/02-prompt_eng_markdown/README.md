@@ -1,5 +1,10 @@
 
 
+#### Other Learning Resources:
+1. [Open_AI_sdk_prompting_guide](https://cookbook.openai.com/examples/gpt4-1_prompting_guide)
+2. [Markdown Guide](https://www.markdownguide.org/basic-syntax/)
+3. [Markdown Guide Cheat Sheet](https://www.markdownguide.org/cheat-sheet/)
+
 Lmm ko hum markdown me bhi input de sakty hain.na sirf markdown balky different structure me bhi de sakty hain.jismy se 3 documentation
 me mention hai.
 * json
