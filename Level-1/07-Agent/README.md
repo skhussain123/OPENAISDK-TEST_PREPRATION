@@ -196,6 +196,7 @@ lekin async function me nh chlyga..
 (See `RunResult` for more details)
 ```
 
+### How to configure LLM Providers at different levels (Global, Run and Agent)?
 #### 8 Agents SDK is setup to use OpenAI as default providers. When using other providers you can setup at different levels:
 1. Agent Level
 2. RUN LEVEL
