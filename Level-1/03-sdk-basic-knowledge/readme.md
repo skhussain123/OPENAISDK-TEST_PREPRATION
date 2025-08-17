@@ -193,16 +193,6 @@ def get_first(item: list[T]) -> T:
 * Generics = ek hi code ko multiple types ke liye flexible banana.
 * TContext = workflow ke context ka type har use-case me alag ho sakta hai, is liye usay generic banaya gaya hai taake Agent aur * Runner har tarah ka context handle kar saken.
 
-
-
-
-
-Note: Check out the source code to understand.
-
-
-
-Here are the key details:
-
 ---
 
 ### Core Concepts : The Power of Simplicity in Design
@@ -244,9 +234,31 @@ This minimalist approach makes the SDK approachable for newcomers while providin
 - **Interoperability:**  
   Although built to work seamlessly with OpenAI’s own models and the new Responses API, the Agents SDK is flexible enough to work with any model provider that supports the Chat Completions API format.
 
+
+
+#### Responses API VS Chat Completions API
+
+**Chat Completions API kya hai?**
+yeh purana aur abhi bhi popular OpenAI API hai jo specially chat-style conversations ke liye banayi gayi thi.
+isme tum messages list dete ho (system, user, assistant roles ke sath).
+yeh basically pehle se chalti hui chat ko continue karta hai.
+
+
+**Responses API kya hai?**
+OpenAI ne ab ek naya Responses API banaya hai jo unke naye models (GPT-4.1, GPT-4o, etc.) ke sath use hota hai.
+* iska purpose hai multiple cheezon ko ek hi API ke through handle karna:
+    * text completions
+    * chat messages
+    * structured outputs
+    * tool calls (function calling)
+* yeh zyada modern aur flexible API hai, aur Agents SDK directly isi ke sath kaam karta hai.
+
+
+![diagram](Capture.PNG)
+
+
 - **Simplified Multi-Agent Workflows:**  
   It allows the creation of complex systems where, for example, one agent might perform research while another handles customer support tasks—each agent working in tandem to achieve a common goal.  
-  
 
 ---
 
