@@ -41,6 +41,46 @@ Check the source code of Agent: https://openai.github.io/openai-agents-python/re
 
 2b. But the user prompt is passed as parameter in the run method of Runner and the method is a classmethod
 
+#### run() function ka kaam
+yeh function ek workflow run karta hai jo ek diye gaye agent se start hota hai. Agent ek loop mein chalti rehti hai jab tak final output generate na ho jaye.
+
+##### Loop ka process:
+
+* agent ko input diya jata hai aur woh invoke hoti hai.
+* agar agent koi final output banata hai (type = agent.output_type), to loop band ho jata hai.
+* agar handoff hota hai (yaani control ek naye agent ko diya jata hai), to loop dobara naye agent ke sath start hota hai.
+* agar handoff nahi hai magar tool calls hain, to tools run hote hain aur phir loop dubara chalti hai.
+
+##### Exceptions (errors):
+
+* agar max_turns (allowed turns) exceed ho jaye → MaxTurnsExceeded exception uthta hai.
+* agar koi guardrail tripwire trigger ho jaye → GuardrailTripwireTriggered exception uthta hai.
+* Note: sirf pehle agent ke input guardrails check hote hain.
+     * jab Agent A start hota hai, uske input par guardrails validate hote hain (yaani check lagta hai ke input theek aur safe hai).
+     * agar baad mein Agent A handoff karke tumhara kaam Agent B ko de deta hai,
+      to Agent B ke liye guardrails dobara validate nahi hote.
+
+
+##### Args (parameters):
+
+1. starting_agent: agent jahan se workflow shuru hota hai.
+2. input: agent ka initial input (ek string ya list of items).
+3. context: execution ka context (optional).
+4. max_turns: max turns allowed (har turn ek AI invocation hoti hai, tool calls bhi count hote hain).
+5. hooks: lifecycle events ke callbacks ke liye object.
+6. run_config: global settings pura run ke liye.
+7. previous_response_id: agar OpenAI Responses API use kar rahe ho to pichle response ka ID (isse input dobara dena avoid hota hai).
+8. session: ek running session object (optional).
+
+##### Return:
+yeh function ek RunResult return karta hai jisme:
+* saare inputs
+* guardrail results
+* aur last agent ka output hota hai.
+Agents kabhi kabhi handoff kar dete hain, is liye output ka type fixed nahi hota.
+
+
+
 Check this out: https://openai.github.io/openai-agents-python/ref/run/
 
 3. What is the purpose of the Runner class?
