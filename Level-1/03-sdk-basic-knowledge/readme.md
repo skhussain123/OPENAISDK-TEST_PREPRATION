@@ -120,6 +120,20 @@ yeh function ek workflow run karta hai jo ek diye gaye agent se start hota hai. 
       to Agent B ke liye guardrails dobara validate nahi hote.
 
 
+**max_turns ek limit hai jo yeh decide karti hai ke workflow (ya agent loop) maximum kitni dafa chalega.**
+
+**Example**
+##### maan lo max_turns = 5
+
+**workflow:**
+1. Agent A run → turn 1
+2. handoff Agent B → turn 2
+3. tool call hua → turn 3
+4. Agent B dobara run → turn 4
+5. final output generate nahi hua → turn 5
+6. agar phir bhi output na aya → ❌ error MaxTurnsExceeded
+
+
 ##### Args (parameters):
 
 1. starting_agent: agent jahan se workflow shuru hota hai.
