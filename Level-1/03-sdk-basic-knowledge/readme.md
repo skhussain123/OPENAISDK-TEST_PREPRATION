@@ -100,7 +100,7 @@ kabhi kabhi tum chahte ho ke system prompt dynamic ho — yani har run ya har si
 
 2b. But the user prompt is passed as parameter in the run method of Runner and the method is a classmethod
 
-#### Answer : run() function ka kaam
+#### Answer : run() function ka kaam (async classmethod)
 yeh function ek workflow run karta hai jo ek diye gaye agent se start hota hai. Agent ek loop mein chalti rehti hai jab tak final output generate na ho jaye.
 
 ##### Loop ka process:
@@ -153,6 +153,79 @@ yeh function ek RunResult return karta hai jisme:
 Agents kabhi kabhi handoff kar dete hain, is liye output ka type fixed nahi hota.
 
 
+#### run_sync classmethod
+```bash
+run_sync(
+    starting_agent: Agent[TContext],
+    input: str | list[TResponseInputItem],
+    *,
+    context: TContext | None = None,
+    max_turns: int = DEFAULT_MAX_TURNS,
+    hooks: RunHooks[TContext] | None = None,
+    run_config: RunConfig | None = None,
+    previous_response_id: str | None = None,
+    session: Session | None = None,
+) -> RunResult
+```
+acha tumne jo passage paste kia hai woh asal me Runner.run_sync() method ka explaination hai.
+chalo isko ek simple flow me samajhtay hain:
+
+##### 1. Run synchronously:
+* iska matlab hai yeh blocking call hogi (jab tak agent ka final output nahi milta tab tak program rukay ga).
+* agar tum Jupyter notebook ya FastAPI jaisi async environment me ho to yeh kaam nahi karega — wahan tumhe run (async) use karna hoga.
+
+##### 2. Loop ka flow:
+* Agent ko input milta hai.
+* Agar agent ne final output bana diya → loop khatam.
+* Agar handoff kiya (dusre agent ko kaam diya) → loop wapas chalay ga us naye agent ke sath.
+* Agar tool call hua (jaise koi external API call) → usko run karke phir loop continue hoga.
+
+##### 3. Exceptions:
+* Agar turns limit cross ho gayi (max_turns) → MaxTurnsExceeded error.
+*Agar guardrail tripwire trigger hua → GuardrailTripwireTriggered error.
+
+##### 4. Arguments (jo tum pass kar sakte ho):
+
+* starting_agent: pehla agent.
+* input: jo user ne bheja.
+* context: optional context (jaise variables, shared state).
+* max_turns: max allowed turns.
+* hooks: lifecycle callbacks ke liye.
+* run_config: global run settings.
+*  previous_response_id: agar Responses API use kar rahe ho to previous turn ka data skip karne ke liye.
+
+
+#### run_streamed classmethod
+```bash
+run_streamed(
+    starting_agent: Agent[TContext],
+    input: str | list[TResponseInputItem],
+    context: TContext | None = None,
+    max_turns: int = DEFAULT_MAX_TURNS,
+    hooks: RunHooks[TContext] | None = None,
+    run_config: RunConfig | None = None,
+    previous_response_id: str | None = None,
+    session: Session | None = None,
+) -> RunResultStreaming
+```
+* run_sync → waits until the final output is ready, then returns it all at once.
+* run_streamed → instead of waiting, it gives you a stream of events (tokens, tool calls, handoffs, outputs) as they happen.
+
+
+
+* It returns a RunResultStreaming, which has a method to listen to events as they come in (like token-by-token outputs or function calls).
+
+##### The loop goes:
+* Agent invoked with input.
+* If final output → stop.
+* If handoff → switch to new agent.
+* Else → run tools, then continue loop.
+
+##### Exceptions
+* MaxTurnsExceeded → agent took too many turns.
+* GuardrailTripwireTriggered → safety/guardrail violation.
+
+---
 
 Check this out: https://openai.github.io/openai-agents-python/ref/run/
 
