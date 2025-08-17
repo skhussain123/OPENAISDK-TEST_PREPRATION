@@ -35,13 +35,58 @@ OpenAI Agents SDK is designed very well, I have some questions so that you start
 
 1. The Agent class has been defined as a dataclass why?
 
+#### Answer:
+
+##### Agent class ko dataclass kyon banaya gaya hai?
+Python me @dataclass decorator use karte hain jab tumhe ek class mainly data hold karne ke liye chahiye hoti hai, na ke complex logic likhne ke liye.
+
+* Agent class bhi asal me ek container hai jo apne andar:
+* instructions (system prompt / callable)
+* tools
+* output_type
+* name
+aur aur bhi config cheezen
+rakhta hai.
+
+#### Dataclass use karne ke fayde:
+
+1. Less boilerplate code
+Tumhe __init__, __repr__, __eq__ jaise boring methods manually likhne ki zarurat nahi hoti.
+
+2. Readable aur simple
+ek line me tum dekh sakte ho agent ke kya-kya fields (properties) hain.
+
+3. Default values support
+Tum easily default values aur optional cheezen define kar sakte ho.
+
+4. Type hints ke sath clarity
+har field ka type clear hota hai (e.g. instructions: str | Callable, tools: list[...]).
+
+
+
+
+
+
+
 Check the source code of Agent: https://openai.github.io/openai-agents-python/ref/agent/
 
 2a. The system prompt is contained in the Agent class as instructions? Why you can also set it as callable?
 
+#### Answer: 
+* Agent class ke andar ek cheez hoti hai instructions (ya system prompt), jo agent ko batata hai ke usne kaise behave karna hai aur kya kaam karna hai.
+* yeh ek static string ho sakta hai (jaise ek fixed prompt jo hamesha same rahega).
+
+##### Lekin "callable" kyon banate hain?
+kabhi kabhi tum chahte ho ke system prompt dynamic ho — yani har run ya har situation ke hisaab se alag ban jaye.
+
+**is liye instructions ko callable (function/method) bhi set kar sakte ho.**
+* agar tumhari zarurat fixed hai → ek normal string instructions de do.
+* agar tumhari zarurat change hoti rahe (e.g. user ka context, time, ya koi external condition ke hisaab se) → to tum ek callable function de sakte ho jo runtime par prompt generate kare.
+
+
 2b. But the user prompt is passed as parameter in the run method of Runner and the method is a classmethod
 
-#### run() function ka kaam
+#### Answer : run() function ka kaam
 yeh function ek workflow run karta hai jo ek diye gaye agent se start hota hai. Agent ek loop mein chalti rehti hai jab tak final output generate na ho jaye.
 
 ##### Loop ka process:
