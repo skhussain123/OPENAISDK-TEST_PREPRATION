@@ -139,25 +139,6 @@ Developers are giving the OpenAI Agents SDK high marks for its simplicity and po
 Overall, developers and early adopters are very positive about the SDK, praising it for reducing manual prompt engineering, enabling more autonomous agents, and providing clear, actionable feedback through its tracing tools. The enthusiasm from the community and growing enterprise interest signal that this framework could become a cornerstone for future AI applications.
 
 
-### Summary
-OpenAI ka Swarm ek experimental framework tha jo multi-agent systems ko simple aur lightweight tareeqe se manage karne ke liye banaya gaya. Isme do main concepts thay.Swarm ka goal yeh tha ke multiple agents mil kar ek complex objective solve kar saken.
-
-* Agents → chhote AI units jo apna specific kaam karte hain (jaise billing ka agent, support ka agent).
-* Handoffs → ek agent se doosre agent ko kaam transfer karne ka system.
-
-Ab OpenAI ne Agents SDK release kiya hai jo Swarm ka advanced aur production-ready version hai. Isme aur zyada powerful features hain jisse developers asaan tareeqe se multiple AI agents ko coordinate kar saken.
-
-Is SDK ka design Anthropic ke kuch design patterns se bhi match karta hai, jaise:
-
-1. Prompt Chaining – complex task ko chhote steps mein todna.
-2. Routing – kaam ko sahi agent tak pohchana.
-3. Parallelization – ek saath multiple tasks chalana.
-4. Orchestrator-Workers – ek leader agent tasks ko tod kar worker agents ko assign karta hai.
-5. Evaluator-Optimizer – feedback system jo agents ke performance ko improve karta hai.
-
-Simple lafzon mein: Swarm ne basic foundation banayi thi multi-agent systems ke liye, aur Agents SDK uska upgraded version hai jisme advanced features aur proven design patterns use hote hain.
-
-
 #### Some Free Model
 1. gpt 4o
 2. gemini 1.5 flash
