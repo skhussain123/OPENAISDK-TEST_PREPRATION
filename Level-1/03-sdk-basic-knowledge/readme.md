@@ -157,8 +157,44 @@ Agents kabhi kabhi handoff kar dete hain, is liye output ka type fixed nahi hota
 Check this out: https://openai.github.io/openai-agents-python/ref/run/
 
 3. What is the purpose of the Runner class?
+Runner class ka purpose hai agent workflow ko chalana, uska loop control karna, safety ensure karna, aur akhir me result dena.
+
 
 4. What are generics in Python? Why we use it for TContext?
+
+#### Answer:Generics in Python kya hain?
+
+1. Python me generics ka matlab hota hai ke tum ek class ya function ko flexible type ke sath likho.
+2. isme tum typing module se TypeVar ya Generic use karte ho.
+3. matlab code reusable ho jata hai aur type hinting strong ho jati hai.
+
+**agar tum normal function likho:**
+```bash
+def get_first(item: list[int]) -> int:
+    return item[0]
+```
+* yaha list sirf int ke liye kaam karegi.
+
+**Lekin agar tum generic banao:**
+```bash
+from typing import TypeVar
+
+T = TypeVar("T")
+
+def get_first(item: list[T]) -> T:
+    return item[0]
+```
+* ab yeh function list[int], list[str], list[float] sab ke liye kaam karega.
+👉 matlab ek hi code alag alag types handle karega.
+
+
+##### 👉 Conclusion:
+
+* Generics = ek hi code ko multiple types ke liye flexible banana.
+* TContext = workflow ke context ka type har use-case me alag ho sakta hai, is liye usay generic banaya gaya hai taake Agent aur * Runner har tarah ka context handle kar saken.
+
+
+
 
 
 Note: Check out the source code to understand.
