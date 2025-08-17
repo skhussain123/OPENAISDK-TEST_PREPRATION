@@ -23,7 +23,6 @@ In combination with Python, these primitives are powerful enough to express comp
 7. Tracing: Built-in tracing that lets you visualize, debug and monitor your workflows, as well as use the OpenAI suite of evaluation, fine-tuning and distillation tools.
 
 
-
 # OpenAI Agents SDK: Provides a Foundational Layer For Building AI Agents
 
 The OpenAI Agents SDK is an open‐source, lightweight framework that lets developers build and orchestrate “agentic” AI applications—systems where multiple AI “agents” work together to perform complex, multi-step tasks autonomously. 
@@ -62,11 +61,26 @@ Tum easily default values aur optional cheezen define kar sakte ho.
 4. Type hints ke sath clarity
 har field ka type clear hota hai (e.g. instructions: str | Callable, tools: list[...]).
 
+**agar Agent normal class hoti:**
+```bash
+class Agent:
+    def __init__(self, name, instructions, tools=None):
+        self.name = name
+        self.instructions = instructions
+        self.tools = tools or []
+```
 
+**lekin @dataclass lagao to code short aur clean ho jata:**
+```bash
+from dataclasses import dataclass
 
-
-
-
+@dataclass
+class Agent:
+    name: str
+    instructions: str
+    tools: list[str] = None
+```
+**👉 matlab: Agent class ko dataclass is liye banaya gaya hai taake usay ek simple data container ke tarah use kiya ja sake, aur code clean, short aur readable ho.**
 
 Check the source code of Agent: https://openai.github.io/openai-agents-python/ref/agent/
 
