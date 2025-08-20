@@ -1,3 +1,147 @@
+
+
+
+The OpenAI Agents SDK enables you to build agentic AI apps in a lightweight, easy-to-use package with very few abstractions. It's a production-ready upgrade of our previous experimentation for agents, Swarm. The Agents SDK has a very small set of primitives:
+
+* Agents, which are LLMs equipped with instructions and tools
+* Handoffs, which allow agents to delegate to other agents for specific tasks
+* Guardrails, which enable validation of agent inputs and outputs
+* Sessions, which automatically maintains conversation history across agent runs
+
+In combination with Python, these primitives are powerful enough to express complex relationships between tools and agents, and allow you to build real-world applications without a steep learning curve. In addition, the SDK comes with built-in tracing that lets you visualize and debug your agentic flows, as well as evaluate them and even fine-tune models for your application.
+
+
+```bash
+from agents import Agent, Runner
+agent: Agent = Agent(name="Assistant", instructions="You are a helpful assistant")
+```
+
+#### what is from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel
+* Python agents module (ya package) ke andar jao
+* aur sirf Agent aur Runner ko le aao
+
+* agent perameter me first perameter agent name
+* second perameter instructions ha jissmy sysytem prompt bhi kethy hain(agent persona / Role)
+* agent ko minium name perameter required ha
+
+* Agent ek blueprint (class) hai.
+* Agent(...) us class ka object (instance) banata hai.
+* agent: Agent matlab "main keh raha hoon ke ye variable ek Agent type ka hoga."
+
+
+#### Run Agent
+```bash
+import os
+from agents import Agent, Runner,OpenAIChatCompletionsModel,set_tracing_disabled
+from openai import AsyncOpenAI
+from dotenv import load_dotenv
+
+
+load_dotenv()
+gemini_api_key = os.getenv('GEMINI_API_KEY')
+
+if not gemini_api_key:
+    raise ValueError("Api Key Not lodded")
+
+external_client = AsyncOpenAI(
+    api_key=gemini_api_key,
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",  
+)
+
+model = OpenAIChatCompletionsModel(
+    model="gemini-2.0-flash",
+    openai_client=external_client
+)
+
+set_tracing_disabled(True)
+
+agent: Agent = Agent(name="Assistant", instructions="You are a helpful assistant",model=model)
+result = Runner.run_sync(starting_agent=agent, input = "write a blog")
+
+print(result.final_output)
+```
+
+##### 1. Agent
+Ye class OpenAI Agents SDK mein hoti hai, jo ek intelligent AI actor ko represent karti hai. Ye ek AI assistant hota hai jo:
+* Aapko name, instructions, aur model deta hai.
+* Agar zarurat ho, to ek agent dosre agent ko handoff bhi kar sakta hai.
+* Zyada complex workflows mein, agent tools aur guardrails use karke tasks perform kar sakta hai.
+
+#### 2. Runner
+Ye bhi ek class hai jo ek agent ko execute/run karti hai. Key points:
+* Runner.run, Runner.run_sync, ya Runner.run_streamed methods ke through agent ko input pass karke output liya jaata hai.
+* Ye agent ke thinking loop ko manage karti hai — input receive karna, model ke through response generate karna, tools ya handoffs perform karna, aur final output deliver karna.
+
+#### 3. OpenAIChatCompletionsModel
+Ye model wrapper class hai. Iska kaam hai:
+* OpenAI (Chat Completions API) ya kisi OpenAI-compatible LLM ke saath easily interface provide karna.
+* model="gpt-4" ya model="gemini-2.0-flash" specify karne par, ye us model ka object banata hai jise agent use karega.
+* Isko AsyncOpenAI client ke saath integrate karna hota hai.
+
+#### 4. set_tracing_disabled
+Ye helper function hai (class nahi), jo SDK ke tracing mechanism ko enable ya disable karta hai. Jab aap LLM models external providers se integrate karte hain (like Gemini via OpenAI-compatible API), to default tracing (OpenAI dashboard tracing) fail ho sakti hai. Us case mein, tracing ko disable karna useful hota hai.
+
+#### 5. 
+5. AsyncOpenAI
+Ye client class hai jo asynchronously OpenAI-compatible API se connect karta hai. Iska purpose:
+* Aapke .env file se API key aur base URL ke zariye external model endpoints (jaise Gemini) se safely connect karna.
+* OpenAI ya OpenAI-compatible endpoints ke saath async requests manage karta hai.
+
+#### 6. 6. load_dotenv (from dotenv library)
+Ye utility function hota hai jo .env file se environment variables (jaise API keys) load karta hai. Iska purpose:
+* Sensitive information code me hard-code na karna.
+8 Securely secrets ko environment me laana, jisse os.getenv("GEMINI_API_KEY") jaise calls use karke easily access ho sake.
+
+
+#### When You Want ro Customize Agent Configration 
+```bash
+config = RunConfig(
+    model=model,
+    model_provider=external_client,
+    tracing_disabled=True
+)
+
+result = Runner.run_sync(agent, "Hello!", run_config=config)
+```
+* Runner ke paas koi extra configuration nahi hoti.
+* Sirf wahi chalega jo agent banate waqt set kiya tha (model, client, tracing waghera).
+* Agar tumhe run ki settings change karni ho (jaise ek run me tracing on, dusre me off), to agent dobara banana padega ya manual changes karne padenge.
+
+
+#### Agent Basic configuration
+```bash
+agent = Agent(
+    name="Haiku agent",
+    instructions="Always respond in haiku form",
+    model="o3-mini",
+    tools=[get_weather],
+)
+```
+* name: A required string that identifies your agent.
+* instructions: also known as a developer message or system prompt.
+* model: which LLM to use, and optional model_settings to configure model tuning parameters like temperature, top_p, etc.
+* tools: Tools that the agent can use to achieve its tasks.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Information Reguarding Agent
 ```bash
 import os
@@ -36,6 +180,7 @@ print(result.final_output)
 ```
 
 ### Question For this Code 
+
 #### 1. What is from dotenv import load_dotenv?
 A .env file is a plain text file where you store configuration values like API keys, database URLs, or secret keys. For example:
 This line is used to load environment variables from a file named .env into your Python program.The function load_dotenv() reads the .env file and loads all the variables inside it into your system environment. This allows you to access them using os.getenv().
