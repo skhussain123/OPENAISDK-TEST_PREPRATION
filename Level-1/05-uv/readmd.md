@@ -52,3 +52,44 @@ uv run uv run main.py
 | `uv init --package example-pkg` | Creates a project and installs the `example-pkg` Python package.    |
 | `uv init example-pkg`           | Creates a folder/project named `example-pkg`, no package installed. |
 
+
+
+### What purpose this line in python
+
+```bash
+def main():
+    print("Hello from example-app!")
+
+
+if __name__ == "__main__":
+    main()  python me ye line q use hoti ha if __name__ == "__main__": 
+```
+* Python me is line ko kehte hain "main guard" ya "dunder main idiom".
+
+###### iska kaam:
+* Jab file ko direct run karte ho (python file.py), tab __name__ ki value "__main__" hoti hai → main() chalega.
+* Jab file ko import karte ho (import file), tab __name__ us file ka naam hota hai, "__main__" nahi hota → main() nahi chalega.   
+
+**main.py**
+```bash
+import example
+
+
+def main():
+    print("runnig python main file")
+
+print("alway running main")
+if "__name__"  == "main":
+    main()    
+```
+**example.py**
+```bash
+
+def main():
+    print("runnig python example file")
+
+
+print("alway running")
+if "__name__"  == "main":
+    main()    
+```        
