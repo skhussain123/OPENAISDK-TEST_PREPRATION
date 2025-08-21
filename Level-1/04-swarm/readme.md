@@ -29,7 +29,7 @@ This pattern involves breaking down complex tasks into a sequence of simpler, ma
 
 **2. Routing:**
 
-Routing entails directing tasks to the most appropriate agent based on the task's nature. The Agents SDK facilitates this through its handoff mechanism, enabling agents to transfer control to other agents better suited to handle specific subtasks, thereby optimizing task management. 
+Routing entails directing tasks to the most appropriate agent (async agent) based on the task's nature. The Agents SDK facilitates this through its handoff mechanism, enabling agents to transfer control to other agents better suited to handle specific subtasks, thereby optimizing task management. 
 
 **3. Parallelization:**
 

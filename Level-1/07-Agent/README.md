@@ -2,7 +2,7 @@
 
 
 
-# Agent
+# 1. Agent
 The OpenAI Agents SDK enables you to build agentic AI apps in a lightweight, easy-to-use package with very few abstractions. It's a production-ready upgrade of our previous experimentation for agents, Swarm. The Agents SDK has a very small set of primitives:
 
 * Agents, which are LLMs equipped with instructions and tools
@@ -270,6 +270,8 @@ print(result.final_output)
 
 ### Question For this Code 
 
+* agr ap agent me model pass nh krty ho by default 4O use hoga ha gpt api ke sath
+
 #### 1. What is from dotenv import load_dotenv?
 A .env file is a plain text file where you store configuration values like API keys, database URLs, or secret keys. For example:
 This line is used to load environment variables from a file named .env into your Python program.The function load_dotenv() reads the .env file and loads all the variables inside it into your system environment. This allows you to access them using os.getenv().
@@ -364,9 +366,191 @@ dir(Runner)
 ```
 
 
+# 2.  What are Model Settings?
+Think of Model Settings like the knobs and dials on a professional camera. Just as a photographer adjusts focus, exposure, and shutter speed to get the perfect shot, you can adjust your AI agent's brain behavior to get exactly the response you want.
+
+Imagine you're cooking:
+* Temperature = How creative vs. focused your agent is
+* Tool Choice = Whether your agent can use calculators, weather apps, etc.
+* Max Tokens = How long the response can be
+* Parallel Tools = Whether your agent can use multiple tools at once
+
+```bash
+# Low temperature (0.1) = Very focused, consistent answers
+agent_focused = Agent(
+    name="Math Tutor",
+    instructions="You are a precise math tutor.",
+    model_settings=ModelSettings(temperature=0.1)
+)
+
+# High temperature (0.9) = More creative, varied responses
+agent_creative = Agent(
+    name="Story Writer",
+    instructions="You are a creative storyteller.",
+    model_settings=ModelSettings(temperature=0.9)
+)
+```
+**When to use:**
+* Low (0.1-0.3): Math, facts, precise instructions
+* Medium (0.4-0.6): General conversation, explanations
+* High (0.7-0.9): Creative writing, brainstorming
+
+Note: For gemini temprature range extends to 2.
+
+#### Full code Example
+```bash
+import os
+from agents import Agent, AsyncOpenAI, Runner, OpenAIChatCompletionsModel,ModelSettings
+from agents.run import RunConfig
+from dotenv import load_dotenv
+
+load_dotenv()
+gemini_api_key = os.getenv('GEMINI_API_KEY')
+if not gemini_api_key:
+    raise ValueError("API key is not loaded")
 
 
+external_client = AsyncOpenAI(
+    api_key=gemini_api_key,
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+)
 
+model = OpenAIChatCompletionsModel(
+    model="gemini-2.0-flash",
+    openai_client=external_client
+)
+
+config = RunConfig(
+    model=model,
+    model_provider=external_client,
+    tracing_disabled=True
+)
+
+triage_agent = Agent(
+    name="Helpfull Assistance",
+    instructions="You are a help Full Assistance.",
+    model=model,
+    model_settings=ModelSettings(temperature=1) # // bydefault 0.7
+)
+
+result = Runner.run_sync(
+    starting_agent=triage_agent,
+    input="hi how are you.",
+    run_config=config
+)
+print("Last agent to respond:", result.final_output)
+```
+
+### ModelSetting Arg
+```bash
+class ModelSettings(
+    temperature: float | None = None,
+    top_p: float | None = None,
+    frequency_penalty: float | None = None,
+    presence_penalty: float | None = None,
+    tool_choice: ToolChoice = None,
+    parallel_tool_calls: bool | None = None,
+    truncation: Literal['auto', 'disabled'] | None = None,
+    max_tokens: int | None = None,
+    reasoning: Reasoning | None = None,
+    verbosity: Literal['low', 'medium', 'high'] | None = None,
+    metadata: dict[str, str] | None = None,
+    store: bool | None = None,
+    include_usage: bool | None = None,
+    response_include: list[ResponseIncludable] | None = None,
+    top_logprobs: int | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    extra_headers: Headers | None = None,
+    extra_args: dict[str, Any] | None = None
+)
+```
+
+* if use blank model_settings=ModelSettings() to agent chal jaeyga qk ModelSettings ke all arg by default none ha
+* agent ki class me agent name required ha baki perameters ke bagir bhi agent run ho jayeg.
+
+# 2. Max Tokens - The Response Length Limit
+* input or output me milna kr jo token banty hain ussy max_tokens kehty hain.
+
+```bash
+triage_agent = Agent(
+    name="Helpfull Assistance",
+    instructions="You are a help Full Assistance.",
+    model=model,
+    model_settings=ModelSettings(temperature=1,max_tokens=40)
+)
+
+result = Runner.run_sync(
+    starting_agent=triage_agent,
+    input="write a blog in 100 word",
+    run_config=config
+)
+print("Last agent to respond:", result.final_output)
+```
+
+##### Kya hoga agar max_tokens=5 hota hai?
+* Response bohat chhota hoga: Model sirf 5 tokens tak hi answer generate karega—kuch shabdon ya short sentence se zyada nahi.
+* Input ki tokens bhi count hoti hain: Agar aapka prompt kaafi lamba hai, aur usme already bahut tokens use ho chuke hain, to model ka total context window exceed ho sakta hai ya result aur chhota ho jaayega. 
+* Output limit hoti hai: max_tokens sirf output tokens lol limit karta hai—input (prompt) tokens isme include nahin hote.
+
+**Ek aam approximation ke mutabiq:**
+* 1 token ≈ 4 characters (English mein)
+* 1 token ≈ 0.75 words — yaani lagbhag ¾ word per token
+* Iska matlab, 100 tokens ≈ 75 words
+
+## Tool Choice
+```bash
+from agents import function_tool
+
+@function_tool
+def calculate_area(length: float, width: float) -> str:
+    """Calculate the area of a rectangle."""
+    area = length * width
+    return f"Area = {length} × {width} = {area} square units"
+
+
+triage_agent = Agent(
+    name="Helpfull Assistance",
+    instructions="You are a help Full Assistance.",
+    model=model,
+    tools=[calculate_area],
+    model_settings=ModelSettings(tool_choice="auto")
+)
+```
+* Bydefault tool choice Auto hoti hain.
+
+```bash
+@function_tool
+def calculate_area(length: float, width: float) -> str:
+    """Calculate the area of a rectangle."""
+    area = length * width
+    print("the tool is calling")
+    
+    return f"Area = {length} × {width} = {area} square units"
+
+
+triage_agent = Agent(
+    name="Helpfull Assistance",
+    instructions="You are a help Full Assistance.",
+    model=model,
+    tools=[calculate_area],
+    model_settings=ModelSettings(tool_choice="required")
+)
+
+result = Runner.run_sync(
+    starting_agent=triage_agent,
+    input="write a blog in 100 word",
+    run_config=config
+)
+print(result.final_output)
+```
+* agr ap tool choice required krty hato tool must call hoga agr apny tool sy related koe question kia ho na nhi kiya ho.
+
+**output**
+```bash
+the tool is calling
+Area calculated: Length times width equals area, simple geometry.
+```
 
 
 
