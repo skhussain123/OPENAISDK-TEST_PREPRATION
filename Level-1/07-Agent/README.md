@@ -145,75 +145,130 @@ Agents SDK is setup to use OpenAI as default providers. When using other provide
 ## 1. AGENT LEVEL
 ```bash
 import os
-from agents import Agent, Runner,OpenAIChatCompletionsModel,set_tracing_disabled
+from agents import Agent, Runner, OpenAIChatCompletionsModel, set_tracing_disabled
 from openai import AsyncOpenAI
 from dotenv import load_dotenv
 
-
+# Load environment variables from a .env file
 load_dotenv()
 gemini_api_key = os.getenv('GEMINI_API_KEY')
 
+# Check if the API key is loaded; raise an error if not
 if not gemini_api_key:
     raise ValueError("Api Key Not lodded")
 
+# Initialize an AsyncOpenAI client with the Gemini API key and custom base URL
 external_client = AsyncOpenAI(
     api_key=gemini_api_key,
     base_url="https://generativelanguage.googleapis.com/v1beta/openai/",  
 )
 
+# Disable tracing (likely for debugging or logging purposes)
 set_tracing_disabled(True)
 
+# Create an Agent instance with a name, instructions, and model configuration
 agent: Agent = Agent(
     name="Assistant", 
     instructions="You are a helpful assistant",
     model=OpenAIChatCompletionsModel(model="gemini-2.0-flash", openai_client=external_client),
-    )
+)
 
-result = Runner.run_sync(starting_agent=agent, input = "write a blog")
+# Run the agent synchronously with the input "write a blog"
+result = Runner.run_sync(starting_agent=agent, input="write a blog")
 print(result.final_output)
 ```
 
 ## 2. Run LEVEL
 ```bash
-
 import os
 from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel, RunConfig
 from dotenv import load_dotenv
 from agents.run import RunConfig
 
+# Load environment variables
 load_dotenv()
 gemini_api_key = os.getenv('GEMINI_API_KEY')
 
+# Check if the API key is loaded
 if not gemini_api_key:
     raise ValueError("Api is not lodded")
 
-
+# Initialize the AsyncOpenAI client
 external_client = AsyncOpenAI(
     api_key=gemini_api_key,
     base_url="https://generativelanguage.googleapis.com/v1beta/openai/", 
 )
 
+# Create a model instance
 external_model = OpenAIChatCompletionsModel(
     model="gemini-2.0-flash",
     openai_client=external_client
 )
 
-# agr apko model configration customize krni hato phir he ye instance use hota
+# Create a RunConfig instance for custom configuration
 config = RunConfig(
     model=external_model,
     model_provider=external_client,
     tracing_disabled=True
 )
 
+# Create an Agent instance
 myagent = Agent(
-    name = 'Assistance',
+    name='Assistance',
     instructions='you are a help full Assistance',
     model=external_model
 )
 
-result = Runner.run_sync(starting_agent=myagent,input='write a 3 poem in list',run_config=config)
+# Run the agent with the custom configuration
+result = Runner.run_sync(starting_agent=myagent, input='write a 3 poem in list', run_config=config)
 print(result.final_output)
 ```
+
+## Global Level
+```bash
+from agents import Agent, Runner, AsyncOpenAI, set_default_openai_client, set_tracing_disabled, set_default_openai_api
+
+gemini_api_key = ""
+set_tracing_disabled(True)
+set_default_openai_api("chat_completions")
+
+external_client = AsyncOpenAI(
+    api_key=gemini_api_key,
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
+set_default_openai_client(external_client)
+
+agent: Agent = Agent(name="Assistant", instructions="You are a helpful assistant", model="gemini-2.0-flash")
+
+result = Runner.run_sync(agent, "Hello")
+print(result.final_output)
+```
+
+| Level      | Configure What                            | Override Scope                   | Example Use Case                                         |
+| ---------- | ----------------------------------------- | -------------------------------- | -------------------------------------------------------- |
+| **Global** | Default client/provider, API key, routing | Entire SDK / Application         | Use a single OpenAI client across all agents and runs    |
+| **Run**    | Model, settings, tracing, guardrails      | One specific `Runner.run()` call | Temporary override: high-temperature or tracing-only run |
+| **Agent**  | Model, tools, instructions                | Individual `Agent`               | Mix-and-match models: e.g., specialized agents per task  |
+
+
+#### 1. Global Level
+* Global level pe aap entire application ya SDK instance ke liye defaults set kar sakte hain—jaise ke default OpenAI client, base URL, ya API key.
+* Example: set_default_openai_client(...) se har agent aur run mein woh client automatically istemal ho jata hai.
+* Use case: Jab aap ek consistent LLM provider, endpoint, ya auth config poore app mein use karna chahte ho.
+
+#### 2. Run Level
+* Runner (ya Runner.run) configuration ke through aap ek specific run ke liye model provider, model settings, tracing options etc. override kar sakte hain.
+* Isme aap RunConfig object pass karte ho, jisme settings jaise model choice, modelProvider, modelSettings, tracing flags, guardrails, context, etc. set ho sakte hain.
+* Use case: Jab ek specific execution ke liye different setup chahiye ho (e.g., test run, high-temperature model, tracing disabled, etc.).
+
+#### 3. Agent Level
+* Har Agent instance apni khud ki configuration specify kar sakta hai—jaise model, model_settings, tools, instructions, aur even custom ModelProvider.
+* Yeh flexibility deta hai ke different agents use different models or providers in the same application/workflow.
+* Use case: Jab ek workflow mein multiple agents ho, aur aap chahte ho ke har agent ek specific model ya provider use kare (e.g., Spanish agent uses GPT-3.5, English agent uses Gemini, etc.).
+
+
+
+
 
 
 
