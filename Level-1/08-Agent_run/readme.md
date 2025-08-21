@@ -210,6 +210,15 @@ Isse await ke saath call kiya jata hai, aur yeh async code ke liye hota hai.
 run_streamed() is a higher-level helper in the OpenAI Agents SDK that gives you real-time streaming (like stream()), but with the final assembled response object at the end.
 
 
+```bash
+
+
+
+
+
+
+```
+
 
 
 

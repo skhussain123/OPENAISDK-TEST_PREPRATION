@@ -87,9 +87,10 @@ Ye bhi ek class hai jo ek agent ko execute/run karti hai. Key points:
 
 #### 3. OpenAIChatCompletionsModel
 Ye model wrapper class hai. Iska kaam hai:
-* OpenAI (Chat Completions API) ya kisi OpenAI-compatible LLM ke saath easily interface provide karna.
+* OpenAI (Chat Completions API) ya kisi OpenAI-compatible third party LLM ke saath easily interface provide karna.
 * model="gpt-4" ya model="gemini-2.0-flash" specify karne par, ye us model ka object banata hai jise agent use karega.
 * Isko AsyncOpenAI client ke saath integrate karna hota hai.
+* by default openai sdk responses api use krta ha.
 
 #### 4. set_tracing_disabled
 Ye helper function hai (class nahi), jo SDK ke tracing mechanism ko enable ya disable karta hai. Jab aap LLM models external providers se integrate karte hain (like Gemini via OpenAI-compatible API), to default tracing (OpenAI dashboard tracing) fail ho sakti hai. Us case mein, tracing ko disable karna useful hota hai.
