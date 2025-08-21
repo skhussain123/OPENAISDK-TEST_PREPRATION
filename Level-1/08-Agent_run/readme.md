@@ -39,9 +39,17 @@ Agent(name='Assistance', handoff_description=None, tools=[], mcp_servers=[], mcp
     session: Session | None = None
 ) -> CoroutineType[Any, Any, RunResult]
 ```
+Run a workflow starting at the given agent. The agent will run in a loop until a final output is generated. The loop runs like so:
+
+1. The agent is invoked with the given input.
+2. If there is a final output (i.e. the agent produces something of type agent.output_type, the loop terminates.
+3. If there's a handoff, we run the loop again, with the new agent.
+4. Else, we run tool calls (if any), and re-run the loop. In two cases, the agent may raise an exception:
+5. If the max_turns is exceeded, a MaxTurnsExceeded exception is raised.
+6. If a guardrail tripwire is triggered, a GuardrailTripwireTriggered exception is raised. Note that only the first agent's input guardrails are run.
+
 
 ##### Args
-
 1. starting_agent
 The starting agent to run.
 
@@ -64,11 +72,8 @@ Global settings for the entire agent run.
 The ID of the previous response, if using OpenAI models via the Responses API, this allows you to skip passing in input from the previous turn.
 
 **Returns**
-out
+out :
 A run result containing all the inputs, guardrail results and the output of the last agent. Agents may perform handoffs, so we don't know the specific type of the output.
-
-
-
 
 
 # 2. runner.run_sync(prompt)
@@ -104,6 +109,42 @@ Agent(name='Assistance', handoff_description=None, tools=[], mcp_servers=[], mcp
     session: Session | None = None
 ) -> RunResult
 ```
+
+Run a workflow synchronously, starting at the given agent. Note that this just wraps the run method, so it will not work if there's already an event loop (e.g. inside an async function, or in a Jupyter notebook or async context like FastAPI). For those cases, use the run method instead. The agent will run in a loop until a final output is generated. The loop runs like so:
+
+1. The agent is invoked with the given input.
+2. If there is a final output (i.e. the agent produces something of type agent.output_type, the loop terminates.
+3. If there's a handoff, we run the loop again, with the new agent.
+4. Else, we run tool calls (if any), and re-run the loop. In two cases, the agent may raise an exception:
+5. If the max_turns is exceeded, a MaxTurnsExceeded exception is raised.
+6. If a guardrail tripwire is triggered, a GuardrailTripwireTriggered exception is raised. Note that only the first agent's input guardrails are run.
+
+##### Args
+1. starting_agent
+The starting agent to run.
+
+2. input
+The initial input to the agent. You can pass a single string for a user message, or a list of input items.
+
+3. context
+The context to run the agent with.
+
+4. max_turns
+The maximum number of turns to run the agent for. A turn is defined as one AI invocation (including any tool calls that might occur)
+
+5. hooks
+An object that receives callbacks on various lifecycle events.
+
+6. run_config
+Global settings for the entire agent run.
+
+7. previous_response_id
+The ID of the previous response, if using OpenAI models via the Responses API, this allows you to skip passing in input from the previous turn.
+
+**Returns**
+out :
+A run result containing all the inputs, guardrail results and the output of the last agent. Agents may perform handoffs, so we don't know the specific type of the output.
+
 
 # 3.  runner.stream(prompt)
 * Purpose: Prompt bhejna aur real-time streaming mein response lena.
