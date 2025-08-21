@@ -1,6 +1,8 @@
 
 
 
+
+# Agent
 The OpenAI Agents SDK enables you to build agentic AI apps in a lightweight, easy-to-use package with very few abstractions. It's a production-ready upgrade of our previous experimentation for agents, Swarm. The Agents SDK has a very small set of primitives:
 
 * Agents, which are LLMs equipped with instructions and tools
@@ -10,6 +12,18 @@ The OpenAI Agents SDK enables you to build agentic AI apps in a lightweight, eas
 
 In combination with Python, these primitives are powerful enough to express complex relationships between tools and agents, and allow you to build real-world applications without a steep learning curve. In addition, the SDK comes with built-in tracing that lets you visualize and debug your agentic flows, as well as evaluate them and even fine-tune models for your application.
 
+## Why use the Agents SDK
+1. Enough features to be worth using, but few enough primitives to make it quick to learn.
+2. Works great out of the box, but you can customize exactly what happens.
+
+**Here are the main features of the SDK:**
+* Agent loop: Built-in agent loop that handles calling tools, sending results to the LLM, and looping until the LLM is done.
+* Python-first: Use built-in language features to orchestrate and chain agents, rather than needing to learn new abstractions.
+* Handoffs: A powerful feature to coordinate and delegate between multiple agents.
+* Guardrails: Run input validations and checks in parallel to your agents, breaking early if the checks fail.
+* Sessions: Automatic conversation history management across agent runs, eliminating manual state handling.
+* Function tools: Turn any Python function into a tool, with automatic schema generation and Pydantic-powered validation.
+* Tracing: Built-in tracing that lets you visualize, debug and monitor your workflows, as well as use the OpenAI suite of evaluation, fine-tuning and distillation tools.
 
 ```bash
 from agents import Agent, Runner
@@ -29,13 +43,12 @@ agent: Agent = Agent(name="Assistant", instructions="You are a helpful assistant
 * agent: Agent matlab "main keh raha hoon ke ye variable ek Agent type ka hoga."
 
 
-#### Run Agent
+#### Run Agent (RUN LEVEL)
 ```bash
 import os
 from agents import Agent, Runner,OpenAIChatCompletionsModel,set_tracing_disabled
 from openai import AsyncOpenAI
 from dotenv import load_dotenv
-
 
 load_dotenv()
 gemini_api_key = os.getenv('GEMINI_API_KEY')
@@ -81,8 +94,7 @@ Ye model wrapper class hai. Iska kaam hai:
 #### 4. set_tracing_disabled
 Ye helper function hai (class nahi), jo SDK ke tracing mechanism ko enable ya disable karta hai. Jab aap LLM models external providers se integrate karte hain (like Gemini via OpenAI-compatible API), to default tracing (OpenAI dashboard tracing) fail ho sakti hai. Us case mein, tracing ko disable karna useful hota hai.
 
-#### 5. 
-5. AsyncOpenAI
+#### 5. AsyncOpenAI
 Ye client class hai jo asynchronously OpenAI-compatible API se connect karta hai. Iska purpose:
 * Aapke .env file se API key aur base URL ke zariye external model endpoints (jaise Gemini) se safely connect karna.
 * OpenAI ya OpenAI-compatible endpoints ke saath async requests manage karta hai.
@@ -123,6 +135,85 @@ agent = Agent(
 * tools: Tools that the agent can use to achieve its tasks.
 
 
+# Model Configuration
+Agents SDK is setup to use OpenAI as default providers. When using other providers you can setup at different levels:
+
+1. Agent Level
+2. RUN LEVEL
+3. Global Level
+
+## 1. AGENT LEVEL
+```bash
+import os
+from agents import Agent, Runner,OpenAIChatCompletionsModel,set_tracing_disabled
+from openai import AsyncOpenAI
+from dotenv import load_dotenv
+
+
+load_dotenv()
+gemini_api_key = os.getenv('GEMINI_API_KEY')
+
+if not gemini_api_key:
+    raise ValueError("Api Key Not lodded")
+
+external_client = AsyncOpenAI(
+    api_key=gemini_api_key,
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",  
+)
+
+set_tracing_disabled(True)
+
+agent: Agent = Agent(
+    name="Assistant", 
+    instructions="You are a helpful assistant",
+    model=OpenAIChatCompletionsModel(model="gemini-2.0-flash", openai_client=external_client),
+    )
+
+result = Runner.run_sync(starting_agent=agent, input = "write a blog")
+print(result.final_output)
+```
+
+## 2. Run LEVEL
+```bash
+
+import os
+from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel, RunConfig
+from dotenv import load_dotenv
+from agents.run import RunConfig
+
+load_dotenv()
+gemini_api_key = os.getenv('GEMINI_API_KEY')
+
+if not gemini_api_key:
+    raise ValueError("Api is not lodded")
+
+
+external_client = AsyncOpenAI(
+    api_key=gemini_api_key,
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/", 
+)
+
+external_model = OpenAIChatCompletionsModel(
+    model="gemini-2.0-flash",
+    openai_client=external_client
+)
+
+# agr apko model configration customize krni hato phir he ye instance use hota
+config = RunConfig(
+    model=external_model,
+    model_provider=external_client,
+    tracing_disabled=True
+)
+
+myagent = Agent(
+    name = 'Assistance',
+    instructions='you are a help full Assistance',
+    model=external_model
+)
+
+result = Runner.run_sync(starting_agent=myagent,input='write a 3 poem in list',run_config=config)
+print(result.final_output)
+```
 
 
 
