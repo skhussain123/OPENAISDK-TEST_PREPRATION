@@ -498,7 +498,15 @@ print("Last agent to respond:", result.final_output)
 * 1 token ≈ 0.75 words — yaani lagbhag ¾ word per token
 * Iska matlab, 100 tokens ≈ 75 words
 
+---
+
 ## Tool Choice
+
+1. auto bydefault (llm khud choice kryga konsa tool call krna ha)
+2. none   (tool call nh kr paega llm)
+3. required (tool call krna paryga llm ko)
+
+**Auto**
 ```bash
 from agents import function_tool
 
@@ -519,38 +527,225 @@ triage_agent = Agent(
 ```
 * Bydefault tool choice Auto hoti hain.
 
+**Required**
 ```bash
+import os
+from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel,enable_verbose_stdout_logging,ModelSettings, function_tool
+from dotenv import load_dotenv
+from agents.run import RunConfig
+import rich
+
+load_dotenv()
+
+gemini_api_key = os.getenv('GEMINI_API_KEY')
+
+if not gemini_api_key:
+    raise ValueError("Api key is not lodded")
+
+enable_verbose_stdout_logging()
+
+external_client = AsyncOpenAI(
+    api_key=gemini_api_key,
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+)
+
 @function_tool
-def calculate_area(length: float, width: float) -> str:
-    """Calculate the area of a rectangle."""
-    area = length * width
-    print("the tool is calling")
+def get_weather(input: str)-> str:    
+    return f"{input} is sunny 1C"
+
+
+myagent = Agent(
+    name="Assistance",
+    instructions="You are a hekpfull Assistance if your asked weather related quesiton you want to use get_weather Tool",
+    model= OpenAIChatCompletionsModel(model='gemini-2.0-flash',openai_client=external_client),
+    tools=[get_weather],
+    model_settings=ModelSettings(temperature=1,tool_choice="required")
     
-    return f"Area = {length} × {width} = {area} square units"
+    )
 
-
-triage_agent = Agent(
-    name="Helpfull Assistance",
-    instructions="You are a help Full Assistance.",
-    model=model,
-    tools=[calculate_area],
-    model_settings=ModelSettings(tool_choice="required")
-)
-
-result = Runner.run_sync(
-    starting_agent=triage_agent,
-    input="write a blog in 100 word",
-    run_config=config
-)
+result = Runner.run_sync(starting_agent=myagent, input='what is the weather in karachi')
 print(result.final_output)
 ```
 * agr ap tool choice required krty hato tool must call hoga agr apny tool sy related koe question kia ho na nhi kiya ho.
 
 **output**
 ```bash
-the tool is calling
-Area calculated: Length times width equals area, simple geometry.
+Creating trace Agent workflow with id trace_6913d99575ce46c4a66b8978539525eb
+Setting current trace: trace_6913d99575ce46c4a66b8978539525eb
+Creating span <agents.tracing.span_data.AgentSpanData object at 0x000002054AD3E330> with id None
+Running agent Assistance (turn 1)
+Creating span <agents.tracing.span_data.GenerationSpanData object at 0x000002054AD3E510> with id None       
+[
+  {
+    "content": "You are a hekpfull Assistance if your asked weather related quesiton you want to use get_weather Tool",
+    "role": "system"
+  },
+  {
+    "role": "user",
+    "content": "what is the weather in karachi"
+  }
+]
+Tools:
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "get_weather",
+      "description": "",
+      "parameters": {
+        "properties": {
+          "input": {
+            "title": "Input",
+            "type": "string"
+          }
+        },
+        "required": [
+          "input"
+        ],
+        "title": "get_weather_args",
+        "type": "object",
+        "additionalProperties": false
+      }
+    }
+  }
+]
+Stream: False
+Tool choice: required
+Response format: NOT_GIVEN
+
+LLM resp:
+{
+  "content": null,
+  "refusal": null,
+  "role": "assistant",
+  "annotations": null,
+  "audio": null,
+  "function_call": null,
+  "tool_calls": [
+    {
+      "id": "",
+      "function": {
+        "arguments": "{\"input\":\"karachi\"}",
+        "name": "get_weather"
+      },
+      "type": "function"
+    }
+  ]
+}
+
+Creating span <agents.tracing.span_data.FunctionSpanData object at 0x000002054B2100B0> with id None
+Invoking tool get_weather with input {"input":"karachi"}
+Tool call args: ['karachi'], kwargs: {}
+Tool get_weather returned karachi is sunny 1C
+Running agent Assistance (turn 2)
+Creating span <agents.tracing.span_data.GenerationSpanData object at 0x000002054B210770> with id None       
+[
+  {
+    "content": "You are a hekpfull Assistance if your asked weather related quesiton you want to use get_weather Tool",
+    "role": "system"
+  },
+  {
+    "role": "user",
+    "content": "what is the weather in karachi"
+  },
+  {
+    "role": "assistant",
+    "tool_calls": [
+      {
+        "id": "",
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "arguments": "{\"input\":\"karachi\"}"
+        }
+      }
+    ]
+  },
+  {
+    "role": "tool",
+    "tool_call_id": "",
+    "content": "karachi is sunny 1C"
+  }
+]
+Tools:
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "get_weather",
+      "description": "",
+      "parameters": {
+        "properties": {
+          "input": {
+            "title": "Input",
+            "type": "string"
+          }
+        },
+        "required": [
+          "input"
+        ],
+        "title": "get_weather_args",
+        "type": "object",
+        "additionalProperties": false
+      }
+    }
+  }
+]
+Stream: False
+Tool choice: NOT_GIVEN
+Response format: NOT_GIVEN
+
+LLM resp:
+{
+  "content": "The weather in Karachi is sunny and 1C.\n",
+  "refusal": null,
+  "role": "assistant",
+  "annotations": null,
+  "audio": null,
+  "function_call": null,
+  "tool_calls": null
+}
+
+Resetting current trace
+The weather in Karachi is sunny and 1C.
+
+Shutting down trace provider
+Shutting down trace processor <agents.tracing.processors.BatchTraceProcessor object at 0x00000205492BEB90>
 ```
+
+Agent jab llm ko pora data dega bhajyga to usny tool choice required hogi llm agent ko bolega ke tool must call krna. agent tool call kryga or tool ka response jab wapis lakr llm ko dega to ab tool choice reset ho jaye auto ho jayegi.
+agr reset na hoti to agent loop me phas jata or bar bar llm tool call krwata
+
+* by default reset_tool_choice True hoti ha jissy agent loop me nh phas pata.
+
+**Like This**
+```bash
+myagent = Agent(
+    name="Assistance",
+    instructions="You are a hekpfull Assistance if your asked weather related quesiton you want to use get_weather Tool",
+    model= OpenAIChatCompletionsModel(model='gemini-2.0-flash',openai_client=external_client),
+    tools=[get_weather],
+    model_settings=ModelSettings(temperature=1,tool_choice="required"),
+    reset_tool_choice=False
+    )
+```  
+* Agent loop 10 time chal kr ye Error ayega
+```bash
+ File "C:\Users\user\Pictures\example-app\.venv\Lib\site-packages\agents\run.py", line 436, in run
+    raise MaxTurnsExceeded(f"Max turns ({max_turns}) exceeded")
+agents.exceptions.MaxTurnsExceeded: Max turns (10) exceeded
+```
+
+
+
+
+
+
+
+
+
+
+---
 
 ```bash
 triage_agent = Agent(
