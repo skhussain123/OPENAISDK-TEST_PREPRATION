@@ -136,8 +136,6 @@ agent = Agent(
 * tools: Tools that the agent can use to achieve its tasks.
 
 
-
-
 # 2.  What are Model Settings?
 Think of Model Settings like the knobs and dials on a professional camera. Just as a photographer adjusts focus, exposure, and shutter speed to get the perfect shot, you can adjust your AI agent's brain behavior to get exactly the response you want.
 
@@ -169,49 +167,39 @@ agent_creative = Agent(
 
 Note: For gemini temprature range extends to 2.
 
-#### Full code Example
+### Example 1: Math Tutor with Low Temperature
 ```bash
-import os
-from agents import Agent, AsyncOpenAI, Runner, OpenAIChatCompletionsModel,ModelSettings
-from agents.run import RunConfig
-from dotenv import load_dotenv
+from agents import Agent, ModelSettings, Runner
 
-load_dotenv()
-gemini_api_key = os.getenv('GEMINI_API_KEY')
-if not gemini_api_key:
-    raise ValueError("API key is not loaded")
-
-
-external_client = AsyncOpenAI(
-    api_key=gemini_api_key,
-    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+# Create a precise math tutor
+math_tutor = Agent(
+    name="Math Tutor",
+    instructions="You are a precise math tutor. Always show your work step by step.",
+    model_settings=ModelSettings(
+        temperature=0.1,  # Very focused
+        max_tokens=500    # Enough for detailed steps
+    )
 )
 
-model = OpenAIChatCompletionsModel(
-    model="gemini-2.0-flash",
-    openai_client=external_client
-)
-
-config = RunConfig(
-    model=model,
-    model_provider=external_client,
-    tracing_disabled=True
-)
-
-triage_agent = Agent(
-    name="Helpfull Assistance",
-    instructions="You are a help Full Assistance.",
-    model=model,
-    model_settings=ModelSettings(temperature=1) # // bydefault 0.7
-)
-
-result = Runner.run_sync(
-    starting_agent=triage_agent,
-    input="hi how are you.",
-    run_config=config
-)
-print("Last agent to respond:", result.final_output)
+result = Runner.run_sync(math_tutor, "Solve: 2x + 5 = 13")
+print(result.final_output)
 ```
+
+### Example 2: Creative Writer with High Temperature
+```bash
+creative_writer = Agent(
+    name="Creative Writer",
+    instructions="You are a creative storyteller. Write engaging, imaginative stories.",
+    model_settings=ModelSettings(
+        temperature=0.8,  # Very creative
+        max_tokens=300    # Short but creative
+    )
+)
+
+result = Runner.run_sync(creative_writer, "Write a short story about a robot learning to paint")
+print(result.final_output)
+```
+---
 
 ### ModelSetting Arg
 ```bash
@@ -272,7 +260,36 @@ print("Last agent to respond:", result.final_output)
 
 ---
 
-## Tool Choice
+
+
+
+### Top-p
+```bash
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Tool Choice
 
 1. auto bydefault (llm khud choice kryga konsa tool call krna ha)
 2. none   (tool call nh kr paega llm)
@@ -508,17 +525,10 @@ myagent = Agent(
 agents.exceptions.MaxTurnsExceeded: Max turns (10) exceeded
 ```
 
-
-
-
-
-
-
-
-
-
 ---
 
+##### tool_use_behavior
+
 ```bash
 triage_agent = Agent(
     name="Assistance",
@@ -528,7 +538,7 @@ triage_agent = Agent(
     tool_use_behavior="stop_on_first_tool"
 )
 ```
-* Agent me eik argument tool_use_behavior ka hota ha or ismy two perameter hoty ha run_llm_again, or stop_on_first_tool  defauly run_llm_again set hoga ha
+* Agent me eik argument tool_use_behavior ka hota ha or ismy two perameter hoty ha run_llm_again, or stop_on_first_tool  default run_llm_again set hoga ha
 
 1. tool_use_behavior="stop_on_first_tool" ka matlab kya hai?
 Ye setting Agent ko ye batata hai ke jab koi tool (function) use kiya jaye, to uske baad LLM (language model) ko dobara run na karna — yani usi waqt ruk jana.
@@ -541,7 +551,9 @@ Tool run karne ke baad agent LLM ko dobara run karta hai, takay output ko explai
 | `stop_on_first_tool`      | Tool chalate hi agent ruk jata hai  | `8`                                  |
 | default (`run_llm_again`) | Tool ke baad LLM phir se chalta hai | `The result of adding 5 and 3 is 8.` |
 
+--- 
 
+##### StopAtTools
 ```bash
 from agents.agent import StopAtTools
 
@@ -591,154 +603,51 @@ Jab Agent human_review tool ko call kare, to uske baad LLM ko dobara run NAHI ka
 | `StopAtTools(stop_at_tool_names=["human_review"])` | Sirf listed tool pe rukna      | ❌ Continue karta hai | ✅ Ruk jaata hai  
 
 
-
-
-
-
-
-
-<!-- 
-#### tool_use_behavior
+#### Parallel Tool Calls
 ```bash
-triage_agent = Agent(
-    name="Assistance",
-     instructions=("You are helpfull Assistance"),
-    model=model,
-    tools=[add],
-    tool_use_behavior="stop_on_first_tool"
-)
-```
-* Agent me eik argument tool_use_behavior ka hota ha or ismy two perameter hoty ha run_llm_again, or stop_on_first_tool  defauly run_llm_again set hoga ha
-
-1. tool_use_behavior="stop_on_first_tool" ka matlab kya hai?
-Ye setting Agent ko ye batata hai ke jab koi tool (function) use kiya jaye, to uske baad LLM (language model) ko dobara run na karna — yani usi waqt ruk jana.
-
-2. (run_llm_again):
-Tool run karne ke baad agent LLM ko dobara run karta hai, takay output ko explain kare ya aage steps kare.
-
-| Behavior                  | Kya hota hai                        | Example Output                       |
-| ------------------------- | ----------------------------------- | ------------------------------------ |
-| `stop_on_first_tool`      | Tool chalate hi agent ruk jata hai  | `8`                                  |
-| default (`run_llm_again`) | Tool ke baad LLM phir se chalta hai | `The result of adding 5 and 3 is 8.` |
-
-
-```bash
-from agents.agent import StopAtTools
-
-@function_tool
-def add(a: int, b: int):
-    """Add two numbers"""
-    return a + b
-
-
-@function_tool
-def human_review():
-    """human in the loop inetrface"""
-    return "human review Tool Calling"
-
-
-# Orchestrator agent
-triage_agent = Agent(
-    name="Assistance",
-     instructions=("You are helpfull Assistance"),
-    model=model,
-    tools=[add,human_review],
-    tool_use_behavior=StopAtTools(stop_at_tool_names=["human_review"])
+# Agent can use multiple tools at once
+parallel_agent = Agent(
+    name="Multi-Tasker",
+    tools=[weather_tool, calculator, translator],
+    model_settings=ModelSettings(
+        tool_choice="auto",
+        parallel_tool_calls=True  # Use multiple tools simultaneously
+    )
 )
 
-result = Runner.run_sync(triage_agent, "What is 2 plus 2. after result ask human to review", run_config=config)
-print(result.final_output)
-```
-##### StopAtTools(stop_at_tool_names=["human_review"]) Kya Karta Hai?
-
-Agent 4 to calculate karega, magar kyunki human_review() last mein call hua, aur StopAtTools ne bola ke us tool ke baad rukna hai — to final_output wahi hoga jo human_review() return karega.
-Jab Agent human_review tool ko call kare, to uske baad LLM ko dobara run NAHI karna, agent wahi ruk jaye.
-
-**Yani agar model ne decide kiya ke human_review() tool chalana hai, to:**
-1. Woh tool run karega.
-2. Uske baad model ko dobara run nahi karega.
-3. Final output wahi hoga jo tool ne return kiya.
-
-**Agar tum human_review tool call karo, to uske baad kuch aur mat karna. Bas us tool ka result return kar dena aur ruk jana**
-
-1. Message mein pehle add(2, 2) karega → result 4.
-2. Phir dekhega ke user ne bola hai "ask human to review" → to human_review() call karega.
-3. Aur human_review() ke baad agent ruk jayega, LLM dobara nahi chalega.
-
-| Behavior                                           | Rukne ka rule                  | Example: add(2,2)    | Example: human\_review() |
-| -------------------------------------------------- | ------------------------------ | -------------------- | ------------------------ |
-| `"stop_on_first_tool"`                             | Pehla tool chale to hi ruk jao | ✅ Ruk jaata hai      | ✅ Ruk jaata hai          |
-| `StopAtTools(stop_at_tool_names=["human_review"])` | Sirf listed tool pe rukna      | ❌ Continue karta hai | ✅ Ruk jaata hai  
-
-
-
-<!-- #### Tools Settings
-**ModelSettings Perameter**
-```bash
-class ModelSettings(
-    temperature: float | None = None,
-    top_p: float | None = None,
-    frequency_penalty: float | None = None,
-    presence_penalty: float | None = None,
-    tool_choice: str | None = None,
-    parallel_tool_calls: bool | None = None,
-    truncation: Literal['auto', 'disabled'] | None = None,
-    max_tokens: int | None = None,
-    reasoning: Reasoning | None = None,
-    metadata: dict[str, str] | None = None,
-    store: bool | None = None,
-    include_usage: bool | None = None,
-    response_include: list[ResponseIncludable] | None = None,
-    extra_query: Query | None = None,
-    extra_body: Body | None = None,
-    extra_headers: Headers | None = None,
-    extra_args: dict[str, Any] | None = None
+# Agent uses tools one at a time
+sequential_agent = Agent(
+    name="One-at-a-Time",
+    tools=[weather_tool, calculator, translator],
+    model_settings=ModelSettings(
+        tool_choice="auto",
+        parallel_tool_calls=False  # Use tools one by one
+    )
 )
 ```
-```bash
-from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel, function_tool,ModelSettings
 
-triage_agent = Agent(
-    name="Assistance",
-     instructions=("You are helpfull Assistance"),
-    model=model,
-    tools=[add,human_review],
-    model_settings = ModelSettings(tool_choice="required"),
-    reset_tool_choice=False # ye by default True hota. 
+#### Top-P and Penalties
+```bash
+# More focused vocabulary
+focused_agent = Agent(
+    name="Focused",
+    model_settings=ModelSettings(
+        top_p=0.3,              # Use only top 30% of vocabulary
+        frequency_penalty=0.5,   # Avoid repeating words
+        presence_penalty=0.3     # Encourage new topics
+    )
 )
 ```
-**model_settings = ModelSettings(tool_choice=("auto"))**
-* LLM automatic tool call nahi karega.
-* Lekin agar explicitly aap ne agent ya runner ko kaha ke tool call karo → to phir chalega.
 
-**model_settings = ModelSettings(tool_choice=("none"))**
-* Tool Call nhi hoga.Llm jawab dega.
+## 🎯 When to Use Each Setting
 
-**tool_choice="required" ka matlab:**
-Model ko tool use karna hi padega.
-Agar prompt ka response banana hai, to model function/tool call ke through hi kare, direct text reply allowed nahi.
-* Model sirf tool ke zariye response dega.
-* Agar tool call ka koi reason nahi milta, to error bhi aa sakta hai.
-
-**reset_tool_choice=False ka matlab:**
-Ek dafa koi tool select ho gaya, to wahi bar bar use hota rahega, jab tak explicitly change na ho.10 time chal kr last me error aeyga
-
-```bash
-result = Runner.run_sync(triage_agent, "What is 2 plus 2. after result ask human to review", run_config=config,max_turns=1)
-```
-* max_turns 1 sy eik bar loop agent loop chalyga
-
-#### strict_mode=True
-* strict_mode=True matlab ke aap sakhti kar rahe ho ke tool sirf wahi parameters le jo function define karta hai.
-* Agar model se kuch galt, kama, ya ziyadah mile — toh aapka application vo tool use hone se pehle hi rok deta hai.
-* Ye aapka tool zyada mazboot aur safe banata hai.
-
-#### strict_mode=False
-* strict_mode=False → “maryaada mein soft rehna”
-* Optional parameters ka hona imaandaari se maangna bhi nahi zaroori hota.
-* Agar model koi “bekarar” ya extra cheez pass kar deta hai (undefined field), phir bhi error nahi deta.
-* Ye setup zara flexible hai, lekin sawaal ka jawab less predictable ho sakta hai compare to strict mode. -->
-
-
+| Setting | Use When | Example |
+|---------|----------|---------|
+| **Low Temperature** | Need precise, consistent answers | Math problems, fact-checking |
+| **High Temperature** | Want creative, varied responses | Story writing, brainstorming |
+| **Tool Choice: Required** | Want to force tool usage | Data analysis, calculations |
+| **Tool Choice: None** | Want chat-only responses | Casual conversation |
+| **Low Max Tokens** | Need brief responses | Quick answers, summaries |
+| **High Max Tokens** | Need detailed explanations | Tutorials, documentation |
 
 
