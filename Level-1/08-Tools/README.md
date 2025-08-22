@@ -220,7 +220,48 @@ Imagine you’re at a restaurant:
 * Tool Call: Instead, if you ask the waiter to bring a side dish, the waiter simply takes your specific request (the generated input) and returns with the dish. You, as the diner, still engage directly with the waiter, who integrates that dish into your meal.
 
 
+# Web Search Tool (Usinh with Open Ai API Key)
+```bash
+from agents import Agent, Runner, WebSearchTool
+import rich
+
+my_agent =  Agent(
+    name="Assistance",
+    instructions="you are a helpfull assistance, if your acked weather related question you want to call get_weather Tool",
+    tools=[WebSearchTool()],
+)
+
+result = Runner.run_sync(starting_agent=my_agent, input='Current weather in karachi',run_config=config)
+rich.print(result.final_output)
+```
+
+# File Search Tool (Usinh with Open Ai API Key)
+
+1. first of create data.txt in nodepad
+
+**data.txt file content**
+```bash
+name:hussain
+std_id : 3423534634
+```
+2. Goto the openai dashboard-->storage goto to vector_stores and create vector_stores and (upload) data.txt file here
+and copy vector_stores id
+
+```bash
+from agents import Agent, Runner, WebSearchTool
+import rich
+
+my_agent =  Agent(
+    name="Assistance",
+    instructions="you are a helpfull assistance, if your acked weather related question you want to call get_weather Tool",
+    tools=[FileSearchTool(
+        max_num_results=3,
+        vector_store_ids="Vector_store_id"  # paste 
+    
+    )],
+)
+result = Runner.run_sync(starting_agent=my_agent, input='Current weather in karachi',run_config=config)
+rich.print(result.final_output)
 
 
-# Web Search Tool 
-
+```
