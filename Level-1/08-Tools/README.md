@@ -1,5 +1,5 @@
 
-### Tools
+# Tools
 Tools let agents take actions: things like fetching data, running code, calling external APIs, and even using a computer. There are three classes of tools in the Agent SDK:
 
 * Hosted tools: these run on LLM servers alongside the AI models. OpenAI offers retrieval, web search and computer use as hosted tools.
@@ -15,6 +15,12 @@ Tools let agents take actions: things like fetching data, running code, calling 
 5. The HostedMCPTool exposes a remote MCP server's tools to the model.
 6. The ImageGenerationTool generates images from a prompt.
 7. The LocalShellTool runs shell commands on your machine.
+
+
+### Visual Representation
+![Tool Calling Example](./tool_calling.png)
+
+---
 
 
 ### Tools Class
@@ -212,3 +218,9 @@ Imagine you’re at a restaurant:
 
 * Handoff: If you ask the host to call the chef over because your dish needs a complete rework, the chef comes over with full knowledge of everything that’s happened (the conversation history, complaints, previous interactions) and takes over your service.
 * Tool Call: Instead, if you ask the waiter to bring a side dish, the waiter simply takes your specific request (the generated input) and returns with the dish. You, as the diner, still engage directly with the waiter, who integrates that dish into your meal.
+
+
+
+
+# Web Search Tool 
+
