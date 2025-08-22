@@ -260,7 +260,7 @@ my_agent =  Agent(
     
     )],
 )
-result = Runner.run_sync(starting_agent=my_agent, input='Current weather in karachi',run_config=config)
+result = Runner.run_sync(starting_agent=my_agent, input='What is the std_id of hussain',run_config=config)
 rich.print(result.final_output)
 
 
