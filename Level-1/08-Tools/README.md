@@ -90,8 +90,9 @@ def function_tool(
 ```
 
 ## Agent as a Tool
-```bash
+In some workflows, you may want a central agent to orchestrate a network of specialized agents, instead of handing off control. You can do this by modeling agents as tools.
 
+```bash
 # Define a support agent
 poetry_agent = Agent(
     name="Poetry Writer Agent",
@@ -126,36 +127,77 @@ Never write content yourself. Always call the right tool.
     custom_output_extractor: ((RunResult) -> Awaitable[str]) | None = None
 ) -> Tool
 ```
+* tool_name: The name of the tool. If not provided, the agent's name will be used.
+* tool_description: The description of the tool, which should indicate what it does and when to use it.
+* custom_output_extractor: A function that extracts the output from the agent. If not provided, the last message from the agent will be used.
+
 
 #### Complete Code Example Agent As a Tool
 ```bash
-from agents import Agent, Runner
+import os
+from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel,FileSearchTool
+from dotenv import load_dotenv
+import rich
+from agents.run import RunConfig
 
-# Define individual agents
-shopping_agent = Agent(
-    name="Shopping Assistant",
-    instructions="You assist users in finding products and making purchase decisions."
+
+load_dotenv()
+
+gemini_api_key = os.getenv('GEMINI_API_KEY')
+
+if not gemini_api_key:
+    raise ValueError("Api key is loaded")
+
+external_client = AsyncOpenAI(
+    api_key=gemini_api_key,
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
 )
 
-support_agent = Agent(
-    name="Support Agent",
-    instructions="You help users with post-purchase support and returns."
+
+config = RunConfig(
+ model= OpenAIChatCompletionsModel(model='gemini-2.0-flash',openai_client=external_client),
+ model_provider=external_client,
+ tracing_disabled=True   
 )
 
-# Convert agents into tools
-shopping_tool = shopping_agent.as_tool()
-support_tool = support_agent.as_tool()
 
-# Define a triage agent that delegates tasks
-triage_agent = Agent(
-    name="Triage Agent",
-    instructions="You route user queries to the appropriate department.",
-    tools=[shopping_tool, support_tool]
+shoping_agent =  Agent(
+    name="Shoping_agent",
+    instructions="you are assist user to finding products and making purchases decisions",
+    model=OpenAIChatCompletionsModel(model='gemini-2.0-flash',openai_client=external_client),
+    handoff_description='a shoping agent to help user in shoping.'
 )
 
-# Run the triage agent with a sample input
-result = Runner.run_sync(triage_agent, "I need help with a recent purchase.")
-print(result.final_output)
+support_agnet =  Agent(
+    name="support_agnet",
+    instructions="you hlep user with post-purchase and return",
+    model=OpenAIChatCompletionsModel(model='gemini-2.0-flash',openai_client=external_client),
+    handoff_description='a support agent to help user in post-purchase queries.'
+)
+
+
+triage_agent =  Agent(
+    name="triage agent",
+    instructions=
+    "you are a triage agent, you delegate task to approriate agent or use approriate given tools" 
+    "when user asked for shoping related query, You always use given tools" 
+    "You never reply on our own, You always use given tools to reply agent",
+    model=OpenAIChatCompletionsModel(model='gemini-2.0-flash',openai_client=external_client),
+    tools=[
+        shoping_agent.as_tool(
+            tool_name="transfer_to_Shoping_agent",
+            tool_description="you are assist user to finding products and making purchases decisions always add this 💯 emojis in your reply.start reply eith this emoji 💯 emojie",
+        ),
+        
+        support_agnet.as_tool(
+            tool_name="transfer_to_support_agnet",
+            tool_description="you hlep user with post-purchase and return. always add this ❌ emojis in your reply.start reply eith this emoji ❌ emojie"
+        )
+    ]
+)
+
+result = Runner.run_sync(starting_agent=triage_agent, input='i want to return by bag and 1 want to purchase a new bag',run_config=config)
+rich.print(result.final_output)
 ```
 
 #### Customizing tool-agents
@@ -174,7 +216,7 @@ async def run_my_agent(input: str) -> str:
     result = await Runner.run(
         agent,
         input=input,
-        max_turns=5 # max_turns = 5 ka matlab hai ke agent sirf 5 dafa LLM call karega ya tools use karega jab tak final output produce ho.
+        max_turns=5 # max_turns = 5 ka matlab hai ke agent sirf 5 dafa LLM call karega ya tools use karega jab tak final output produce ho. bydefault max turn 10 hoti ha
     )
 
     return str(result.final_output)
