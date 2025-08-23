@@ -118,3 +118,59 @@ myagent =  Agent[UserInfo](  # user class ka sturcture agent ko diya gaya ha [Us
 )
 ```
 
+## Local or Agent/LLM context 
+```bash
+import os
+from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel,set_tracing_disabled,RunContextWrapper,function_tool
+from dotenv import load_dotenv
+from pydantic import BaseModel
+
+
+# Load API key
+load_dotenv()
+set_tracing_disabled(disabled=True)
+
+
+gemini_api_key = os.getenv('GEMINI_API_KEY')
+if not gemini_api_key:
+    raise ValueError("API key is not loaded")
+
+external_client = AsyncOpenAI(
+    api_key=gemini_api_key,
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+)
+
+class UserInfo(BaseModel):
+    name: str
+    age: int
+    city: str
+    roll_num: str
+    
+    
+my_info  = UserInfo(name="hussain",age=22,city="Karachi",roll_num="343432")  
+ 
+
+# this is a python custom function for fetch user info with RunContextWrapper
+def check_info(wrapper: RunContextWrapper[UserInfo],agent:Agent):
+    return f"whenever user ask for a roll_number you use given tool user_information to get the roll_nunber of user, user name is {wrapper.context.name}, user age is {wrapper.context.age}"
+
+
+# this is a fucniton to fetch data in RunContextWrapper and shaare with llm
+@function_tool
+def user_information(wrapper: RunContextWrapper[UserInfo]):
+    return f"user roll_num is {wrapper.context.roll_num}"
+
+
+myagent =  Agent[UserInfo](
+    name="assistance",
+    instructions=check_info,
+    model=OpenAIChatCompletionsModel(model='gemini-2.0-flash',openai_client=external_client),
+    tools=[user_information]
+)
+
+query =  "What is the name of user and the age of his and roll number"
+
+result = Runner.run_sync(starting_agent=myagent, input=query,context=my_info)
+print(result.final_output)
+```
+
