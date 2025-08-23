@@ -49,4 +49,72 @@ Use specialized tools to pull in relevant external data, thereby grounding the L
 ### Key Difference:
 While the local context is internal and never sent to the LLM, the agent/LLM context is deliberately exposed as part of the conversation to influence and guide the LLM’s response generation.
 
+### what is pydantic
+Ye Python ke sabse mashhoor libraries mein se ek hai jo data validation aur parsing ke liye use hoti hai
+
+* Pydantic ek Python library hai jo data validation aur settings management ke liye use hoti hai, aur kaafi popular hai. 
+*  Iska design Python ke type annotations par based hai — matlab aap data ke structure ko Python classes ke zariye define karte ho, aur Pydantic khud ensure karta hai ke input data un types ke mutabiq ho
+
+
+### (class) RunContextWrapper
+```bash
+@dataclass
+class RunContextWrapper(Generic[TContext]):
+    """This wraps the context object that you passed to `Runner.run()`. It also contains
+    information about the usage of the agent run so far.
+
+    NOTE: Contexts are not passed to the LLM. They're a way to pass dependencies and data to code
+    you implement, like tool functions, callbacks, hooks, etc.
+    """
+
+    context: TContext
+    """The context object (or None), passed by you to `Runner.run()`"""
+
+    usage: Usage = field(default_factory=Usage)
+    """The usage of the agent run so far. For streamed responses, the usage will be stale until the
+    last chunk of the stream is processed.
+    """
+```
+
+---
+## Local Context
+```bash
+import os
+from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel,set_tracing_disabled,RunContextWrapper
+from dotenv import load_dotenv
+from pydantic import BaseModel
+
+class UserInfo(BaseModel):
+    name: str
+    age: int
+    city: str
+    roll_num: str
+    
+    
+my_info  = UserInfo(name="hussain",age=22,city="Karachi",roll_num="343432")  
+ 
+# this is a python custom function for fetch user info with RunContextWrapper
+def check_info(wrapper: RunContextWrapper[UserInfo],agent:Agent):
+    return f"the user name is {wrapper.context.name}, the user age is {wrapper.context.age} the user city is {wrapper.context.city}the user roll_num is {wrapper.context.roll_num}"
+
+myagent =  Agent[UserInfo](
+    name="assistance",
+    instructions={check_info},
+    model=OpenAIChatCompletionsModel(model='gemini-2.0-flash',openai_client=external_client)
+)
+
+result = Runner.run_sync(starting_agent=myagent, input='what is the age of hussain',context=my_info)
+print(result.final_output)
+```
+
+---
+* check_info simple python function ha jo RunContextWrapper sy user ki info nikal kr agent ko de raha hoga.
+
+```bash
+myagent =  Agent[UserInfo](  # user class ka sturcture agent ko diya gaya ha [UserInfo]
+    name="assistance",
+    instructions={check_info},
+    model=OpenAIChatCompletionsModel(model='gemini-2.0-flash',openai_client=external_client)
+)
+```
 
