@@ -211,22 +211,405 @@ run_streamed() is a higher-level helper in the OpenAI Agents SDK that gives you 
 
 
 ```bash
+async def main():
+    result = Runner.run_streamed(starting_agent=agent,input='hello how are you')
+    
+    async for event in result.stream_events():
+        rich.print(event)
 
-
-
-
-
-
+asyncio.run(main())
 ```
 
+**OUTPUT**
+```bash
+AgentUpdatedStreamEvent(
+    new_agent=Agent(
+        name='Assistance',
+        handoff_description=None,
+        tools=[],
+        mcp_servers=[],
+        mcp_config={},
+        instructions='you are a helpfull assistance',
+        prompt=None,
+        handoffs=[],
+        model=<agents.models.openai_chatcompletions.OpenAIChatCompletionsModel object at 0x00000286F3524B90>,
+        model_settings=ModelSettings(
+            temperature=None,
+            top_p=None,
+            frequency_penalty=None,
+            presence_penalty=None,
+            tool_choice=None,
+            parallel_tool_calls=None,
+            truncation=None,
+            max_tokens=None,
+            reasoning=None,
+            verbosity=None,
+            metadata=None,
+            store=None,
+            include_usage=None,
+            response_include=None,
+            top_logprobs=None,
+            extra_query=None,
+            extra_body=None,
+            extra_headers=None,
+            extra_args=None
+        ),
+        input_guardrails=[],
+        output_guardrails=[],
+        output_type=None,
+        hooks=None,
+        tool_use_behavior='run_llm_again',
+        reset_tool_choice=True
+    ),
+    type='agent_updated_stream_event'
+)
+RawResponsesStreamEvent(
+    data=ResponseCreatedEvent(
+        response=Response(
+            id='__fake_id__',
+            created_at=1755934635.5354772,
+            error=None,
+            incomplete_details=None,
+            instructions=None,
+            metadata=None,
+            model='gemini-2.0-flash',
+            object='response',
+            output=[],
+            parallel_tool_calls=False,
+            temperature=None,
+            tool_choice='auto',
+            tools=[],
+            top_p=None,
+            background=None,
+            max_output_tokens=None,
+            max_tool_calls=None,
+            previous_response_id=None,
+            prompt=None,
+            prompt_cache_key=None,
+            reasoning=None,
+            safety_identifier=None,
+            service_tier=None,
+            status=None,
+            text=None,
+            top_logprobs=None,
+            truncation=None,
+            usage=None,
+            user=None
+        ),
+        sequence_number=0,
+        type='response.created'
+    ),
+    type='raw_response_event'
+)
+RawResponsesStreamEvent(
+    data=ResponseOutputItemAddedEvent(
+        item=ResponseOutputMessage(
+            id='__fake_id__',
+            content=[],
+            role='assistant',
+            status='in_progress',
+            type='message'
+        ),
+        output_index=0,
+        sequence_number=1,
+        type='response.output_item.added'
+    ),
+    type='raw_response_event'
+)
+RawResponsesStreamEvent(
+    data=ResponseContentPartAddedEvent(
+        content_index=0,
+        item_id='__fake_id__',
+        output_index=0,
+        part=ResponseOutputText(annotations=[], text='', type='output_text', logprobs=None),
+        sequence_number=2,
+        type='response.content_part.added'
+    ),
+    type='raw_response_event'
+)
+RawResponsesStreamEvent(
+    data=ResponseTextDeltaEvent(
+        content_index=0,
+        delta='I',
+        item_id='__fake_id__',
+        logprobs=[],
+        output_index=0,
+        sequence_number=3,
+        type='response.output_text.delta'
+    ),
+    type='raw_response_event'
+)
+RawResponsesStreamEvent(
+    data=ResponseTextDeltaEvent(
+        content_index=0,
+        delta=' am doing well',
+        item_id='__fake_id__',
+        logprobs=[],
+        output_index=0,
+        sequence_number=4,
+        type='response.output_text.delta'
+    ),
+    type='raw_response_event'
+)
+RawResponsesStreamEvent(
+    data=ResponseTextDeltaEvent(
+        content_index=0,
+        delta=', thank you for asking! How can I help you today?\n',
+        item_id='__fake_id__',
+        logprobs=[],
+        output_index=0,
+        sequence_number=5,
+        type='response.output_text.delta'
+    ),
+    type='raw_response_event'
+)
+RawResponsesStreamEvent(
+    data=ResponseContentPartDoneEvent(
+        content_index=0,
+        item_id='__fake_id__',
+        output_index=0,
+        part=ResponseOutputText(
+            annotations=[],
+            text='I am doing well, thank you for asking! How can I help you today?\n',
+            type='output_text',
+            logprobs=None
+        ),
+        sequence_number=6,
+        type='response.content_part.done'
+    ),
+    type='raw_response_event'
+)
+RawResponsesStreamEvent(
+    data=ResponseOutputItemDoneEvent(
+        item=ResponseOutputMessage(
+            id='__fake_id__',
+            content=[
+                ResponseOutputText(
+                    annotations=[],
+                    text='I am doing well, thank you for asking! How can I help you today?\n',
+                    type='output_text',
+                    logprobs=None
+                )
+            ],
+            role='assistant',
+            status='completed',
+            type='message'
+        ),
+        output_index=0,
+        sequence_number=7,
+        type='response.output_item.done'
+    ),
+    type='raw_response_event'
+)
+RawResponsesStreamEvent(
+    data=ResponseCompletedEvent(
+        response=Response(
+            id='__fake_id__',
+            created_at=1755934635.5354772,
+            error=None,
+            incomplete_details=None,
+            instructions=None,
+            metadata=None,
+            model='gemini-2.0-flash',
+            object='response',
+            output=[
+                ResponseOutputMessage(
+                    id='__fake_id__',
+                    content=[
+                        ResponseOutputText(
+                            annotations=[],
+                            text='I am doing well, thank you for asking! How can I help you today?\n',
+                            type='output_text',
+                            logprobs=None
+                        )
+                    ],
+                    role='assistant',
+                    status='completed',
+                    type='message'
+                )
+            ],
+            parallel_tool_calls=False,
+            temperature=None,
+            tool_choice='auto',
+            tools=[],
+            top_p=None,
+            background=None,
+            max_output_tokens=None,
+            max_tool_calls=None,
+            previous_response_id=None,
+            prompt=None,
+            prompt_cache_key=None,
+            reasoning=None,
+            safety_identifier=None,
+            service_tier=None,
+            status=None,
+            text=None,
+            top_logprobs=None,
+            truncation=None,
+            usage=None,
+            user=None
+        ),
+        sequence_number=8,
+        type='response.completed'
+    ),
+    type='raw_response_event'
+)
+RunItemStreamEvent(
+    name='message_output_created',
+    item=MessageOutputItem(
+        agent=Agent(
+            name='Assistance',
+            handoff_description=None,
+            tools=[],
+            mcp_servers=[],
+            mcp_config={},
+            instructions='you are a helpfull assistance',
+            prompt=None,
+            handoffs=[],
+            model=<agents.models.openai_chatcompletions.OpenAIChatCompletionsModel object at 0x00000286F3524B90>,       
+            model_settings=ModelSettings(
+                temperature=None,
+                top_p=None,
+                frequency_penalty=None,
+                presence_penalty=None,
+                tool_choice=None,
+                parallel_tool_calls=None,
+                truncation=None,
+                max_tokens=None,
+                reasoning=None,
+                verbosity=None,
+                metadata=None,
+                store=None,
+                include_usage=None,
+                response_include=None,
+                top_logprobs=None,
+                extra_query=None,
+                extra_body=None,
+                extra_headers=None,
+                extra_args=None
+            ),
+            input_guardrails=[],
+            output_guardrails=[],
+            output_type=None,
+            hooks=None,
+            tool_use_behavior='run_llm_again',
+            reset_tool_choice=True
+        ),
+        raw_item=ResponseOutputMessage(
+            id='__fake_id__',
+            content=[
+                ResponseOutputText(
+                    annotations=[],
+                    text='I am doing well, thank you for asking! How can I help you today?\n',    
+                    type='output_text',
+                    logprobs=None
+                )
+            ],
+            role='assistant',
+            status='completed',
+            type='message'
+        ),
+        type='message_output_item'
+    ),
+    type='run_item_stream_event'
+)
+```
+
+1.  AgentUpdatedStreamEvent Class return Two properties 
+    *  new_agent
+    *  type='agent_updated_stream_event'
+
+2. RawResponsesStreamEvent Class return Two properties 
+    * data
+    * type='raw_response_event'
+
+3.  RunItemStreamEvent Class return three  properties
+    * name
+    * item
+    * run_item_stream_event
 
 
 
+#### Under this code
+* Humara ye Class sy data nikalna ha 
+```bash
+RawResponsesStreamEvent(
+    data=ResponseTextDeltaEvent(
+        content_index=0,
+        delta=', thank you for asking! How can I help you today?\n',
+        item_id='__fake_id__',
+        logprobs=[],
+        output_index=0,
+        sequence_number=5,
+        type='response.output_text.delta'
+    ),
+    type='raw_response_event'
+)
+```
+* sirf unhi ka data nikalo jiski event type run_item_stream_event ho and isinstance ye check krta ha ke event.type ResponseTextDeltaEvent ka he instance hena.
 
+```bash
+async for event in result.stream_events():
+     if event.type == "raw_response_event" and isinstance(event.type, ResponseTextDeltaEvent):
+            print(event.data.delta)
+```
 
+#### isinstance(event.type, ResponseTextDeltaEvent) --> under this Code With pyton Code
+```bash
+class Userinfo:
+    def __init__(self, name):
+        self.name = name
+        
+class Personinfo:
+    def __init__(self, name,age):
+        self.name = name 
+        self.age  = age     
+        
+user = Userinfo("hussain")
+person = Personinfo("faheem",25)
 
+print(isinstance(user,Userinfo))  # output True
+print(isinstance(person,Userinfo))   # output False     
+```
 
+#### Complete Example
+```bash
+set_tracing_disabled(disabled=True)
 
+agent = Agent(
+    name="Assistance",
+    instructions="you are a helpfull assistance", 
+    model=OpenAIChatCompletionsModel(model='gemini-2.0-flash',openai_client=external_client),   
+)
+
+async def main():
+    
+    result = Runner.run_streamed(agent, input="Please tell me 5 jokes.")
+    async for event in result.stream_events():
+        if event.type == "raw_response_event" and isinstance(event.data, ResponseTextDeltaEvent):
+            print(event.data.delta, end="", flush=True)
+            
+        
+asyncio.run(main())
+```
+
+##### end="" ka matlab kya hai?
+By default, Python ka print() har cheez ke baad ek newline (\n) laga deta hai.
+Magar agar aap end="" specify karein, to kuch bhi add nahi hota—output ek hi line mein rehta hai.
+
+```bash
+print("Hello", end=" ")
+print("World!")   # output / Hello World
+```
+
+##### flush=True ka kya kaam hai?
+Python default tor pe output ko buffered mode mein rakhta hai — matlab, writing console ya file par turant nahi hota.
+
+**Agar aap flush=True use karte ho, to:**
+* Buffer mein jitna bhi data hai (chahe line complete na hua ho) — turant likh diya jata hai.
+* Ye real-time output ya progress indicators ke liye bohot zyada useful hai.
+
+       
 ---
 ### Errors Info
 ##### if you Run
