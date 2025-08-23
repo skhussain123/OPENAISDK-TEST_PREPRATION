@@ -1,6 +1,6 @@
 
 
-[Open_ai_Doc](https://openai.github.io/openai-agents-python/context/)
+[OpenAi to Study Context management](https://openai.github.io/openai-agents-python/context/)
 
 # Context Management
 Context management in the OpenAI Agents SDK refers to handling additional data that your code can use during an agent’s execution. This “context” comes in two main forms:
