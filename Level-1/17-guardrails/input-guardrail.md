@@ -167,7 +167,7 @@ user = {"role" : "user" , "content" : "hi how are you"}
 ```
 
 ##### Guardrail runing Flow
-[](./guardrail-flow.PNG)
+![xcv](./guardrail-flow.PNG)
 
 
 ### With Exception Handling
