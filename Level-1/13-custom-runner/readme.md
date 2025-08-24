@@ -48,6 +48,7 @@ async def main():
 asyncio.run(main())
 ```
 * Run Humny RunResult ki class return krtaa hain. 
+* Runner or AgentRunner ki Class RunResult return krty hai.
 * jismy hum kisi ki property ko dot dot laga kr access kr sakty hain. jasy is tarha
 
 ```bash
@@ -196,3 +197,54 @@ RunResult(
     )
 )
 ```
+
+## Customization
+```bash
+from agents.run import AgentRunner, set_default_agent_runner
+
+class MyCustomRunner(AgentRunner):
+    async def run(self, starting_agent, input, **kwargs):
+        
+        print(f"CustomAgentRunner.run() - Infrastructure Layer") 
+        result = await super().run(starting_agent,input,**kwargs) # super keyword ka use is liye kia ha taky meri MyCustomRunner ka run function nh chaly balky AgentRunner me mojjod run function chaly.
+
+        # is Example ko samajny ke liye alag python Example
+        ```bash
+        class Student():
+    def run(self):
+        return "Hello Student"
+        
+
+class Teacher(Student):
+    def run(self):
+        res = super().run()
+        return res
+
+
+ob2 = Teacher()
+print(ob2.run())    
+```
+
+        return result
+
+
+set_default_agent_runner(MyCustomRunner())
+
+myagent =  Agent(
+    name="assistance",
+    instructions='you are a helpfull Assistance',
+    model=OpenAIChatCompletionsModel(model='gemini-2.0-flash',openai_client=external_client),
+)
+
+query =  "how are you"
+
+async def main():
+    result = await Runner.run(starting_agent=myagent, input=query)
+    rich.print(result.final_output)
+
+asyncio.run(main())
+```
+
+### Code Explaination
+
+MyCustomRunner ki class ko AgentRunner sy extend kia gaya ha taky AgentRunner ki property or ko access kia ja saky.
