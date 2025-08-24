@@ -14,6 +14,9 @@ from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel,set_tr
 set_tracing_disabled(disabled=True)
 
 ```
+3. enable_verbose_stdout_logging()
+enable_verbose_stdout_logging() ka use krke bhi logs ko dekh sakty hain. local tracing or dashboard tracing me ke farak ha
+ke dashboard tracing me hum kisi span run hony pr ksi action ko perfrom nh krwa sakty.local tracing me customization kr sakty ha. during run tarcing or span 
 
 ### Traces and spans
 
@@ -30,3 +33,194 @@ set_tracing_disabled(disabled=True)
     * **pa*rent_id**, which points to the parent Span of this Span (if any)
     * **span_data**, which is information about the Span. For example, AgentSpanData contains information about the Agent, GenerationSpanData contains information about the LLM generation, etc.
 
+### Default tracing
+By default, the SDK traces the following:
+
+* The entire Runner.{run, run_sync, run_streamed}() is wrapped in a trace().
+* Each time an agent runs, it is wrapped in agent_span()
+* LLM generations are wrapped in generation_span()
+* Function tool calls are each wrapped in function_span()
+* Guardrails are wrapped in guardrail_span()
+* Handoffs are wrapped in handoff_span()
+* Audio inputs (speech-to-text) are wrapped in a transcription_span()
+* Audio outputs (text-to-speech) are wrapped in a speech_span()
+* Related audio spans may be parented under a speech_group_span()
+
+By default, the trace is named "Agent workflow". You can set this name if you use trace, or you can configure the name and other properties with the RunConfig.
+
+In addition, you can set up custom trace processors to push traces to other destinations (as a replacement, or secondary destination).
+
+
+### Higher level traces
+Sometimes, you might want multiple calls to run() to be part of a single trace. You can do this by wrapping the entire code in a trace().
+
+* tracing bydeafult on hoti ha (False hoti hai)
+set_tracing_disabled(disabled=False)
+
+```bash
+async def main():
+    
+    with trace("Joke workflow"):
+       result = await Runner.run(starting_agent=myagent, input=query)
+       rich.print(result.final_output)
+    
+asyncio.run(main())
+```
+
+#### trace function arg
+```bash
+(function) def trace(
+    workflow_name: str,
+    trace_id: str | None = None,
+    group_id: str | None = None,
+    metadata: dict[str, Any] | None = None,
+    disabled: bool = False
+) -> Trace
+```
+
+##### eik he trace me multiple runner chalengy or final output last waly agent ka ayega
+```bash
+async def main():
+    
+    with trace("Joke workflow"):
+       result = await Runner.run(starting_agent=myagent, input="How are you")
+       result = await Runner.run(starting_agent=myagent, input="what is the prime minister of pakistan")
+       result = await Runner.run(starting_agent=myagent, input="what is the weather in karachi")
+       rich.print(result.final_output)
+    
+asyncio.run(main())
+```
+
+### Local Tracing
+TracingProcessor eik abstract class ha mtlb me iska is class ka koe instance nh bana sakta. mujhe TracingProcessor me mojood 
+* on_trace_start
+* on_trace_end
+* on_span_start
+* on_span_end
+* shutdown
+* force_flush
+
+ko copy krke apni Custom MyTraceClass me use krna hoga.
+* Abstract Class ko method ko use krny ke liye ussy create krna hoga 
+
+```bash
+import asyncio
+import os
+from agents import (
+    Agent, Runner,TracingProcessor, AsyncOpenAI, OpenAIChatCompletionsModel,
+    set_default_openai_api,
+    set_default_openai_client,
+    set_trace_processors,
+    trace
+)
+from dotenv import load_dotenv
+import rich
+
+# Load API key
+load_dotenv()
+
+gemini_api_key = os.getenv('GEMINI_API_KEY')
+if not gemini_api_key:
+    raise ValueError("API key is not loaded")
+
+external_client = AsyncOpenAI(
+    api_key=gemini_api_key,
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+)
+
+
+myagent =  Agent(
+    name="assistance",
+    instructions='you are a helpfull Assistance',
+    model=OpenAIChatCompletionsModel(model='gemini-2.0-flash',openai_client=external_client),
+)
+
+class LocalTraceProcessor(TracingProcessor):
+    
+    # consider this constructor store all traces and spans in database but here we store in list
+    def __init__(self):
+        self.traces = []
+        self.spans = []
+    
+    def on_trace_start(self, trace):
+        self.traces.append(trace) # jasi trace start hoga traces tarce array store ho jayega
+        print(f"Trace Starting{trace.trace_id}")
+    
+    
+    def on_trace_end(self, trace):
+        print(f"Trace End{trace.export()}")
+        
+        
+    def on_span_start(self, span):
+        self.spans.append(span)
+        print(f"Span start{span.span_id}")
+        print(f"Span Details")
+        rich.print(f"Span Details: {span.export()}")
+
+    
+    
+    def on_span_end(self, span):
+        print(f"Span start{span.span_id}")
+        print(f"Span Details")
+        rich.print(f"Span Details: {span.export()}")
+    
+    
+    def force_flush(self):
+        print(f"Forcing Flush to Tracing Data")
+    
+    
+    def shutdown(self):
+        print("=======Shutting down trace processor========")
+        # Print all collected trace and span data
+        print("Collected Traces:")
+        for trace in self.traces:
+            print(trace.export())
+        print("Collected Spans:")
+        for span in self.spans:
+            print(span.export())    
+        
+    
+# Configure the client
+set_default_openai_client(client=external_client, use_for_tracing=True)
+set_default_openai_api("chat_completions")
+
+# Set up the custom trace processor
+local_processor = LocalTraceProcessor()
+set_trace_processors([local_processor])
+
+    
+async def main():
+    
+    with trace("Hussain workflow"):
+       result = await Runner.run(starting_agent=myagent, input="How are you")
+    
+
+asyncio.run(main())
+```
+
+
+
+
+
+
+### External tracing processors list
+1. Weights & Biases
+2. Arize-Phoenix
+3. Future AGI
+4. MLflow (self-hosted/OSS
+5. MLflow (Databricks hosted
+6. Braintrust
+7. Pydantic Logfire
+8. AgentOps
+9. Scorecard
+10. Keywords AI
+11. LangSmith
+12. Maxim AI
+13. Comet Opik
+14. Langfuse
+15. Langtrace
+16. Okahu-Monocle
+17. Galileo
+18. Portkey AI
+19. LangDB AI
+20. Agenta
