@@ -166,6 +166,10 @@ asyncio.run(main())
 user = {"role" : "user" , "content" : "hi how are you"}
 ```
 
+##### Guardrail runing Flow
+[](./guardrail-flow.PNG)
+
+
 ### With Exception Handling
 ```bash
 async def main():
