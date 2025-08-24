@@ -208,22 +208,7 @@ class MyCustomRunner(AgentRunner):
         print(f"CustomAgentRunner.run() - Infrastructure Layer") 
         result = await super().run(starting_agent,input,**kwargs) # super keyword ka use is liye kia ha taky meri MyCustomRunner ka run function nh chaly balky AgentRunner me mojjod run function chaly.
 
-        # is Example ko samajny ke liye alag python Example
-        ```bash
-        class Student():
-    def run(self):
-        return "Hello Student"
-        
-
-class Teacher(Student):
-    def run(self):
-        res = super().run()
-        return res
-
-
-ob2 = Teacher()
-print(ob2.run())    
-```
+        # is Example ko samajny ke liye alag python Example nechy 1.1
 
         return result
 
@@ -245,6 +230,22 @@ async def main():
 asyncio.run(main())
 ```
 
-### Code Explaination
+### 1.1 Python Example
+```bash
+class AgentRunner():
+    def run(self):
+        return "Hello AgentRunner"
+        
 
+class MyCustomRunner(AgentRunner):
+    def run(self):
+        res = super().run()
+        return res
+
+
+result = MyCustomRunner()
+print(result.run())        
+```
+
+### Code Explaination
 MyCustomRunner ki class ko AgentRunner sy extend kia gaya ha taky AgentRunner ki property or ko access kia ja saky.
