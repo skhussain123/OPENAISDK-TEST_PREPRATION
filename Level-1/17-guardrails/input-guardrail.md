@@ -26,7 +26,7 @@ Output guardrails run in 3 steps:
 
 Output guardrails are intended to run on the final agent output, so an agent's guardrails only run if the agent is the last agent. Similar to the input guardrails, we do this because guardrails tend to be related to the actual Agent - you'd run different guardrails for different agents, so colocating the code is useful for readability.
 
-['output guardrail](./output-guardrail.md)
+[Output guardrail](./output-guardrail.md)
 
 ### Tripwires
 If the input or output fails the guardrail, the Guardrail can signal this with a tripwire. As soon as we see a guardrail that has triggered the tripwires, we immediately raise a {Input,Output}GuardrailTripwireTriggered exception and halt the Agent execution.
@@ -69,15 +69,16 @@ def prime_minister_check(ctx: RunContextWrapper,agent:Agent,input: str | list[TR
     return GuardrailFunctionOutput()
 ```
 
-* return jo ho raha ha GuardrailFunctionOutput() ye function ha jo 2 perameters le raha ha 
+* return jo ho raha ha GuardrailFunctionOutput() 
+* ye function ha jo 2 perameters le raha ha 
 ```bash
 class GuardrailFunctionOutput(
     output_info: Any,
     tripwire_triggered: bool
 )
 ```
-**InputGuardrail Class me (Jaha Guardrail create a Structure mojjod ha)**
-* waha eik run ka function ha jo guardrail jo run kryga or InputGuardrailResult ki class return kryga us Class ja structure
+**InputGuardrail Class me (Jaha Guardrail create waha Structure mojjod ha)**
+* waha eik run ka function ha jo guardrail jo run kryga or InputGuardrailResult ki class return kryga us Class ka structure
 ```bash
 async def run(
         self,
