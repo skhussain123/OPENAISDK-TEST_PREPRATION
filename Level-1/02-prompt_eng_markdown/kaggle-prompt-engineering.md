@@ -364,6 +364,69 @@ Ek developer ke tor par jab aap teams mein kaam karte hain to aapko kisi aur ka 
 <br>
 
 ![System prompting](./21.PNG)
+<br>
+
 ![System prompting](./22.PNG)
 
 <br>
+
+### Prompts for translating code
+Table 16 ka bash code theek kaam karta hai. Tahum, yeh script us waqt sahih mayno mein qabil-e-istemal ho sakti hai jab yeh mujhse file names ke liye prompt kare, ideal tor par isay UI ke sath ek alag application ke tor par kaam karna chahiye. Ek ibtedai nuqte ke tor par, Python Bash ke muqablay mein ek (web) application ke liye behtar zaban hogi. LLMs code ko ek zaban se doosri zaban mein tarjuma karne mein madad kar sakte hain. Table 18 mein misal dekhen:
+<br>
+
+![System prompting](./23.PNG)
+<br>
+
+![System prompting](./24.PNG)
+
+<br>
+
+Code ko padhen aur review karen. Prompt se output copy karen aur use ek nayi file mein paste karen: file_renamer.py. Code ko test karne ke liye ek Terminal window kholen, aur darj zail command chalayen: python file_renamer.py.
+<br><br>
+NOTE: Jab Vertex AI mein Language Studio mein (Python) code ke liye prompt kar rahe hon, to aapko 'Markdown' button par click karna hoga. Warna aapko saada text milega jis mein lines ki durust indenting gayab hogi, jo Python code chalane ke liye zaroori hai.
+
+### Prompts for debugging and reviewing code
+Aaiye Table 18 ke code mein dastani tor par kuch tarameem (edits) karte hain. Yeh user se filename prefix ke liye prompt karega, aur is prefix ko bade huruf (upper case characters) mein likhega. Snippet *3 mein misali code dekhen, lekin yeh kya museebat hai. Ab yeh Python errors deta hai!
+
+```bash
+import os
+import shutil
+folder_name = input("Enter the folder name: ")
+prefix = input("Enter the string to prepend to the filename: ")
+text = toUpperCase(prefix)
+if not os.path.isdir(folder_name):
+print("Folder does not exist.")
+exit(1)
+files = os.listdir(folder_name)
+for file in files:
+new_filename = f"{text}_{file}"
+shutil.move(os.path.join(folder_name, file),
+os.path.joi(folder_name, new_file_name))
+print("Files renamed successfully.")
+```
+* Doh! That looks like a bug:
+<br>
+
+```bash
+The below Python code gives an error:
+Traceback (most recent call last):
+File “/Users/leeboonstra/Documents/test_folder/rename_files.py”, line 7,
+in <module>
+text = toUpperCase(prefix)
+NameError: name ‘toUpperCase’ is not defined
+```
+<br>
+Let’s see if we can ask the large language model to debug and review code. Have a look into
+Table 19:
+<br>
+
+![System prompting](./26.PNG)
+<br>
+
+![System prompting](./27.PNG)
+
+<br>
+
+![System prompting](./28.PNG)
+<br>
+
