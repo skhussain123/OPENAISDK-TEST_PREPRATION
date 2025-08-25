@@ -216,3 +216,23 @@ Table 12 'zero-shot' Chain of thought ki ek misal hai. Chain of thought promptin
 Chain of thought mukhtalif use-cases ke liye mufeed ho sakti hai. Code generation ke bare mein sochen, request ko chand steps mein taqseem karne ke liye, aur unhein code ki makhsoos lines se map karne ke liye. Ya synthetic data banane ke liye jab aapke paas kisi qism ka seed ho jaisa ke "Product ka naam XYZ hai, ek description likhen jo model ko un assumptions ke zariye rahnumai kare jo aap product ke diye gaye unwan ki buniyad par karenge." Aam tor par, koi bhi kaam jo 'baat cheet ke zariye' hal kiya ja sakta hai, chain of thought ke liye ek acha candidate hai. Agar aap masle ko hal karne ke steps samjha sakte hain, to chain of thought azmayen.
 <br><br>
 Barahe meherbani GoogleCloudPlatform Github repository mein host kiye gaye notebook10 ka hawala den jo CoT prompting par mazeed tafseelat faraham karega: Is chapter ke best practices section mein, hum Chain of thought prompting se mutalliq kuch behtareen tareeqe seekhenge.
+
+### Self-consistency (Khud-mutabiqat)
+Jabkay bade language models ne mukhtalif NLP kaamo mein numaya kamyabi dikhayi hai, unki reasoning ki salahiyat ko aksar ek hadd ke taur par dekha jata hai jise sirf model ke size mein izafe se qaboo nahi kiya ja sakta. Jaisa ke humne pichle Chain of Thought prompting section mein seekha, model ko reasoning steps paida karne ke liye prompt kiya ja sakta hai jaisa ke ek insaan kisi masle ko hal karta hai. Tahum, CoT ek saada 'greedy decoding' strategy ka istemal karta hai, jo iski kargardagi ko mehdood karta hai. Self-consistency sampling aur majority voting ko mila kar mukhtalif reasoning paths paida karta hai aur sab se ziyada mutabiq jawab ka intikhab karta hai. Yeh LLMs ke zariye paida kiye gaye jawabat ki durustgi aur rabt ko behtar banata hai.
+<br><br> 
+Self-consistency kisi jawab ke durust hone ki pseudo-probability likelihood deta hai, lekin zahir hai ke iske akhrajat bohat ziyada hote hain.
+
+**Yeh darj zail aqsam par amal karta hai:**
+1. Mukhtalif reasoning paths paida karna: LLM ko ek hi prompt kayi baar faraham kiya jata hai. High temperature setting model ko masle par mukhtalif reasoning paths aur nazariyat paida karne ki targheeb deti hai.
+2. Har paida shuda jawab se jawab nikalna.
+3. Sab se aam jawab ka intikhab karna.
+<br><br> 
+Aaiye ek email classification system ki misal dekhte hain, jo ek email ko IMPORTANT ya NOT IMPORTANT ke taur par classify karta hai. Ek zero-shot chain of thought prompt LLM ko kayi baar bheja jayega, yeh dekhne ke liye ke har submit ke baad jawabat mukhtalif hote hain ya nahi. Email mein istemal kiye gaye dostana lehje, alfaaz ke intikhab aur tanz o maza par ghaur karen. Yeh sab LLM ko dhoka de sakta hai.
+<br> 
+
+![System prompting](./15.PNG)
+
+![System prompting](./16.PNG)
+
+![System prompting](./17.PNG)
+<br> 
