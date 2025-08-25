@@ -182,4 +182,37 @@ Jab aap temperature ko 1 par set karte hain, to aapko kisi kahani ke liye har qi
 
 Haan, woh mauzu'at (topics) ek first-person video game ke liye behtar lagte hain. Aaiye asal prompt par wapas chalte hain, lekin is baar hum step-back ke jawab ko context ke tor par shamil karte hain aur dekhte hain ke yeh kya jawab deta hai.
 ![System prompting](./11.PNG)
+<br>
 Yeh ek dilchasp video game lagta hai! Step-back prompting techniques ka istemal karke aap apne prompts ki durustgi (accuracy) mein izafa kar sakte hain.
+
+### Chain of Thought (CoT)
+Chain of Thought (CoT) prompting intermediate reasoning steps paida karke LLMs ki reasoning salahiyaton ko behtar banane ki ek takneek hai. Yeh LLM ko ziyada durust jawab paida karne mein madad karta hai. Aap isay few-shot prompting ke sath mila sakte hain taake ziyada pecheeda kaamo par behtar nataij hasil hon jin mein jawab dene se pehle reasoning ki zaroorat hoti hai, kyunkay yeh zero-shot chain of thought ke sath ek challenge hai.
+<br><br>
+CoT ke bohat se fayde hain. Sab se pehle, yeh kam koshish wala hone ke bawajood bohat kargar hai aur off-the-shelf LLMs ke sath achi tarah kaam karta hai (yani finetune karne ki zaroorat nahi). Aapko CoT prompting ke sath interpretability bhi milti hai, kyunkay aap LLM ke jawabat se seekh sakte hain aur reasoning steps dekh sakte hain jo apnaye gaye. Agar koi kharabi ho, to aap uski shanakht kar sakenge. Chain of thought mukhtalif LLM versions ke darmiyan harkat karte waqt robustness ko behtar banata hua nazar aata hai. Jis ka matlab hai ke aapke prompt ki karkardagi mukhtalif LLMs ke darmiyan kam tabdeel honi chahiye bajaye iske ke agar aapka prompt reasoning chains ka istemal nahi karta. Beshak kuch nuqsanat bhi hain, lekin woh kisi had tak badeeh (intuitive) hain.
+<br><br>
+LLM ke jawab mein chain of thought reasoning shamil hoti hai, jis ka matlab hai ziyada output tokens, jis ka matlab hai predictions par ziyada paise lagte hain aur ziyada waqt lagta hai.
+<br><br>
+Table 11 mein darj zail misal ki wazahat karne ke liye, aaiye pehle ek aisa prompt banane ki koshish karte hain jo CoT prompting ka istemal nahi kar raha ho taake bade language model ki kamzoriyan ko dikhaya ja sake.
+<br>
+
+![System prompting](./12.PNG)
+<br>
+Oho. Woh zaahir hai ghalat jawab hai. Darasal, LLMs aksar riyaziyati kaamo mein mushkil mehsoos karte hain aur ghalat jawabat de sakte hain – yahan tak ke do adadon ko zarb dene jaise mamooli kaam ke liye bhi. Yeh is wajah se hai ke unhein badi miqdar mein text par train kiya jata hai aur riyazi mein ek mukhtalif tareeqe ki zaroorat ho sakti hai. To aaiye dekhte hain ke kya intermediate reasoning steps output ko behtar banayenge.
+<br>
+
+![System prompting](./13.PNG)
+<br>
+The final answer is correct. That’s because we clearly instructed the LLM to explain each step instead of just returning an answer. It’s interesting to see that the model adds up the 17 increased years. In my head I would take the difference of years between my partner and me and add those up. (20+(9-3)). Let’s help the model to think a little bit more like me.
+Okay, ab aakhri jawab durust hai. Iski wajah yeh hai ke humne LLM ko sirf jawab dene ke bajaye har qadam ki wazahat karne ki wazeh hidayat di thi. Yeh dekhna dilchasp hai ke model ne 17 barhe hue saalon ko jama kiya. Mere zehan mein, main apne partner aur apne darmiyan saalon ka farq leta aur unhein jama karta (20+(9-3)). Aaiye model ko thoda aur meri tarah sochne mein madad karte hain.
+
+<br>
+Table 12 'zero-shot' Chain of thought ki ek misal hai. Chain of thought prompting bahut taqatwar ho sakti hai jab isay single-shot ya few-shot ke sath jora jaye, jaisa ke aap Table 13 mein dekh sakte hain:
+<br>
+
+![System prompting](./14.PNG)
+
+<br>
+
+Chain of thought mukhtalif use-cases ke liye mufeed ho sakti hai. Code generation ke bare mein sochen, request ko chand steps mein taqseem karne ke liye, aur unhein code ki makhsoos lines se map karne ke liye. Ya synthetic data banane ke liye jab aapke paas kisi qism ka seed ho jaisa ke "Product ka naam XYZ hai, ek description likhen jo model ko un assumptions ke zariye rahnumai kare jo aap product ke diye gaye unwan ki buniyad par karenge." Aam tor par, koi bhi kaam jo 'baat cheet ke zariye' hal kiya ja sakta hai, chain of thought ke liye ek acha candidate hai. Agar aap masle ko hal karne ke steps samjha sakte hain, to chain of thought azmayen.
+<br><br>
+Barahe meherbani GoogleCloudPlatform Github repository mein host kiye gaye notebook10 ka hawala den jo CoT prompting par mazeed tafseelat faraham karega: Is chapter ke best practices section mein, hum Chain of thought prompting se mutalliq kuch behtareen tareeqe seekhenge.
