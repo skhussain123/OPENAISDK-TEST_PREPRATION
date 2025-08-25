@@ -1,5 +1,14 @@
 ## Section 1: Core Concepts (Questions 1-15)
 
+### Q00. LLMs (Large Language Models) by default kis type ke hote hain?**
+
+A) Stateful – apna pura conversation history yaad rakhte hain  
+B) Stateless – har request independent hoti hai (correct)  
+C) Semi-stateful – thoda context yaad rakhte hain  
+D) Immutable – ek baar train hone ke baad change nahi ho sakte
+
+---
+
 ### Q1. What is the primary purpose of the OpenAI Agents SDK?
 A) To deploy pre-trained models  
 B) To create standalone AI models  
