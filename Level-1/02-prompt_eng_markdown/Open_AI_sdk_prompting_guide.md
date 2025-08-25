@@ -1168,7 +1168,7 @@ dono ne high success rates dikhaye.
 ```bash
 SEARCH_REPLACE_DIFF_EXAMPLE = """
 path/to/file.py
-```
+
 >>>>>>> SEARCH
 def search():
     pass
