@@ -51,3 +51,39 @@ Gemini ka temperature control machine learning mein istemal hone wale softmax fu
     * Top-P sampling un top tokens ko chunta hai jin ki kul probability ek muayyan qadar (P) se zyada nahi hoti. P ki qadrein 0 (greedy decoding) se lekar 1 (LLM ke vocabulary ke sab tokens) tak hoti hain.
 
 Top-K aur top-P ke darmiyan chunne ka sab se behtar tareeqa yeh hai ke dono tareeqon (ya dono ek saath) ke saath tajurba kiya jaye aur dekha jaye ke kaunsa tareeqa aap ke chahiye wale natayej deta hai.
+
+
+### Putting it all together
+Top-K, top-P, temperature, aur generate kiye jane wale tokens ki tadad ke darmiyan chunna makhsoos application aur chahiye wale natayej par munhasir hai, aur yeh sab settings ek doosre par asar andaz hote hain. Yeh bhi zaroori hai ke aap samjhein ke aap ka chuna hua model in mukhtalif sampling settings ko kaise mila kar kaam karta hai.
+<br><br>
+Agar temperature, top-K, aur top-P sab maujood hain (jaise Vertex Studio mein), toh woh tokens jo top-K aur top-P dono ke mayar par pora utarte hain, agle predicted token ke liye ummeedwar hote hain, aur phir temperature ka istemal karke in tokens mein se sample kiya jata hai jo top-K aur top-P ke mayar par pora utarte hain. Agar sirf top-K ya top-P maujood ho, toh wahi rawayya hota hai lekin sirf ek top-K ya P setting ka istemal hota hai.
+<br><br>
+Agar temperature maujood nahi hai, toh jo tokens top-K aur/ya top-P ke mayar par pora utarte hain, un mein se randomly chun kar ek agla predicted token banaya jata hai.
+Ek sampling configuration ki qadar ke hadd tak jane par, woh ek sampling setting doosri configuration settings ko ya toh radd kar deti hai ya be-muhim ho jati hai.
+
+
+* Agar aap temperature ko 0 par set karte hain, toh top-K aur top-P be-muhim ho jate hain – sab se zyada probability wala token agla predicted token ban jata hai. Agar aap temperature ko bohot zyada (1 se ooper, amuman 10 tak) set karte hain, toh temperature be-muhim ho jata hai aur jo tokens top-K aur/ya top-P ke mayar se guzarte hain, un mein se randomly sample kiya jata hai taake agla predicted token chuna jaye.
+* Agar aap top-K ko 1 par set karte hain, toh temperature aur top-P be-muhim ho jate hain. Sirf ek token top-K ke mayar se guzarta hai, aur wahi token agla predicted token hota hai. Agar aap top-K ko bohot zyada set karte hain, jaise LLM ke vocabulary ke size tak, toh koi bhi token jis ki nonzero probability ho ke woh agla token ho, woh top-K ke mayar par pora utarta hai aur koi bhi token chhanta nahi hai.
+* Agar aap top-P ko 0 (ya bohot chhoti qadar) par set karte hain, toh ziada tar LLM sampling implementations sirf sab se zyada probability wale token ko top-P ke mayar ke liye dekhen ge, jis se temperature aur top-K be-muhim ho jate hain. Agar aap top-P ko 1 par set karte hain, toh koi bhi token jis ki nonzero probability ho ke woh agla token ho, woh top-P ke mayar par pora utarta hai, aur koi bhi token chhanta nahi hai.
+
+
+Ek aam shuruaati nuqta ke taur par, 0.2 ka temperature, 0.95 ka top-P, aur 30 ka top-K aap ko munasib aur thori si creativity wale natayej dega jo zyada hadd se barh kar creative nahi honge. Agar aap khas tor par creative natayej chahte hain, toh 0.9 ke temperature, 0.99 ke top-P, aur 40 ke top-K se shuru karen. Aur agar aap kam creative natayej chahte hain, toh 0.1 ke temperature, 0.9 ke top-P, aur 20 ke top-K se shuru karen. Aakhir mein, agar aap ka task hamesha ek hi sahi jawab mangta hai (masalan, math ke sawal ka jawab), toh 0 ke temperature se shuru karen.
+<br><br>
+
+**NOTE:** Zyada azadi (zyada temperature, top-K, top-P, aur output tokens) ke saath, LLM aisa text generate kar sakta hai jo kam relevant ho.
+<br><br>
+
+**WARNING:** Kya aap ne kabhi koi jawab dekha hai jo bari miqdaar mein filler words ke saath khatam hota hai? Ise "repetition loop bug" bhi kaha jata hai, jo Large Language Models mein ek aam masla hai jahan model ek chakkar mein phans jata hai, bar bar wahi (filler) lafz, jumlai, ya jumla structure generate karta rehta hai, aksar ghalat temperature aur top-K/top-P settings ki wajah se yeh masla barhta hai. Yeh kam aur zyada dono temperature settings par ho sakta hai, lekin mukhtalif wajuhaat se. Kam temperature par, model zyada deterministic ho jata hai, sakht taur par sab se zyada probability wale raaste par chalta hai, jo agar yeh raasta pehle generate kiye gaye text par wapas aaye toh loop ban sakta hai. Is ke baraks, zyada temperature par, model ka output zyada random ho jata hai, jis se yeh imkan barh jata hai ke randomly chuna gaya lafz ya jumla bil-akhir pehle ke state mein wapas aaye, aur bari miqdaar mein maujood options ki wajah se loop ban jaye. Dono halaat mein, model ka sampling process "phas jata hai," jis ke nateeje mein monotonous aur ghair mufeed output banta hai jab tak output window bhar nahi jata. Ise hal karne ke liye aksar temperature aur top-K/top-P qadron ke saath dhyan se tajurba karna parta hai taake determinism aur randomness ke darmiyan behtareen tawazun mil sake.
+
+### Prompting techniques
+LLMs ko instructions follow karne ke liye tune kiya jata hai aur unhe bari miqdaar mein data par train kiya jata hai taake woh prompt ko samajh saken aur jawab generate kar saken. Lekin LLMs mukammal nahi hote; aap ka prompt text jitna wazeh hoga, LLM ke liye agla mumkin text predict karna utna hi behtar hoga. Is ke ilawa, kuch khaas techniques jo LLMs ki training aur kaam karne ke tareeqe ka faida uthati hain, aap ko LLMs se relevant natayej hasil karne mein madad deti hain.
+<br><br>
+Ab jab hum samajh chuke hain ke prompt engineering kya hai aur is ke liye kya zaroori hai, toh chaliye kuch ahem prompting techniques ki misaalon mein ghotay lagate hain.
+
+
+### General prompting / zero shot
+Ek zero-shot prompt sab se sada qisam ka prompt hai. Yeh sirf ek task ka tashreeh aur kuch text deta hai taake LLM shuruat kar sake. Yeh input kuch bhi ho sakta hai: ek sawal, ek kahani ka aghaaz, ya hidayat. Zero-shot ka naam is liye hai kyunki is mein koi misaal nahi di jati. Chaliye Vertex AI Studio (for Language) in Vertex AI ka istemal karte hain, jo prompts test karne ke liye ek playground faraham karta hai. Table 1 mein, aap ko movie reviews classify karne ke liye ek zero-shot prompt ki misaal dikhe gi.
+<br><br>
+Neeche diya gaya table format prompts ko document karne ka ek behtareen tareeqa hai. Aap ke prompts shayad kai dafa tabdeel honge pehle ke woh codebase mein shamil hon, is liye apne prompt engineering ke kaam ko ek disciplined aur munazzam tareeke se track karna zaroori hai. Is table format, prompt engineering ke kaam ko track karne ki ahmiyat, aur prompt development ke amal ke bare mein mazeed tafseel is chapter ke baad ke Best Practices section mein hai (“Document the various prompt attempts”).
+Model ka temperature ek kam number par set karna chahiye, kyunki koi creativity ki zarurat nahi, aur hum gemini-pro ke default top-K aur top-P qadron ka istemal karte hain, jo in dono settings ko asal mein band kar deta hai (dekhiye ‘LLM Output Configuration’ ooper). Generated output par tawajjo dein. Disturbing aur masterpiece jaisay alfaaz ek hi jumle mein istemal hone ki wajah se prediction ko thora zyada mushkil kar sakte hain.
+![](./README.md)
