@@ -1,9 +1,3 @@
-# OpenAI Agents SDK: 100 MCQs for Agentic AI Development
-
-This document contains a set of **100 Multiple Choice Questions (MCQs)** designed to help developers and enthusiasts understand the **OpenAI Agents SDK** for building agentic AI systems. Each question includes four options and a detailed explanation with the correct answer at the end. These MCQs cover core concepts, key features, runner methods, exceptions, APIs, practical applications, community feedback, and advanced topics. The correct answers have been shuffled to ensure variety in their positions.
-
----
-
 ## Section 1: Core Concepts (Questions 1-15)
 
 ### Q1. What is the primary purpose of the OpenAI Agents SDK?
@@ -1345,9 +1339,3 @@ D) To provide a structured sequence of stages from activation to task completion
 **Answer**: D
 
 ---
-
-## Notes
-- These MCQs are designed for exam preparation and learning, covering all major aspects of the OpenAI Agents SDK.
-- For further details, refer to the [official OpenAI documentation](https://platform.openai.com/docs/agents).
-- The SDK is open-source with nearly 2,000 GitHub stars, reflecting strong community adoption.
-- Correct answers have been shuffled to ensure variety in their positions (not always option B or D).
