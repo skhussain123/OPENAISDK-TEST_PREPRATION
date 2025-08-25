@@ -2,14 +2,14 @@
 
 #### Other Learning Resources:
 1. [Open_AI_sdk_prompting_guide](https://cookbook.openai.com/examples/gpt4-1_prompting_guide)
-2. [Markdown Guide](https://www.markdownguide.org/basic-syntax/)
-3. [Markdown Guide Cheat Sheet](https://www.markdownguide.org/cheat-sheet/)
+2. [whitepaper-prompt-engineering](https://www.kaggle.com/whitepaper-prompt-engineering)
+3. [Markdown Guide](https://www.markdownguide.org/basic-syntax/)
+4. [Markdown Guide Cheat Sheet](https://www.markdownguide.org/cheat-sheet/)
 
 Lmm ko hum markdown me bhi input de sakty hain.na sirf markdown balky different structure me bhi de sakty hain.jismy se 3 documentation
 me mention hai.
 * json
 * XML
-* Rap
 
 The GPT-4.1 family of models represents a significant step forward from GPT-4o in capabilities across coding, instruction following, and long context. In this prompting guide, we collate a series of important prompting tips derived from extensive internal testing to help developers fully leverage the improved abilities of this new model family.
 
