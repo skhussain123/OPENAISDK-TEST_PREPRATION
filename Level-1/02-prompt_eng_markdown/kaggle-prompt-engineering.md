@@ -86,7 +86,7 @@ Ek zero-shot prompt sab se sada qisam ka prompt hai. Yeh sirf ek task ka tashree
 <br><br>
 Neeche diya gaya table format prompts ko document karne ka ek behtareen tareeqa hai. Aap ke prompts shayad kai dafa tabdeel honge pehle ke woh codebase mein shamil hon, is liye apne prompt engineering ke kaam ko ek disciplined aur munazzam tareeke se track karna zaroori hai. Is table format, prompt engineering ke kaam ko track karne ki ahmiyat, aur prompt development ke amal ke bare mein mazeed tafseel is chapter ke baad ke Best Practices section mein hai (“Document the various prompt attempts”).
 Model ka temperature ek kam number par set karna chahiye, kyunki koi creativity ki zarurat nahi, aur hum gemini-pro ke default top-K aur top-P qadron ka istemal karte hain, jo in dono settings ko asal mein band kar deta hai (dekhiye ‘LLM Output Configuration’ ooper). Generated output par tawajjo dein. Disturbing aur masterpiece jaisay alfaaz ek hi jumle mein istemal hone ki wajah se prediction ko thora zyada mushkil kar sakte hain.
-![dfds](./one.PNG)
+![dfds](./images/one.PNG)
 When zero-shot doesn’t work, you can provide demonstrations or examples in the prompt,
 which leads to “one-shot” and “few-shot” prompting. General prompting / zero shot
 
@@ -100,8 +100,8 @@ Ek one-shot prompt ek hi misaal deta hai, is liye is ka naam one-shot hai. Is ka
 <br><br>
 Table 2 mein ek few-shot prompt ki misaal di gayi hai, chaliye hum pehle jaisi gemini-pro model configuration settings ka istemal karte hain, siwaye is ke ke token limit ko barhaya jaye taake zyada lambay jawab ki zarurat ko pura kiya ja sake.
 
-![dfds](./two.PNG)
-![dfds](./three.PNG)
+![dfds](./images/two.PNG)
+![dfds](./images/three.PNG)
 Jab aap apne prompt ke liye misalein chunte hain, to aisi misalein istemal karein jo us kaam se mutalliq hon jo aap anjam dena chahte hain. Misalein mukhtalif, aala miyaar ki, aur achi tarah likhi honi chahiye. Ek chhoti si galti bhi model ko uljha sakti hai aur is ke n natije mein matlooba output nahi milega.
 <br><br>
 Agar aap aisi output paida karne ki koshish kar rahe hain jo mukhtalif inputs ke liye mazboot ho, to apni misalon mein edge cases shamil karna zaroori hai. Edge cases aisi inputs hain jo ghair mamooli ya ghair mutawaqqe hain, lekin model ko phir bhi unhein sambhalne ke qabil hona chahiye.
@@ -130,11 +130,11 @@ Aaiye in teen mukhtalif qism ke prompts par ghaur karte hain.
 ### System prompting
 Table 3 mein ek system prompt hai, jahan main ne output wapas karne ke tariqe ke bare mein izafi maloomat faraham ki hain. Main ne takhliqi satah (creativity level) ko badhane ke liye temperature badha diya, aur ek onchi token limit muqarrar ki. Taham, meri is wazeh hidayat ki wajah se ke output kaise wapas karna hai, model ne izafi text nahi diya.
 
-![System prompting](./four.PNG)
+![System prompting](./images/four.PNG)
 
 System prompts makhsoos zaruriyat ko poora karne wala output paida karne ke liye mufeed ho sakte hain. 'System prompt' ka naam darasal 'system ko ek izafi kaam dena' hai. Misal ke tor par, aap ek system prompt ka istemal karke ek aisa code snippet bana sakte hain jo ek makhsoos programming language ke sath compatible ho, ya aap ek makhsoos saakht (structure) wapas karne ke liye system prompt ka istemal kar sakte hain. Table 4 par ghaur karen, jahan main output ko JSON format mein wapas karta hoon.
 
-![System prompting](./five.PNG)
+![System prompting](./images/five.PNG)
 Data nikalne wale prompt se JSON objects wapas karne ke kuch fayde hain. Ek haqeeqi-duniya ki application mein mujhe is JSON format ko dastani tor par banane ki zaroorat nahi padti, main data ko pehle se hi tartib shuda shakal mein wapas kar sakta hoon (datetime objects ke sath kaam karte waqt bohat mufeed), lekin sab se ahem baat yeh hai ke JSON format ke liye prompt karne se model ko ek structure banane aur hallucinations ko mehdood karne par majboor kiya jata hai.
 <br>
 <br>
@@ -146,7 +146,7 @@ Role prompting prompt engineering mein ek takneek hai jis mein gen AI model ko e
 <br>
 Misal ke tor par, aap ek gen AI model ko role prompt kar sakte hain ke woh ek kitab ka editor ho, ek kindergarten ka ustaad ho, ya ek tehreeki muqarrir (motivational speaker) ho. Jab model ko ek kirdar saunp diya jaye, to aap usay aise prompts de sakte hain jo us kirdar ke liye makhsoos hon. Maslan, aap ek ustad ko ek lesson plan banane ke liye prompt kar sakte hain jis ka woh baad mein jaiza le saken. Table 5 mein dekhen, jahan model ek travel guide ka kirdar ada karta hai.
 
-![System prompting](./six.PNG)
+![System prompting](./images/six.PNG)
 Upar di gayi misal ek travel agent ka kirdar nibhane ki ek misal hai. Jab aap kirdar ko geography ke ustad mein badlenge, to aap dekhenge ke aapko ek mukhtalif jawab milega.
 <br>
 Ek AI model ke liye ek kirdar ka nazariya tay karna usay us lehje, andaz, aur markooz maharat ka ek blueprint deta hai jis ki aap talash mein hain, taake aap apne output ki quality, relevance, aur asardari ko behtar bana saken.
@@ -154,11 +154,11 @@ Ek AI model ke liye ek kirdar ka nazariya tay karna usay us lehje, andaz, aur ma
 **Yahan kuch styles hain jin mein se aap chun sakte hain jo mujhe asardaar lagte hain:**
 * Confrontational (Muqaablaati), Descriptive (Tafseeli), Direct (Seedha), Formal (Rasmi), Humorous (Mazahiya), Influential (Mutasir kun), Informal (Ghair rasmi), Inspirational (Ilhami), Persuasive (Qail karne wala)
 Aaiye Table 6 mein apne prompt ko badalte hain taake us mein mazahiya aur ilhami andaz shamil ho.
-![System prompting](./seven.PNG)
+![System prompting](./images/seven.PNG)
 
 ### Contextual prompting
 Contextual prompts faraham karke, aap yeh yakeeni banane mein madad kar sakte hain ke aapki AI interactions jitni mumkin ho saken, be-rok-tok aur kargar hon. Model aapki darkhwast ko ziyada tezi se samajh payega aur ziyada durust aur mutalliq jawab paida kar payega, jaisa ke aap Table 7 ki misal mein dekh sakte hain
-![System prompting](./eight.PNG)
+![System prompting](./images/eight.PNG)
 
 ### Step-back prompting
 Step-back prompting LLM (Large Language Model) ki karkardagi ko behtar banane ki ek takneek hai, jis mein LLM ko pehle maujooda makhsoos kaam se mutalliq ek aam sawal par ghaur karne ke liye prompt kiya jata hai, aur phir us aam sawal ke jawab ko makhsoos kaam ke liye baad mein aanay wale prompt mein shamil kiya jata hai. Yeh 'step back' LLM ko makhsoos masle ko hal karne ki koshish karne se pehle mutalliq pas manzar ki maloomat aur istidlal ke amal ko fa'al karne ki ijazat deta hai.
@@ -172,16 +172,16 @@ Yeh LLM ke jawabat mein ta'assubat (biases) ko kam karne mein madad kar sakta ha
 <br>
 Aaiye in misalon ko dekhte hain taake yeh samajh saken ke step-back prompting nataij ko kaise behtar bana sakta hai. Aaiye pehle ek riwayati prompt (Table 8) ka jaiza len, is se pehle ke hum is ka muqabla step-back prompt (Table 9) se karen:
 
-![System prompting](./nine.PNG)
+![System prompting](./images/nine.PNG)
 <br>
 Jab aap temperature ko 1 par set karte hain, to aapko kisi kahani ke liye har qism ki takhliqi tehreeren mil sakti hain, lekin yeh kafi had tak be-tarteeb aur aam bhi hoti hain. To aaiye ek qadam peeche haten:
 <br>
 
-![System prompting](./10.PNG)
+![System prompting](./images/10.PNG)
 <br>
 
 Haan, woh mauzu'at (topics) ek first-person video game ke liye behtar lagte hain. Aaiye asal prompt par wapas chalte hain, lekin is baar hum step-back ke jawab ko context ke tor par shamil karte hain aur dekhte hain ke yeh kya jawab deta hai.
-![System prompting](./11.PNG)
+![System prompting](./images/11.PNG)
 <br>
 Yeh ek dilchasp video game lagta hai! Step-back prompting techniques ka istemal karke aap apne prompts ki durustgi (accuracy) mein izafa kar sakte hain.
 
@@ -195,12 +195,12 @@ LLM ke jawab mein chain of thought reasoning shamil hoti hai, jis ka matlab hai 
 Table 11 mein darj zail misal ki wazahat karne ke liye, aaiye pehle ek aisa prompt banane ki koshish karte hain jo CoT prompting ka istemal nahi kar raha ho taake bade language model ki kamzoriyan ko dikhaya ja sake.
 <br>
 
-![System prompting](./12.PNG)
+![System prompting](./images/12.PNG)
 <br>
 Oho. Woh zaahir hai ghalat jawab hai. Darasal, LLMs aksar riyaziyati kaamo mein mushkil mehsoos karte hain aur ghalat jawabat de sakte hain – yahan tak ke do adadon ko zarb dene jaise mamooli kaam ke liye bhi. Yeh is wajah se hai ke unhein badi miqdar mein text par train kiya jata hai aur riyazi mein ek mukhtalif tareeqe ki zaroorat ho sakti hai. To aaiye dekhte hain ke kya intermediate reasoning steps output ko behtar banayenge.
 <br>
 
-![System prompting](./13.PNG)
+![System prompting](./images/13.PNG)
 <br>
 The final answer is correct. That’s because we clearly instructed the LLM to explain each step instead of just returning an answer. It’s interesting to see that the model adds up the 17 increased years. In my head I would take the difference of years between my partner and me and add those up. (20+(9-3)). Let’s help the model to think a little bit more like me.
 Okay, ab aakhri jawab durust hai. Iski wajah yeh hai ke humne LLM ko sirf jawab dene ke bajaye har qadam ki wazahat karne ki wazeh hidayat di thi. Yeh dekhna dilchasp hai ke model ne 17 barhe hue saalon ko jama kiya. Mere zehan mein, main apne partner aur apne darmiyan saalon ka farq leta aur unhein jama karta (20+(9-3)). Aaiye model ko thoda aur meri tarah sochne mein madad karte hain.
@@ -209,7 +209,7 @@ Okay, ab aakhri jawab durust hai. Iski wajah yeh hai ke humne LLM ko sirf jawab 
 Table 12 'zero-shot' Chain of thought ki ek misal hai. Chain of thought prompting bahut taqatwar ho sakti hai jab isay single-shot ya few-shot ke sath jora jaye, jaisa ke aap Table 13 mein dekh sakte hain:
 <br>
 
-![System prompting](./14.PNG)
+![System prompting](./images/14.PNG)
 
 <br>
 
@@ -230,11 +230,11 @@ Self-consistency kisi jawab ke durust hone ki pseudo-probability likelihood deta
 Aaiye ek email classification system ki misal dekhte hain, jo ek email ko IMPORTANT ya NOT IMPORTANT ke taur par classify karta hai. Ek zero-shot chain of thought prompt LLM ko kayi baar bheja jayega, yeh dekhne ke liye ke har submit ke baad jawabat mukhtalif hote hain ya nahi. Email mein istemal kiye gaye dostana lehje, alfaaz ke intikhab aur tanz o maza par ghaur karen. Yeh sab LLM ko dhoka de sakta hai.
 <br> 
 
-![System prompting](./15.PNG)
+![System prompting](./images/15.PNG)
 
-![System prompting](./16.PNG)
+![System prompting](./images/16.PNG)
 
-![System prompting](./17.PNG)
+![System prompting](./images/17.PNG)
 <br> 
 
 Aap upar diye gaye prompt ka istemal karke yeh dekh sakte hain ke kya yeh mutabiq classification wapas karta hai. Aap jis model ka istemal kar rahe hain aur temperature configuration par munhasir karte hue, yeh "IMPORTANT" ya "NOT IMPORTANT" wapas kar sakta hai.<br><br> 
@@ -246,7 +246,7 @@ Yeh misal batati hai ke self-consistency prompting ka istemal LLM ke jawab ki du
 Ab jab hum chain of thought aur self-consistency prompting se waqif ho chuke hain, to aaiye Tree of Thoughts (ToT) ka jaiza len. Yeh CoT prompting ke tasawwur ko aam karta hai kyunkay yeh LLMs ko ek waqt mein kayi mukhtalif reasoning paths ko explore karne ki ijazat deta hai, bajaye sirf ek seedhi line mein chain of thought ki pairwi karne ke. Iski tasveer Figure 1 mein di gayi hai.
 <br> 
 
-![System prompting](./18.PNG)
+![System prompting](./images/18.PNG)
 <br> 
 Yeh tareeqa ToT ko khusoosi tor par un pecheeda kaamo ke liye behtar banata hai jin mein exploration ki zaroorat hoti hai. Yeh afkaar ke darakht (tree of thoughts) ko barqarar rakh kar kaam karta hai, jahan har fikr (thought) ek mutabbiq zaban ki tarteeb (coherent language sequence) ki numaindagi karti hai jo ek masle ko hal karne ki taraf ek darmiyani qadam ke taur par kaam karti hai. Phir model darakht mein mukhtalif nodes se branch out karke mukhtalif reasoning paths ko explore kar sakta hai.
 
@@ -325,7 +325,7 @@ Maslan, aap automatic prompt engineering ka istemal kar sakte hain jo ek merchan
 1. Woh prompt likhen jo output variants paida karega. Is misal mein, main 10 hidayat paida karne ke liye gemini-pro ka istemal kar raha hoon. Table 15 dekhen.
 <br>
 
-![System prompting](./19.PNG)
+![System prompting](./images/19.PNG)
 <br> 
 
 2. Tamam instruction candidates ka jaiza len, chunay gaye metric ki buniyad par candidates ko score karte hue. Maslan, aap BLEU (Bilingual Evaluation Understudy) ya ROUGE (Recall-Oriented Understudy for Gisting Evaluation) ka istemal kar sakte hain.
@@ -342,7 +342,7 @@ Tasawwur karein aapki machine par sainkdon files wala ek folder hai jinhein rena
 
 <br>
 
-![System prompting](./20.PNG)
+![System prompting](./images/20.PNG)
 
 <br>
 Yeh mujhe acha code lagta hai – yeh document bhi kiya gaya hai! Tahum, kyunkay LLMs reasoning nahi kar sakte aur training data ko dohrayate hain, isliye yeh zaroori hai ke aap apne code ko pehle padhen aur test karen.
@@ -363,10 +363,10 @@ Yeh kaam kar gaya!
 Ek developer ke tor par jab aap teams mein kaam karte hain to aapko kisi aur ka code padhna hota hai. Gemini is mein bhi aapki madad kar sakta hai. Aaiye Table 16 se code output lete hain, comments hata dete hain aur bade language model se poochte hain ke kya ho raha hai, Table 17 dekhen:
 <br>
 
-![System prompting](./21.PNG)
+![System prompting](./images/21.PNG)
 <br>
 
-![System prompting](./22.PNG)
+![System prompting](./images/22.PNG)
 
 <br>
 
@@ -374,10 +374,10 @@ Ek developer ke tor par jab aap teams mein kaam karte hain to aapko kisi aur ka 
 Table 16 ka bash code theek kaam karta hai. Tahum, yeh script us waqt sahih mayno mein qabil-e-istemal ho sakti hai jab yeh mujhse file names ke liye prompt kare, ideal tor par isay UI ke sath ek alag application ke tor par kaam karna chahiye. Ek ibtedai nuqte ke tor par, Python Bash ke muqablay mein ek (web) application ke liye behtar zaban hogi. LLMs code ko ek zaban se doosri zaban mein tarjuma karne mein madad kar sakte hain. Table 18 mein misal dekhen:
 <br>
 
-![System prompting](./23.PNG)
+![System prompting](./images/23.PNG)
 <br>
 
-![System prompting](./24.PNG)
+![System prompting](./images/24.PNG)
 
 <br>
 
@@ -420,13 +420,129 @@ Let’s see if we can ask the large language model to debug and review code. Hav
 Table 19:
 <br>
 
-![System prompting](./26.PNG)
+![System prompting](./images/26.PNG)
 <br>
 
-![System prompting](./27.PNG)
+![System prompting](./images/27.PNG)
 
 <br>
 
-![System prompting](./28.PNG)
+![System prompting](./images/28.PNG)
 <br>
+
+
+### What about multimodal prompting?
+Code ke liye prompting ab bhi wahi aam large language model istemal karta hai. Multimodal prompting ek alag masla hai, yeh ek aisi takneek ki taraf ishara karta hai jahan aap ek large language model ko rahnumai karne ke liye mutaddid input formats istemal karte hain, bajaye sirf text par inhesar karne ke. Is mein text, images, audio, code, ya yahan tak ke deegar formats ka combination shamil ho sakta hai, jo model ki salahiyaton aur maujooda kaam par munhasir hai.
+
+### Best Practices
+
+Sahi prompt dhoondne ke liye tinkering (mukhtalif tarteeben azmana) zaroori hai. Vertex AI mein Language Studio aapke prompts ke sath khelne ke liye ek behtareen jagah hai, jahan mukhtalif models ke khilaf test karne ki salahiyat maujood hai.
+<br>
+Prompt engineering mein mahir banne ke liye darj zail behtareen tareeqon ka istemal karen.
+
+
+### Provide examples
+Sab se ahem behtareen tareeqa yeh hai ke prompt ke andar (one shot / few shot) misalen faraham ki jayen. Yeh bohat ziyada kargar hai kyunkay yeh ek taqatwar ta'aleemi tool ke taur par kaam karta hai. Yeh misalen matlooba outputs ya isi tarah ke jawabat ko numaya karti hain, jis se model un se seekh sakta hai aur us ke mutabiq apni generation ko dhal sakta hai. Yeh is tarah hai jaise model ko ek reference point ya target dena jise woh hasil karna chahta hai, apne jawab ki durustgi, style, aur lehje ko behtar banata hai taake woh aapki tawaqqoaat se behtar mel kha sake.
+
+### Design with simplicity
+Prompts mukhtasar, wazeh, aur aapke aur model dono ke liye samajhne mein aasan hone chahiye. Ek aam usool ke mutabiq, agar yeh aapke liye hi pecheeda hai to mumkin hai yeh model ke liye bhi pecheeda hoga. Koshish karen ke pecheeda zaban istemal na karen aur ghair zaroori maloomat faraham na karen.
+
+```bash
+Examples:
+BEFORE:
+I am visiting New York right now, and I'd like to hear more about great
+locations. I am with two 3 year old kids. Where should we go during
+our vacation?
+AFTER REWRITE:
+Act as a travel guide for tourists. Describe great places to visit in
+New York Manhattan with a 3 year old.
+Try using verbs that describe the action. Here’s a set of examples:
+```
+**Act, Analyze, Categorize, Classify, Contrast, Compare, Create, Describe, Define,
+Evaluate, Extract, Find, Generate, Identify, List, Measure, Organize, Parse, Pick,
+Predict, Provide, Rank, Recommend, Return, Retrieve, Rewrite, Select, Show, Sort,
+Summarize, Translate, Write.**
+
+### Be specific about the output
+Matlooba output ke baare mein wazeh rahen. Ek mukhtasar hidayat LLM ki itni rahnumai nahi kar sakti ya bahut aam ho sakti hai. Prompt mein makhsoos tafseelat faraham karna (system ya context prompting ke zariye) model ko mutalliq cheezon par tawajjoh markooz karne mein madad kar sakta hai, jis se majmoi durustgi behtar hoti hai.
+```bash
+Examples:
+DO:
+Generate a 3 paragraph blog post about the top 5 video game consoles.
+The blog post should be informative and engaging, and it should be
+written in a conversational style.
+DO NOT:
+Generate a blog post about video game consoles.
+```
+
+### Use Instructions over Constraints
+Instructions aur constraints prompting mein LLM ke output ki rahnumai ke liye istemal hote hain.
+* Instruction jawab ke matlooba format, style, ya content par wazeh hidayat faraham karti hai. Yeh model ko is baat par rahnumai karti hai ke model ko kya karna chahiye ya kya paida karna chahiye.
+* Constraint jawab par hudood (limitations) ya bandishon (boundaries) ka ek set hai. Yeh is baat ko mehdood karta hai ke model ko kya nahi karna chahiye ya kis cheez se bachna chahiye.
+<br>
+
+Badhti hui tehqeeq se pata chalta hai ke prompting mein misbat hidayat par tawajjoh markooz karna, constraints par bahut ziyada inhesar karne se ziyada kargar ho sakta hai. Yeh tareeqa is baat se mutabiqat rakhta hai ke insaan kya nahi karna chahiye ki lists ke bajaye misbat hidayat ko tarjeeh dete hain.<br><br>
+Instructions seedhe matlooba nataij ko bayan karti hain, jabkay constraints model ko yeh sochne par majboor kar sakte hain ke kya ijazat hai. Yeh flexibility deta hai aur tay shuda hudood ke andar creativity ko farogh deta hai, jabkay constraints model ki salahiyat ko mehdood kar sakte hain. Iske alawa, constraints ki ek list ek doosre se takra sakti hai.<br><br>
+Constraints ab bhi qeemati hain lekin khaas halaat mein. Model ko nuqsan deh ya muta'assib content paida karne se rokne ke liye ya jab ek sakht output format ya style ki zaroorat ho.<br><br>
+Agar mumkin ho, to misbat hidayat ka istemal karen: model ko yeh batane ke bajaye ke kya nahi karna chahiye, use yeh batayen ke kya karna chahiye. Yeh uljhan se bachne aur output ki durustgi ko behtar banane mein madad kar sakta hai.
+```bash
+DO:
+Generate a 1 paragraph blog post about the top 5 video game consoles.
+Only discuss the console, the company who made it, the year, and total
+sales.
+DO NOT:
+Generate a 1 paragraph blog post about the top 5 video game consoles.
+Do not list video game names.
+```
+Ek behtareen tareeqe ke taur par, ibtida mein instructions ko tarjeeh den, wazeh tor par bayan karen ke aap model se kya karwana chahte hain aur sirf zaroorat padne par safety, wazahat ya makhsoos zaruriyat ke liye constraints ka istemal karen. Mukhtalif instructions aur constraints ke combinations ko test karne ke liye experiment karen aur iterate karen taake aap apne makhsoos kaamo ke liye behtareen tareeqa dhoond saken, aur inhein document karen.
+
+### Control the max token length
+LLM ke paida shuda jawab ki lambai ko control karne ke liye, aap ya to configuration mein ek max token limit set kar sakte hain, ya apne prompt mein wazeh tor par ek makhsoos lambai ki darkhwast kar sakte hain. Maslan:
+
+**"Explain quantum physics in a tweet length message."**
+### Use variables in prompts
+Prompts ko dobara istemal karne aur unhein mazeed dynamic banane ke liye prompt mein variables ka istemal karen, jinhein mukhtalif inputs ke liye tabdeel kiya ja sakta hai. Maslan, jaisa ke Table 20 mein dikhaya gaya hai, ek prompt jo kisi shehar ke bare mein waqiyat batata hai. Prompt mein shehar ka naam hardcode karne ke bajaye, ek variable ka istemal karen. Variables aapka waqt aur mehnat bacha sakte hain, kyunkay aapko khud ko dohranay se bachne ki ijazat milti hai. Agar aapko kayi prompts mein ek hi maloomat ka tukda istemal karna hai, to aap use ek variable mein store kar sakte hain aur phir us variable ko har prompt mein reference kar sakte hain. Yeh us waqt bahut ma'qool lagta hai jab prompts ko apni applications mein integrate kiya jata hai.
+
+<br>
+
+![System prompting](./images/29.PNG)
+<br>
+
+### Experiment with input formats and writing styles
+Mukhtalif models, model configurations, prompt formats, alfaaz ka intikhab, aur submits mukhtalif nataij de sakte hain. Lehaza, prompt attributes jaise ke style, alfaaz ka intikhab, aur prompt ki qism (zero shot, few shot, system prompt) ke sath experiment karna zaroori hai.
+<br>
+Misal ke tor par, revolutionary video game console Sega Dreamcast ke bare mein text paida karne ke maqsad wala prompt, ek sawal, ek bayan ya ek hidayat ke tor par banaya ja sakta hai, jis ke natije mein mukhtalif outputs milenge:
+<br>
+* Sawal: Sega Dreamcast kya thi aur yeh itni revolutionary console kyun thi?
+* Bayan: Sega Dreamcast ek chhati nasl ki video game console thi jise Sega ne 1999 mein jari kiya tha. Yeh...
+* Hidayat: Ek single paragraph likhen jo Sega Dreamcast console ko bayan kare aur bataye ke yeh itni revolutionary kyun thi.
+
+
+### For few-shot prompting with classification tasks, mix up the classes
+Aam tor par, aapke few-shot examples ki tarteeb (order) zyada mayne nahi rakhti. Tahum, classification tasks karte waqt, is baat ko yakeeni banayen ke aap few-shot examples mein mumkinah response classes ko aapas mein milayen. Yeh is wajah se hai ke aap warna examples ki makhsoos tarteeb ke liye overfitting kar sakte hain. Mumkinah response classes ko mila kar, aap is baat ko yakeeni bana sakte hain ke model har class ki bunyadi khasusiyat ko pehchan'na seekh raha hai, bajaye sirf examples ki tarteeb ko yaad karne ke. Is se na-dekhay gaye data par zyada mazboot aur aam karkardagi milegi. 
+<br>
+Ek acha usool yeh hai ke 6 few-shot examples se shuruat karen aur wahan se durustgi ko test karna shuru karen.
+
+### Adapt to model updates
+Aap ke liye yeh zaroori hai ke model architecture ki tabdeeliyon, shamil kiye gaye data, aur salahiyaton se ba-khabar rahen. Naye model versions ko azmayen aur apne prompts ko naye model features se behtar faida uthane ke liye adjust karen. Vertex AI Studio jaise tools aapke prompts ke mukhtalif versions ko store karne, test karne aur document karne ke liye behtareen hain.
+
+
+### Experiment with output formats
+Prompt input format ke alawa, output format ke sath bhi experiment karne par ghaur karen. Non-creative tasks jaise ke data nikalna, chunna, parse karna, tarteeb dena, ranking karna, ya darja bandi karna, ke liye apne output ko JSON ya XML jaise structured format mein wapas karne ki koshish karen.
+Data nikalne wale prompt se JSON objects wapas karne ke kuch fayde hain. Ek haqeeqi-duniya ki application mein mujhe is JSON format ko dastani tor par banane ki zaroorat nahi padti, main data ko pehle se hi tartib shuda shakal mein wapas kar sakta hoon (datetime objects ke sath kaam karte waqt bohat mufeed), lekin sab se ahem baat yeh hai ke JSON format ke liye prompt karne se model ko ek structure banane aur hallucinations ko mehdood karne par majboor kiya jata hai.
+<br>
+
+**Mukhtasar yeh ke, apne output ke liye JSON istemal karne ke fayde:**
+* Hamesha ek hi style mein wapas karta hai
+* Us data par tawajjoh markooz karen jo aap hasil karna chahte hain
+* Hallucinations ka imkan kam
+* Ise rishta-dar (relationship aware) banayen
+* Aapko data types milte hain
+* Aap isay sort kar sakte hain
+<br>
+Few-shot prompting section mein Table 4 is baat ki misal dikhata hai ke structured output kaise wapas kiya jaye.
+
+
+### JSON Repair
+Jabkay JSON format mein data wapas karne ke beshumar fayde hain, yeh apne nuqsanat se khaali nahi hai. JSON ki structured nature, jabkay applications mein parsing aur istemal ke liye faida mand hai, plain text ke muqablay mein numaya tor par ziyada tokens ki zaroorat hoti hai, jis ke natije mein processing time badh jata hai aur akhrajat ziyada hote hain. Mazeed bar'aan, JSON ki verbosity (lafzon ki kasrat) output window ko aasani se pura bhar sakti hai, khaas tor par us waqt masla ban jaati hai jab generation token limits ki wajah se achaanak kat jaye. Yeh truncation (kata hua hissa) aksar ghalat JSON ka ba'is banta hai, jis mein ahem closing braces ya brackets gayab hote hain, jis se output qabil-e-istemal nahi rehta. Khush qismati se, json-repair library (jo PyPI par dastiyab hai) jaise tools in halaat mein anmol sabit ho sakte hain. Yeh library zehnana tareeqe se na-mukammal ya kharab JSON objects ko khud-ba-khud theek karne ki koshish karti hai, jis se yeh LLM-generated JSON ke sath kaam karte waqt, khaas tor par truncation ke imkani masalon se nipatne mein, ek ahem madadgar ban jaati hai.
 
