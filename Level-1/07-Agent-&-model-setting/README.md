@@ -136,7 +136,14 @@ agent = Agent(
 * tools: Tools that the agent can use to achieve its tasks.
 
 
-# 2.  What are Model Settings?
+# 2 . LiteLLM Agent
+**uv add opanai-agents[litellm]**
+```bash
+
+```
+
+
+# 3.  What are Model Settings?
 Think of Model Settings like the knobs and dials on a professional camera. Just as a photographer adjusts focus, exposure, and shutter speed to get the perfect shot, you can adjust your AI agent's brain behavior to get exactly the response you want.
 
 Imagine you're cooking:
