@@ -125,3 +125,56 @@ System, contextual, aur role prompts ke darmiyan farq karna wazeh iraday ke sath
 <br>
 <br>
 Aaiye in teen mukhtalif qism ke prompts par ghaur karte hain.
+
+
+### System prompting
+Table 3 mein ek system prompt hai, jahan main ne output wapas karne ke tariqe ke bare mein izafi maloomat faraham ki hain. Main ne takhliqi satah (creativity level) ko badhane ke liye temperature badha diya, aur ek onchi token limit muqarrar ki. Taham, meri is wazeh hidayat ki wajah se ke output kaise wapas karna hai, model ne izafi text nahi diya.
+
+![System prompting](./four.PNG)
+
+System prompts makhsoos zaruriyat ko poora karne wala output paida karne ke liye mufeed ho sakte hain. 'System prompt' ka naam darasal 'system ko ek izafi kaam dena' hai. Misal ke tor par, aap ek system prompt ka istemal karke ek aisa code snippet bana sakte hain jo ek makhsoos programming language ke sath compatible ho, ya aap ek makhsoos saakht (structure) wapas karne ke liye system prompt ka istemal kar sakte hain. Table 4 par ghaur karen, jahan main output ko JSON format mein wapas karta hoon.
+
+![System prompting](./five.PNG)
+Data nikalne wale prompt se JSON objects wapas karne ke kuch fayde hain. Ek haqeeqi-duniya ki application mein mujhe is JSON format ko dastani tor par banane ki zaroorat nahi padti, main data ko pehle se hi tartib shuda shakal mein wapas kar sakta hoon (datetime objects ke sath kaam karte waqt bohat mufeed), lekin sab se ahem baat yeh hai ke JSON format ke liye prompt karne se model ko ek structure banane aur hallucinations ko mehdood karne par majboor kiya jata hai.
+<br>
+<br>
+System prompts safety aur toxicity ke liye bhi bohat mufeed ho sakte hain. Output ko control karne ke liye, apne prompt mein sirf ek izafi line shamil kar dein jaise: 'Aap ko apne jawab mein ba-izzat rehna chahiye.'
+
+### Role prompting
+Role prompting prompt engineering mein ek takneek hai jis mein gen AI model ko ek makhsoos kirdar saunpa jata hai. Yeh model ko ziyada mutalliq aur maloomati output paida karne mein madad kar sakta hai, kyunkay model apne jawabat ko us makhsoos kirdar ke mutabiq dhal sakta hai jo usay diya gaya hai.
+<br>
+<br>
+Misal ke tor par, aap ek gen AI model ko role prompt kar sakte hain ke woh ek kitab ka editor ho, ek kindergarten ka ustaad ho, ya ek tehreeki muqarrir (motivational speaker) ho. Jab model ko ek kirdar saunp diya jaye, to aap usay aise prompts de sakte hain jo us kirdar ke liye makhsoos hon. Maslan, aap ek ustad ko ek lesson plan banane ke liye prompt kar sakte hain jis ka woh baad mein jaiza le saken. Table 5 mein dekhen, jahan model ek travel guide ka kirdar ada karta hai.
+
+![System prompting](./six.PNG)
+Upar di gayi misal ek travel agent ka kirdar nibhane ki ek misal hai. Jab aap kirdar ko geography ke ustad mein badlenge, to aap dekhenge ke aapko ek mukhtalif jawab milega.
+<br>
+Ek AI model ke liye ek kirdar ka nazariya tay karna usay us lehje, andaz, aur markooz maharat ka ek blueprint deta hai jis ki aap talash mein hain, taake aap apne output ki quality, relevance, aur asardari ko behtar bana saken.
+
+**Yahan kuch styles hain jin mein se aap chun sakte hain jo mujhe asardaar lagte hain:**
+* Confrontational (Muqaablaati), Descriptive (Tafseeli), Direct (Seedha), Formal (Rasmi), Humorous (Mazahiya), Influential (Mutasir kun), Informal (Ghair rasmi), Inspirational (Ilhami), Persuasive (Qail karne wala)
+Aaiye Table 6 mein apne prompt ko badalte hain taake us mein mazahiya aur ilhami andaz shamil ho.
+![System prompting](./seven.PNG)
+
+### Contextual prompting
+Contextual prompts faraham karke, aap yeh yakeeni banane mein madad kar sakte hain ke aapki AI interactions jitni mumkin ho saken, be-rok-tok aur kargar hon. Model aapki darkhwast ko ziyada tezi se samajh payega aur ziyada durust aur mutalliq jawab paida kar payega, jaisa ke aap Table 7 ki misal mein dekh sakte hain
+![System prompting](./eight.PNG)
+
+### Step-back prompting
+Step-back prompting LLM (Large Language Model) ki karkardagi ko behtar banane ki ek takneek hai, jis mein LLM ko pehle maujooda makhsoos kaam se mutalliq ek aam sawal par ghaur karne ke liye prompt kiya jata hai, aur phir us aam sawal ke jawab ko makhsoos kaam ke liye baad mein aanay wale prompt mein shamil kiya jata hai. Yeh 'step back' LLM ko makhsoos masle ko hal karne ki koshish karne se pehle mutalliq pas manzar ki maloomat aur istidlal ke amal ko fa'al karne ki ijazat deta hai.
+<br>
+<br>
+Wasi' tar aur bunyadi usoolon par ghaur karke, LLMs ziyada durust aur gehrayi se bhare jawabat paida kar sakte hain. Step-back prompting LLMs ko tanqeedi soch rakhne aur apne ilm ko naye aur takhliqi tareeqon se istemal karne ki targheeb deta hai. Yeh aakhri prompt ko badal deta hai jo kaam kar raha hota hai, LLM ke parameters mein ziyada ilm ka istemal karke, jo warna seedhe prompt karne par kaam nahi aata.
+<br>
+<br>
+Yeh LLM ke jawabat mein ta'assubat (biases) ko kam karne mein madad kar sakta hai, aam usoolon par tawajjoh markooz karke bajaye makhsoos tafseelat ke, step-back prompting.
+<br>
+<br>
+Aaiye in misalon ko dekhte hain taake yeh samajh saken ke step-back prompting nataij ko kaise behtar bana sakta hai. Aaiye pehle ek riwayati prompt (Table 8) ka jaiza len, is se pehle ke hum is ka muqabla step-back prompt (Table 9) se karen:
+
+![System prompting](./nine.PNG)
+Jab aap temperature ko 1 par set karte hain, to aapko kisi kahani ke liye har qism ki takhliqi tehreeren mil sakti hain, lekin yeh kafi had tak be-tarteeb aur aam bhi hoti hain. To aaiye ek qadam peeche haten:
+![System prompting](./10.PNG)
+Haan, woh mauzu'at (topics) ek first-person video game ke liye behtar lagte hain. Aaiye asal prompt par wapas chalte hain, lekin is baar hum step-back ke jawab ko context ke tor par shamil karte hain aur dekhte hain ke yeh kya jawab deta hai.
+![System prompting](./11.PNG)
+Yeh ek dilchasp video game lagta hai! Step-back prompting techniques ka istemal karke aap apne prompts ki durustgi (accuracy) mein izafa kar sakte hain.
