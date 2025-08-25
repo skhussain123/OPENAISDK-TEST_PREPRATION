@@ -45,46 +45,39 @@ print(result.final_output)
 ## 2. Run LEVEL
 ```bash
 import os
-from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel, RunConfig
-from dotenv import load_dotenv
+from agents import Agent, Runner, OpenAIChatCompletionsModel,AsyncOpenAI
 from agents.run import RunConfig
+from dotenv import load_dotenv
 
-# Load environment variables
 load_dotenv()
-gemini_api_key = os.getenv('GEMINI_API_KEY')
 
-# Check if the API key is loaded
-if not gemini_api_key:
-    raise ValueError("Api is not lodded")
+gemini_key = os.getenv('GEMINI_API_KEY')
 
-# Initialize the AsyncOpenAI client
+if not gemini_key:
+    raise ValueError("API KEY is NOT Laoded")
+
 external_client = AsyncOpenAI(
-    api_key=gemini_api_key,
-    base_url="https://generativelanguage.googleapis.com/v1beta/openai/", 
+    api_key=gemini_key,
+     base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
 )
 
-# Create a model instance
-external_model = OpenAIChatCompletionsModel(
-    model="gemini-2.0-flash",
+model = OpenAIChatCompletionsModel(
+    model='gemini-2.0-pro',
     openai_client=external_client
 )
 
-# Create a RunConfig instance for custom configuration
 config = RunConfig(
-    model=external_model,
+    model=model,
     model_provider=external_client,
-    tracing_disabled=True
+    tracing_disabled=True    
 )
 
-# Create an Agent instance
-myagent = Agent(
-    name='Assistance',
-    instructions='you are a help full Assistance',
-    model=external_model
+agent = Agent(
+    name="Assistance",
+    instructions="you are a helpfull assistance",    
 )
 
-# Run the agent with the custom configuration
-result = Runner.run_sync(starting_agent=myagent, input='write a 3 poem in list', run_config=config)
+result = Runner.run_sync(starting_agent=agent, input="Hi how are you",run_config=config)
 print(result.final_output)
 ```
 
