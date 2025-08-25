@@ -87,3 +87,18 @@ Ek zero-shot prompt sab se sada qisam ka prompt hai. Yeh sirf ek task ka tashree
 Neeche diya gaya table format prompts ko document karne ka ek behtareen tareeqa hai. Aap ke prompts shayad kai dafa tabdeel honge pehle ke woh codebase mein shamil hon, is liye apne prompt engineering ke kaam ko ek disciplined aur munazzam tareeke se track karna zaroori hai. Is table format, prompt engineering ke kaam ko track karne ki ahmiyat, aur prompt development ke amal ke bare mein mazeed tafseel is chapter ke baad ke Best Practices section mein hai (“Document the various prompt attempts”).
 Model ka temperature ek kam number par set karna chahiye, kyunki koi creativity ki zarurat nahi, aur hum gemini-pro ke default top-K aur top-P qadron ka istemal karte hain, jo in dono settings ko asal mein band kar deta hai (dekhiye ‘LLM Output Configuration’ ooper). Generated output par tawajjo dein. Disturbing aur masterpiece jaisay alfaaz ek hi jumle mein istemal hone ki wajah se prediction ko thora zyada mushkil kar sakte hain.
 ![dfds](./one.PNG)
+When zero-shot doesn’t work, you can provide demonstrations or examples in the prompt,
+which leads to “one-shot” and “few-shot” prompting. General prompting / zero shot
+
+
+### One-shot & few-shot
+Ek one-shot prompt ek hi misaal deta hai, is liye is ka naam one-shot hai. Is ka maqsad yeh hai ke model ko ek misaal di jaye jis ki naqal kar ke woh task ko behtar tareeke se mukammal kar sake.
+
+* Ek **few-shot** prompt model ko kai misaalein deta hai. Yeh tareeqa model ko ek pattern dikhata hai jis ki woh pairvi karta hai. Yeh idea one-shot jaisa hai, lekin chahiye wale pattern ki kai misaalein model ke pattern follow karne ke imkanat ko barhati hain.
+
+* **Few-shot** prompting ke liye kitni misaalon ki zarurat hoti hai, yeh kuch cheezon par munhasir hai, jaise task ki complexity, misaalon ki quality, aur aap ke istemal karda generative AI (gen AI) model ki salahiyatein. Ek aam qayeda ke taur par, few-shot prompting ke liye kam az kam teen se paanch misaalein istemal karni chahiyein. Haan, zyada complex tasks ke liye aap ko shayad zyada misaalon ki zarurat ho, ya aap ke model ki input length limitation ki wajah se kam misaalein istemal karni par sakti hain.
+<br><br>
+Table 2 mein ek few-shot prompt ki misaal di gayi hai, chaliye hum pehle jaisi gemini-pro model configuration settings ka istemal karte hain, siwaye is ke ke token limit ko barhaya jaye taake zyada lambay jawab ki zarurat ko pura kiya ja sake.
+
+![dfds](./two.PNG)
+![dfds](./three.PNG)
