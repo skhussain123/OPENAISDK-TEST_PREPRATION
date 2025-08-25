@@ -1257,11 +1257,13 @@ D) output_type
 ---
 
 ### Q112. What is the default factory for the `tools` field?
-```python
-@dataclass
-class Agent:
-    tools: list[Tool] = field(default_factory=?)
+```bash
+class Agent(
+    name: str,
+    handoff_description: str | None = None,
+    tools: list[Tool] = list,
 ```
+
 A) []  
 B) list()  
 C) lambda: []  
