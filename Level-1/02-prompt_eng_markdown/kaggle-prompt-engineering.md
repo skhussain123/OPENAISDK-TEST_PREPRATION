@@ -236,3 +236,134 @@ Aaiye ek email classification system ki misal dekhte hain, jo ek email ko IMPORT
 
 ![System prompting](./17.PNG)
 <br> 
+
+Aap upar diye gaye prompt ka istemal karke yeh dekh sakte hain ke kya yeh mutabiq classification wapas karta hai. Aap jis model ka istemal kar rahe hain aur temperature configuration par munhasir karte hue, yeh "IMPORTANT" ya "NOT IMPORTANT" wapas kar sakta hai.<br><br> 
+Bohat se Chains of Thoughts paida karke, aur sab se aam jawab ("IMPORTANT") ko ikhtiyar karke, hum LLM se ziyada mustaqil tor par durust jawab hasil kar sakte hain.<br><br> 
+Yeh misal batati hai ke self-consistency prompting ka istemal LLM ke jawab ki durustgi ko behtar banane ke liye kaise kiya ja sakta hai, mukhtalif nazariyat par ghaur karte hue aur sab se ziyada mutabiq jawab ka intikhab karte hue.
+
+
+### Tree of Thoughts (ToT)
+Ab jab hum chain of thought aur self-consistency prompting se waqif ho chuke hain, to aaiye Tree of Thoughts (ToT) ka jaiza len. Yeh CoT prompting ke tasawwur ko aam karta hai kyunkay yeh LLMs ko ek waqt mein kayi mukhtalif reasoning paths ko explore karne ki ijazat deta hai, bajaye sirf ek seedhi line mein chain of thought ki pairwi karne ke. Iski tasveer Figure 1 mein di gayi hai.
+<br> 
+
+![System prompting](./18.PNG)
+<br> 
+Yeh tareeqa ToT ko khusoosi tor par un pecheeda kaamo ke liye behtar banata hai jin mein exploration ki zaroorat hoti hai. Yeh afkaar ke darakht (tree of thoughts) ko barqarar rakh kar kaam karta hai, jahan har fikr (thought) ek mutabbiq zaban ki tarteeb (coherent language sequence) ki numaindagi karti hai jo ek masle ko hal karne ki taraf ek darmiyani qadam ke taur par kaam karti hai. Phir model darakht mein mukhtalif nodes se branch out karke mukhtalif reasoning paths ko explore kar sakta hai.
+
+<br><br> 
+Ek shandar notebook hai, jo 'Large Language Model Guided Tree-of-Thought' paper par mabni Tree of Thought (ToT) ko thoda mazeed tafseel se dikhati hai.
+
+
+### ReAct (reason & act)
+Reason and act (ReAct) prompting ek aisa paradigm hai jo LLMs ko qudrati zaban ki reasoning ko external tools (search, code interpreter, waghera) ke sath mila kar pecheeda kaamo ko hal karne ke qabil banata hai, jis se LLM kuch specific actions anjam de sakta hai, jaise ke external APIs ke sath rabta karke maloomat nikalna, jo agent modeling ki taraf pehla qadam hai.
+<br><br> 
+ReAct is tarah kaam karta hai jaisay insaan haqeeqi duniya mein karte hain, kyunkay hum zubani tor par reasoning karte hain aur maloomat hasil karne ke liye actions le sakte hain. ReAct mukhtalif domains mein deegar prompt engineering approaches ke muqable mein behtar karkardagi dikhata hai.
+<br><br> 
+ReAct prompting reasoning aur acting ko ek thought-action loop mein mila kar kaam karta hai. LLM pehle masle par reasoning karta hai aur amal ka ek mansooba (plan of action) tayyar karta hai. Phir woh mansoobe mein mojood actions anjam deta hai aur nataij ka mushahida karta hai. Iske baad LLM mushahidat ko apni reasoning ko update karne aur amal ka ek naya mansooba tayyar karne ke liye istemal karta hai. Yeh amal us waqt tak jari rehta hai jab tak LLM masle ka hal nahi nikal leta.
+<br><br> 
+Ise amal mein dekhne ke liye, aapko kuch code likhna hoga. Code Snippet 1 mein main Python ke liye langchain framework ka istemal kar raha hoon, VertexAI (google-cloud-aiplatform) aur google-search-results pip packages ke sath.
+
+<br><br> 
+
+Is sample ko chalane ke liye aapko https://serpapi.com/manage-api-key se ek (muft) SerpAPI key banani hogi aur ek environment variable SERPAPI_API_KEY set karna hoga.
+<br><br> 
+Agla qadam, chaliye kuch Python code likhte hain, jis mein LLM ke liye yeh kaam hoga ke woh maloom kare: Kitne bachon ke mashoor baap hain jo Metallica band mein performance dete hain.
+
+```bash
+from langchain.agents import load_tools
+from langchain.agents import initialize_agent
+from langchain.agents import AgentType
+from langchain.llms import VertexAI
+prompt = "How many kids do the band members of Metallica have?"
+llm = VertexAI(temperature=0.1)
+tools = load_tools(["serpapi"], llm=llm)
+agent = initialize_agent(tools, llm,
+agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True)
+agent.run(prompt)
+```
+Code Snippet 2 nataij dikhata hai. Ghaur karen ke ReAct paanch searches ki ek chain banata hai. Darasal, LLM band ke naam maloom karne ke liye Google search ke nataij ko scrape kar raha hai. Phir, yeh nataij ko observations ke tor par list karta hai aur agli search ke liye thought ko chain karta hai.
+<br>
+
+```bash
+> Entering new AgentExecutor chain...
+Metallica has 4 members.
+Action: Search
+Action Input: How many kids does James Hetfield have?
+Observation: three children
+Thought: 1/4 Metallica band members have 3 children
+Action: Search
+Action Input: How many kids does Lars Ulrich have?
+Observation: 3
+Thought: 2/4 Metallica band members have 6 children
+Action: Search
+Action Input: How many kids does Kirk Hammett have?
+Observation: Hammett has been married to his second wife Lani since 1998.
+They have two sons, Angel (b. September 29, 2006) and Vincenzo (b. June
+28, 2008).
+Thought: 3/4 Metallica band members have 8 children
+Action: Search
+Action Input: How many kids does Robert Trujillo have?
+Observation: 2
+Thought: 4/4 Metallica band members have 10 children
+Final Answer: 10
+```
+<br>
+
+Code Snippet 2 yeh maloom karta hai ke Metallica band ke chaar band members hain. Phir yeh har band member ko talaash karta hai taake bachon ki kul tadaad talab kare aur unhein jama kare. Aakhir mein, yeh bachon ki kul tadaad ko aakhri jawab ke tor par wapas karta hai.
+<br><br> 
+Amali tor par ReAct prompting ke liye yeh samajhna zaroori hai ke aapko pichle prompts/responses ko musalsal dobara bhejna hoga (aur izafi paida shuda content ki trimming karni hogi) aur sath hi model ko munasib misalon/hidayat ke sath tayyar karna hoga. Barahe meherbani GoogleCloudPlatform Github repository mein host kiye gaye notebook14 ka hawala den, jo ek ziyada mufassal misal ke sath asal LLM inputs aur outputs ko thodi mazeed tafseel se dikhata hai.
+
+
+### Automatic Prompt Engineering (APE)
+Is marhale par aapko ehsas ho sakta hai ke prompt likhna pecheeda ho sakta hai. Kya yeh acha nahi hoga ke isay automate kiya jaye (prompts likhne ke liye prompt likhna)? Khair, ek tareeqa hai: Automatic Prompt Engineering (APE). Yeh tareeqa na sirf insani input ki zaroorat ko kam karta hai balkay mukhtalif kaamo mein model ki karkardagi ko bhi behtar banata hai.
+<br><br> 
+Aap ek model ko mazeed prompts banane ke liye prompt karenge. Unki jaanch karenge, mumkin hai achche prompts ko tabdeel karein. Aur yeh amal dohra'en.
+<br><br> 
+Maslan, aap automatic prompt engineering ka istemal kar sakte hain jo ek merchandise t-shirt webshop ke liye chatbot ko train karne mein madad karega. Hum yeh maloom karna chahte hain ke customer band merchandise t-shirt kharidne ke liye apne order ko kis tarah mukhtalif tareeqon se bayan kar sakte hain.
+<br><br> 
+
+1. Woh prompt likhen jo output variants paida karega. Is misal mein, main 10 hidayat paida karne ke liye gemini-pro ka istemal kar raha hoon. Table 15 dekhen.
+<br>
+
+![System prompting](./19.PNG)
+<br> 
+
+2. Tamam instruction candidates ka jaiza len, chunay gaye metric ki buniyad par candidates ko score karte hue. Maslan, aap BLEU (Bilingual Evaluation Understudy) ya ROUGE (Recall-Oriented Understudy for Gisting Evaluation) ka istemal kar sakte hain.
+3. Sab se ziyada evaluation score wale instruction candidate ka intikhab karen. Yeh candidate woh aakhri prompt hoga jise aap apni software application ya chatbot mein istemal kar sakte hain. Aap select kiye gaye prompt ko tabdeel bhi kar sakte hain aur dobara jaanch kar sakte hain.
+
+
+### Code prompting
+Gemini bunyadi tor par text-based prompts par tawajjoh markooz karta hai, jis mein code wapas karne ke liye prompts likhna bhi shamil hai. Aaiye Vertex AI Studio chalte hain aur kuch coding examples dekhne ke liye in prompts ko test karte hain.
+
+### Code likhne ke liye prompts
+Gemini ek developer bhi ho sakta hai aur aapko kisi bhi pasandeeda programming language mein code likhne mein madad kar sakta hai. Ek developer ke tor par yeh aapko code likhne ke amal ko tez karne mein madad kar sakta hai.
+<br><br> 
+Tasawwur karein aapki machine par sainkdon files wala ek folder hai jinhein rename karne ki zaroorat hai. Har file ko rename karne mein aapko kafi waqt lagega. Aap thodi Bash jaante hain, aur is kaam ko automate karne ke liye ek script likh sakte hain, lekin is mein bhi kuch waqt lag sakta hai. To chaliye ek prompt likhte hain. Aap prompt ko public consumer chatbot Gemini mein likh sakte hain, ya agar aap raazdari ke bare mein ziyada fikarmand hain, to aap in prompts ko apne Google Cloud account mein Vertex AI Studio mein likh sakte hain. Vertex AI Studio ka fayda yeh hai ke aap temperature waghera configure kar sakte hain.
+
+<br>
+
+![System prompting](./20.PNG)
+
+<br>
+Yeh mujhe acha code lagta hai – yeh document bhi kiya gaya hai! Tahum, kyunkay LLMs reasoning nahi kar sakte aur training data ko dohrayate hain, isliye yeh zaroori hai ke aap apne code ko pehle padhen aur test karen.
+<br><br>
+Woh lamha jis ka hum sab intezar kar rahe hain, kya yeh waqai kaam karta hai?
+
+
+Aaiye pehle ise ek test folder ke sath azmate hain jis mein sirf chand files hon, jinhein filename.txt se draft_filename.txt mein rename karne ki zaroorat hogi.
+<br><br>
+
+* Table 16 se output ko copy karen (bash text wrapper ke baghair), aur isay ek nayi file mein paste karen jis ka naam ho: "rename_files.sh".
+* Ek terminal window kholen aur type karen: . rename_files.sh. Yeh ek folder ka naam darj karne ke liye kahega, maslan test. aur enter dabayen.
+* Script theek chal rahi hai. Aapko message dikhega: Files renamed successfully.
+Jab aap test folder mein dekhenge, to ghaur karen ke tamam files ko bilkul theek draft_filename.txt mein rename kar diya gaya hai.
+<br>
+Yeh kaam kar gaya!
+<br><br>
+Ek developer ke tor par jab aap teams mein kaam karte hain to aapko kisi aur ka code padhna hota hai. Gemini is mein bhi aapki madad kar sakta hai. Aaiye Table 16 se code output lete hain, comments hata dete hain aur bade language model se poochte hain ke kya ho raha hai, Table 17 dekhen:
+<br>
+
+![System prompting](./21.PNG)
+![System prompting](./22.PNG)
+
+<br>
