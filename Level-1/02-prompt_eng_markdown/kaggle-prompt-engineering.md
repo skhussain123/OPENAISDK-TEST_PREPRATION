@@ -105,3 +105,23 @@ Table 2 mein ek few-shot prompt ki misaal di gayi hai, chaliye hum pehle jaisi g
 Jab aap apne prompt ke liye misalein chunte hain, to aisi misalein istemal karein jo us kaam se mutalliq hon jo aap anjam dena chahte hain. Misalein mukhtalif, aala miyaar ki, aur achi tarah likhi honi chahiye. Ek chhoti si galti bhi model ko uljha sakti hai aur is ke n natije mein matlooba output nahi milega.
 <br><br>
 Agar aap aisi output paida karne ki koshish kar rahe hain jo mukhtalif inputs ke liye mazboot ho, to apni misalon mein edge cases shamil karna zaroori hai. Edge cases aisi inputs hain jo ghair mamooli ya ghair mutawaqqe hain, lekin model ko phir bhi unhein sambhalne ke qabil hona chahiye.
+
+### System, contextual and role prompting
+System, contextual aur role prompting, yeh sab LLMs (Large Language Models) ko text banane mein rahnumai karne ke liye istemal hone wali takneek hain, lekin yeh mukhtalif pehluon par tawajjoh markooz karti hain:
+* System prompting language model ke liye majmoi silsila-e-kalam aur maqsad ko tay karti hai. Yeh 'badi tasveer' ki wazahat karti hai ke model ko kya karna chahiye, jaise ke kisi zaban ka tarjuma karna, kisi jaize (review) ki darja bandi karna, waghera.
+* Contextual prompting mojooda guftagu ya kaam se mutalliq makhsoos tafseelat ya pas manzar ki maloomat faraham karti hai. Yeh model ko is baat ki barikiyon ko samajhne mein madad deti hai ke kya poocha ja raha hai aur usi ke mutabiq jawab ko dhalne mein madad karti hai.
+* Role prompting language model ko apnane ke liye ek makhsoos kirdar ya shanakht deti hai. Yeh model ko aise jawab banane mein madad deti hai jo diye gaye kirdar aur us se munsalik ilm aur rawaiye ke mutabiq hon.
+
+<br><br>
+System, contextual aur role prompting ke darmiyan kafi had tak overlap ho sakta hai. Maslan, ek prompt jo system ko ek kirdar saunpta hai, us mein ek sayaq o sabaq (context) bhi ho sakta hai.
+
+**Tahum, har qism ke prompt ka bunyadi maqsad thora mukhtalif hota hai:**
+* System prompt: Yeh model ki bunyadi salahiyaton aur sab se ahem maqsad ki wazahat karta hai.
+* Contextual prompt: Yeh jawab ki rahnumai ke liye fori, kaam se mutalliq maloomat faraham karta hai. Yeh mojooda kaam ya input ke liye intehai makhsoos hota hai, jo ke dynamic (mutaharik) hai.
+* Role prompt: Yeh model ke output ke andaz aur aawaz ko ek frame deta hai. Yeh specificity (khususiyat) aur personality (shakhsiyat) ki ek teh ka izafa karta hai.
+
+<br>
+System, contextual, aur role prompts ke darmiyan farq karna wazeh iraday ke sath prompts design karne ke liye ek dhancha faraham karta hai, jo lachakdar combinations ki ijazat deta hai aur is baat ka tajziya karna aasan banata hai ke har prompt ki qism language model ke output par kis tarah asar andaz hoti hai.
+<br>
+<br>
+Aaiye in teen mukhtalif qism ke prompts par ghaur karte hain.
