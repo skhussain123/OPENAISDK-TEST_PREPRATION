@@ -173,8 +173,13 @@ Yeh LLM ke jawabat mein ta'assubat (biases) ko kam karne mein madad kar sakta ha
 Aaiye in misalon ko dekhte hain taake yeh samajh saken ke step-back prompting nataij ko kaise behtar bana sakta hai. Aaiye pehle ek riwayati prompt (Table 8) ka jaiza len, is se pehle ke hum is ka muqabla step-back prompt (Table 9) se karen:
 
 ![System prompting](./nine.PNG)
+<br>
 Jab aap temperature ko 1 par set karte hain, to aapko kisi kahani ke liye har qism ki takhliqi tehreeren mil sakti hain, lekin yeh kafi had tak be-tarteeb aur aam bhi hoti hain. To aaiye ek qadam peeche haten:
+<br>
+
 ![System prompting](./10.PNG)
+<br>
+
 Haan, woh mauzu'at (topics) ek first-person video game ke liye behtar lagte hain. Aaiye asal prompt par wapas chalte hain, lekin is baar hum step-back ke jawab ko context ke tor par shamil karte hain aur dekhte hain ke yeh kya jawab deta hai.
 ![System prompting](./11.PNG)
 Yeh ek dilchasp video game lagta hai! Step-back prompting techniques ka istemal karke aap apne prompts ki durustgi (accuracy) mein izafa kar sakte hain.
