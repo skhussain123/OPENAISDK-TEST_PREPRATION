@@ -1,759 +1,403 @@
-# GPT-4.1 Prompting Guide MCQs
-## Multiple-Choice Questions
-
-1. **What is a key difference in how GPT-4.1 handles instructions compared to its predecessors?**  
-   a) It infers user intent more liberally  
-   b) It follows instructions more literally and closely  
-   c) It ignores system prompts  
-   d) It requires fewer instructions  
-   **Correct Answer**: b  
-   **Explanation**: GPT-4.1 is trained to follow instructions more closely and literally than its predecessors, which tended to infer intent more liberally (Section: Introduction).
-
-2. **What is the recommended approach if GPT-4.1’s behavior differs from expectations?**  
-   a) Use all-caps instructions  
-   b) Add a single sentence clarifying desired behavior  
-   c) Ignore the issue and retry  
-   d) Use a different model  
-   **Correct Answer**: b  
-   **Explanation**: A single sentence firmly clarifying desired behavior is almost always sufficient to steer GPT-4.1 (Section: Introduction).
-
-3. **What is the pass rate of GPT-4.1 on SWE-bench Verified for non-reasoning models?**  
-   a) 35%  
-   b) 45%  
-   c) 55%  
-   d) 65%  
-   **Correct Answer**: c  
-   **Explanation**: GPT-4.1 achieves a 55% pass rate on SWE-bench Verified, as noted in the agentic workflows section (Section 1: Agentic Workflows).
-
-4. **Which system prompt reminder ensures GPT-4.1 continues until the user’s query is resolved?**  
-   a) Tool-calling  
-   b) Persistence  
-   c) Planning  
-   d) Reflection  
-   **Correct Answer**: b  
-   **Explanation**: The persistence reminder ensures the model continues until the query is completely resolved (Section 1: System Prompt Reminders).
-
-5. **What does the tool-calling reminder prevent GPT-4.1 from doing?**  
-   a) Planning excessively  
-   b) Hallucinating or guessing answers  
-   c) Terminating early  
-   d) Using external context  
-   **Correct Answer**: b  
-   **Explanation**: The tool-calling reminder reduces the likelihood of hallucinating or guessing by encouraging tool use (Section 1: System Prompt Reminders).
-
-6. **What is the purpose of the optional planning reminder in agentic prompts?**  
-   a) To terminate the model early  
-   b) To ensure explicit planning and reflection between tool calls  
-   c) To reduce tool usage  
-   d) To simplify instructions  
-   **Correct Answer**: b  
-   **Explanation**: The planning reminder ensures explicit planning and reflection instead of chaining tool calls silently (Section 1: System Prompt Reminders).
-
-7. **How much did the three system prompt reminders improve the SWE-bench Verified score?**  
-   a) 10%  
-   b) 15%  
-   c) 20%  
-   d) 25%  
-   **Correct Answer**: c  
-   **Explanation**: The three reminders increased the SWE-bench Verified score by close to 20% (Section 1: System Prompt Reminders).
-
-8. **What is the recommended method for passing tools to GPT-4.1?**  
-   a) Manually inject tool descriptions into the prompt  
-   b) Use the tools field in the OpenAI API request  
-   c) Avoid using tools altogether  
-   d) Use a separate parser for tool calls  
-   **Correct Answer**: b  
-   **Explanation**: Using the tools field minimizes errors and ensures the model remains in distribution (Section 1: Tool Calls).
-
-9. **What was the observed improvement in SWE-bench Verified pass rate when using API-parsed tool descriptions?**  
-   a) 1%  
-   b) 2%  
-   c) 3%  
-   d) 4%  
-   **Correct Answer**: b  
-   **Explanation**: A 2% increase in pass rate was observed when using API-parsed tool descriptions (Section 1: Tool Calls).
-
-10. **Where should examples of tool usage be placed in a prompt?**  
-    a) In the tool description field  
-    b) In an # Examples section in the system prompt  
-    c) In the user input  
-    d) In the context section  
-    **Correct Answer**: b  
-    **Explanation**: Examples should be placed in an # Examples section to keep the description field concise (Section 1: Tool Calls).
-
-11. **What is the benefit of inducing explicit planning in GPT-4.1 for SWE-bench Verified tasks?**  
-    a) Reduces latency  
-    b) Increases pass rate by 4%  
-    c) Eliminates tool calls  
-    d) Simplifies the prompt  
-    **Correct Answer**: b  
-    **Explanation**: Inducing explicit planning increased the pass rate by 4% (Section 1: Prompting-Induced Planning & Chain-of-Thought).
-
-12. **What is the context window size of GPT-4.1?**  
-    a) 512K tokens  
-    b) 1M tokens  
-    c) 2M tokens  
-    d) 128K tokens  
-    **Correct Answer**: b  
-    **Explanation**: GPT-4.1 has a 1M token input context window (Section 2: Long Context).
-
-13. **What type of task is GPT-4.1 particularly useful for due to its context window?**  
-    a) Short text generation  
-    b) Structured document parsing  
-    c) Image generation  
-    d) Audio processing  
-    **Correct Answer**: b  
-    **Explanation**: The 1M token context window is useful for tasks like structured document parsing (Section 2: Long Context).
-
-14. **What can degrade GPT-4.1’s long context performance?**  
-    a) Using short prompts  
-    b) Complex reasoning requiring knowledge of the entire context  
-    c) Avoiding tool calls  
-    d) Using markdown delimiters  
-    **Correct Answer**: b  
-    **Explanation**: Performance can degrade with complex reasoning tasks like graph search over the entire context (Section 2: Optimal Context Size).
-
-15. **What should GPT-4.1 do if it lacks context to answer a query?**  
-    a) Use its internal knowledge  
-    b) Respond “I don’t have the information needed to answer that”  
-    c) Guess the answer  
-    d) Ignore the query  
-    **Correct Answer**: b  
-    **Explanation**: If instructed to use only provided context, GPT-4.1 should respond that it lacks information (Section 2: Tuning Context Reliance).
-
-16. **Where should instructions be placed in a long context prompt for optimal performance?**  
-    a) Only at the beginning  
-    b) Only at the end  
-    c) Both at the beginning and end  
-    d) In the middle of the context  
-    **Correct Answer**: c  
-    **Explanation**: Placing instructions at both the beginning and end performs better (Section 2: Prompt Organization).
-
-17. **What is a key benefit of using chain-of-thought (CoT) prompting with GPT-4.1?**  
-    a) Reduces output token usage  
-    b) Improves output quality by breaking down problems  
-    c) Eliminates the need for tools  
-    d) Speeds up response time  
-    **Correct Answer**: b  
-    **Explanation**: CoT prompting improves output quality by breaking problems into manageable pieces (Section 3: Chain of Thought).
-
-18. **What is a trade-off of using CoT prompting?**  
-    a) Lower accuracy  
-    b) Higher cost and latency  
-    c) Reduced context window  
-    d) Inability to use tools  
-    **Correct Answer**: b  
-    **Explanation**: CoT prompting increases cost and latency due to more output tokens (Section 3: Chain of Thought).
-
-19. **What is a common error in CoT prompting that can be addressed with more explicit instructions?**  
-    a) Overuse of tools  
-    b) Misunderstanding user intent  
-    c) Excessive context usage  
-    d) Ignoring system prompts  
-    **Correct Answer**: b  
-    **Explanation**: Misunderstanding user intent is a common error that can be addressed with explicit instructions (Section 3: Chain of Thought).
-
-20. **What is the first step in the recommended reasoning strategy for CoT prompting?**  
-    a) Context Analysis  
-    b) Query Analysis  
-    c) Synthesis  
-    d) Tool Calling  
-    **Correct Answer**: b  
-    **Explanation**: The first step is Query Analysis to understand the user’s query (Section 3: Chain of Thought).
-
-21. **What should developers do to improve CoT prompts after auditing failures?**  
-    a) Remove all instructions  
-    b) Codify successful strategies in the prompt  
-    c) Use shorter prompts  
-    d) Avoid examples  
-    **Correct Answer**: b  
-    **Explanation**: Codifying successful strategies addresses systematic errors (Section 3: Chain of Thought).
-
-22. **How does GPT-4.1’s instruction-following performance compare to other models?**  
-    a) It is less precise  
-    b) It is outstanding and highly controllable  
-    c) It ignores instructions  
-    d) It requires more examples  
-    **Correct Answer**: b  
-    **Explanation**: GPT-4.1 exhibits outstanding instruction-following performance (Section 4: Instruction Following).
-
-23. **What should developers do if existing prompts for other models fail with GPT-4.1?**  
-    a) Use the same prompts without changes  
-    b) Add explicit specifications for desired behavior  
-    c) Remove all examples  
-    d) Use all-caps instructions  
-    **Correct Answer**: b  
-    **Explanation**: Explicit specifications are needed as GPT-4.1 follows instructions more literally (Section 4: Instruction Following).
-
-24. **What is the first step in the recommended workflow for developing instructions?**  
-    a) Add examples immediately  
-    b) Start with a “Response Rules” or “Instructions” section  
-    c) Use all-caps instructions  
-    d) Remove all delimiters  
-    **Correct Answer**: b  
-    **Explanation**: Start with a high-level “Response Rules” or “Instructions” section (Section 4: Instruction Following).
-
-25. **What should be done if GPT-4.1’s behavior is not as expected?**  
-    a) Ignore the issue  
-    b) Check for conflicting or underspecified instructions  
-    c) Remove all tools  
-    d) Use a different delimiter  
-    **Correct Answer**: b  
-    **Explanation**: Check for conflicting or underspecified instructions to resolve unexpected behavior (Section 4: Instruction Following).
-
-26. **What is a common failure mode when instructing GPT-4.1 to always call a tool?**  
-    a) It ignores the tool  
-    b) It may hallucinate tool inputs  
-    c) It terminates early  
-    d) It skips planning  
-    **Correct Answer**: b  
-    **Explanation**: Instructing to always call a tool can lead to hallucinated inputs if information is lacking (Section 4: Common Failure Modes).
-
-27. **How can repetitive use of sample phrases be avoided?**  
-    a) Remove all sample phrases  
-    b) Instruct the model to vary phrases  
-    c) Use all-caps phrases  
-    d) Avoid instructions altogether  
-    **Correct Answer**: b  
-    **Explanation**: Instructing the model to vary sample phrases prevents repetitive responses (Section 4: Common Failure Modes).
-
-28. **What is the recommended starting delimiter for structuring prompts?**  
-    a) JSON  
-    b) Markdown  
-    c) XML  
-    d) Plain text  
-    **Correct Answer**: b  
-    **Explanation**: Markdown is recommended as the starting delimiter for prompts (Section 5: Delimiters).
-
-29. **Which delimiter performed poorly for long context document input?**  
-    a) Markdown  
-    b) XML  
-    c) JSON  
-    d) Plain text  
-    **Correct Answer**: c  
-    **Explanation**: JSON performed particularly poorly for long context document input (Section 5: Delimiters).
-
-30. **What should be done if GPT-4.1 resists producing very long, repetitive outputs?**  
-    a) Use shorter prompts  
-    b) Instruct strongly to output in full  
-    c) Avoid using tools  
-    d) Remove delimiters  
-    **Correct Answer**: b  
-    **Explanation**: Strong instructions to output in full can address resistance to long outputs (Section 5: Caveats).
-
-31. **What is a recommended action if parallel tool calls are incorrect?**  
-    a) Increase the context window  
-    b) Set parallel_tool_calls to false  
-    c) Use JSON delimiters  
-    d) Remove all tools  
-    **Correct Answer**: b  
-    **Explanation**: Setting parallel_tool_calls to false can address incorrect parallel tool calls (Section 5: Caveats).
-
-32. **What is a key feature of GPT-4.1’s diff generation capabilities?**  
-    a) Reliance on line numbers  
-    b) Substantially improved performance  
-    c) Inability to handle complex diffs  
-    d) Exclusive use of JSON format  
-    **Correct Answer**: b  
-    **Explanation**: GPT-4.1 has substantially improved diff generation capabilities (Appendix: Generating and Applying File Diffs).
-
-33. **What is a characteristic of the V4A diff format used by GPT-4.1?**  
-    a) Uses line numbers  
-    b) Includes context before and after changes  
-    c) Requires absolute file paths  
-    d) Excludes new code snippets  
-    **Correct Answer**: b  
-    **Explanation**: The V4A diff format includes context before and after changes without using line numbers (Appendix: Apply Patch).
-
-34. **How many lines of context are shown by default in the V4A diff format?**  
-    a) 1 line  
-    b) 2 lines  
-    c) 3 lines  
-    d) 4 lines  
-    **Correct Answer**: c  
-    **Explanation**: By default, 3 lines of context are shown before and after each change (Appendix: Apply Patch).
-
-35. **What operator is used in the V4A diff format to indicate class or function context?**  
-    a) ##  
-    b) @@  
-    c) --  
-    d) ++  
-    **Correct Answer**: b  
-    **Explanation**: The @@ operator indicates class or function context in the V4A diff format (Appendix: Apply Patch).
-
-36. **What happens if a patch is not applied correctly in the V4A format?**  
-    a) The model terminates  
-    b) Warnings or logging lines are printed before “Done!”  
-    c) The model ignores the patch  
-    d) The model crashes  
-    **Correct Answer**: b  
-    **Explanation**: Warnings or logging lines are printed before “Done!” to indicate issues (Appendix: Apply Patch).
-
-37. **What is the purpose of the `apply_patch` tool in the GPT-4.1 guide?**  
-    a) To execute Python code  
-    b) To apply diffs to files  
-    c) To search for files  
-    d) To delete files automatically  
-    **Correct Answer**: b  
-    **Explanation**: The `apply_patch` tool applies diffs to files in the V4A format (Appendix: Apply Patch).
-
-38. **What is a key aspect of effective diff formats mentioned in the guide?**  
-    a) Use of line numbers  
-    b) Clear delimiters between old and new code  
-    c) Absolute file paths  
-    d) JSON-based structure  
-    **Correct Answer**: b  
-    **Explanation**: Effective diff formats use clear delimiters between old and new code without line numbers (Appendix: Other Effective Diff Formats).
-
-39. **Which diff format performed well in addition to the V4A format?**  
-    a) JSON-based diff  
-    b) SEARCH/REPLACE diff  
-    c) Line-numbered diff  
-    d) Markdown-based diff  
-    **Correct Answer**: b  
-    **Explanation**: The SEARCH/REPLACE diff format performed well alongside V4A (Appendix: Other Effective Diff Formats).
-
-40. **What is the first step in the high-level problem-solving strategy for agentic workflows?**  
-    a) Implement the fix  
-    b) Understand the problem deeply  
-    c) Test frequently  
-    d) Debug as needed  
-    **Correct Answer**: b  
-    **Explanation**: The first step is to understand the problem deeply (Section 1: High-Level Problem Solving Strategy).
-
-41. **What should be done after making incremental code changes in agentic workflows?**  
-    a) Terminate the task  
-    b) Test frequently  
-    c) Ignore testing  
-    d) Remove all context  
-    **Correct Answer**: b  
-    **Explanation**: Testing frequently after each change verifies correctness (Section 1: High-Level Problem Solving Strategy).
-
-42. **What is the final step in the agentic workflow strategy?**  
-    a) Develop a plan  
-    b) Reflect and validate comprehensively  
-    c) Investigate the codebase  
-    d) Make code changes  
-    **Correct Answer**: b  
-    **Explanation**: The final step is to reflect and validate comprehensively (Section 1: High-Level Problem Solving Strategy).
-
-43. **What should GPT-4.1 do if tests fail during the agentic workflow?**  
-    a) Ignore the failures  
-    b) Analyze failures and revise the patch  
-    c) Terminate the task  
-    d) Remove all tests  
-    **Correct Answer**: b  
-    **Explanation**: If tests fail, the model should analyze failures and revise the patch (Section 1: Testing).
-
-44. **What is the purpose of the `lookup_policy_document` tool in the customer service example?**  
-    a) To execute Python code  
-    b) To retrieve internal documents by topic  
-    c) To delete files  
-    d) To modify user accounts  
-    **Correct Answer**: b  
-    **Explanation**: The `lookup_policy_document` tool retrieves internal documents by topic (Section 4: Example Prompt: Customer Service).
-
-45. **What is the required parameter for the `get_user_account_info` tool?**  
-    a) Topic  
-    b) Phone number  
-    c) File path  
-    d) User name  
-    **Correct Answer**: b  
-    **Explanation**: The required parameter is a phone number formatted as '(xxx) xxx-xxxx' (Section 4: Example Prompt: Customer Service).
-
-46. **What tone is recommended for the customer service agent prompt?**  
-    a) Casual and informal  
-    b) Professional and concise  
-    c) Humorous and playful  
-    d) Technical and detailed  
-    **Correct Answer**: b  
-    **Explanation**: A professional and concise tone is recommended (Section 4: Example Prompt: Customer Service).
-
-47. **What should the customer service agent do if a user asks about a prohibited topic?**  
-    a) Provide a detailed response  
-    b) Deflect and offer help with another topic  
-    c) Ignore the request  
-    d) Escalate immediately  
-    **Correct Answer**: b  
-    **Explanation**: The agent should deflect and offer help with another topic (Section 4: Example Prompt: Customer Service).
-
-48. **What is the recommended output format for customer service responses?**  
-    a) Plain text without citations  
-    b) Include citations for factual statements  
-    c) Use JSON exclusively  
-    d) Avoid formatting altogether  
-    **Correct Answer**: b  
-    **Explanation**: Factual statements require citations in the specified format (Section 4: Example Prompt: Customer Service).
-
-49. **What is a key consideration when selecting delimiters for prompts?**  
-    a) Use the same delimiter as the document content  
-    b) Choose delimiters that stand out to the model  
-    c) Avoid structured formats  
-    d) Use line numbers  
-    **Correct Answer**: b  
-    **Explanation**: Delimiters should provide clear information and stand out to the model (Section 5: Delimiters).
-
-50. **What is the role of the `apply_patch.py` reference implementation?**  
-    a) To generate Python code  
-    b) To apply pseudo-diff patches to text files  
-    c) To search for files  
-    d) To delete files automatically  
-    **Correct Answer**: b  
-    **Explanation**: The `apply_patch.py` implementation applies pseudo-diff patches to text files (Appendix: Reference Implementation: apply_patch.py).
+# 50 Markdown MCQs
 
 ---
 
-# MarkDown MCQS
-# 50 Multiple Choice Questions on Markdown Basic Syntax
+### General Markdown Information
 
-Below are 50 multiple-choice questions based on the Markdown basic syntax from the provided document. Each question includes four options, with one correct answer.
+1.  What is Markdown primarily designed to be?
+    a) A complex database management system
+    b) A lightweight markup language that's easy to read and write
+    c) A proprietary software for graphic design
+    d) A network protocol for secure communication
+    **Correct Answer: b) A lightweight markup language that's easy to read and write**
 
-1. **What is the correct way to create a heading level 3 in Markdown?**  
-   a) `# Heading level 3`  
-   b) `### Heading level 3`  
-   c) `Heading level 3 ===`  
-   d) `Heading level 3 ---`  
-   **Answer:** b) `### Heading level 3`
+2.  For what purpose is Markdown widely used?
+    a) Developing operating systems
+    b) Creating formatted content for documentation, blogs, and platforms like GitHub
+    c) Performing complex mathematical calculations
+    d) Designing 3D models
+    **Correct Answer: b) Creating formatted content for documentation, blogs, and platforms like GitHub**
 
-2. **Which Markdown syntax creates a heading level 1 using alternate syntax?**  
-   a) `Heading level 1 ---`  
-   b) `Heading level 1 ===`  
-   c) `## Heading level 1`  
-   d) `> Heading level 1`  
-   **Answer:** b) `Heading level 1 ===`
+3.  Markdown files can be converted into which of the following formats?
+    a) Only PDF documents
+    b) HTML or other formats
+    c) Encrypted binaries
+    d) Audio files
+    **Correct Answer: b) HTML or other formats**
 
-3. **What is a best practice for headings to ensure compatibility across Markdown applications?**  
-   a) Use underscores instead of number signs  
-   b) Always put a space between the number signs and the heading name  
-   c) Avoid blank lines before and after headings  
-   d) Use parentheses after the heading  
-   **Answer:** b) Always put a space between the number signs and the heading name
+4.  How is Markdown characterized in its raw (unrendered) form?
+    a) Difficult to interpret by humans
+    b) Machine-readable only
+    c) Human-readable
+    d) Always encrypted
+    **Correct Answer: c) Human-readable**
 
-4. **How do you create a paragraph in Markdown?**  
-   a) Indent the text with four spaces  
-   b) Use a blank line to separate lines of text  
-   c) Add a `>` before the text  
-   d) Enclose the text in backticks  
-   **Answer:** b) Use a blank line to separate lines of text
+---
 
-5. **What is the correct way to create a line break in Markdown?**  
-   a) End a line with a backslash (`\`)  
-   b) End a line with two or more spaces  
-   c) Press return without any spaces  
-   d) Use a single asterisk at the end of the line  
-   **Answer:** b) End a line with two or more spaces
+### Headings
 
-6. **Which of the following is a recommended method for creating a line break for compatibility?**  
-   a) Use a backslash at the end of the line  
-   b) Use trailing whitespace or the `<br>` HTML tag  
-   c) Press return without spaces  
-   d) Add a single space at the end of the line  
-   **Answer:** b) Use trailing whitespace or the `<br>` HTML tag
+5.  What Markdown syntax is used to create a Heading level 1 (`<h1>`)?
+    a) `## My Main Topic`
+    b) `# My Main Topic`
+    c) `### My Main Topic`
+    d) `My Main Topic` <br> `---------------`
+    **Correct Answer: b) `# My Main Topic`**
 
-7. **How do you bold text in Markdown?**  
-   a) `*bold text*`  
-   b) `**bold text**`  
-   c) `_bold text_`  
-   d) `***bold text***`  
-   **Answer:** b) `**bold text**`
+6.  To create an `<h3>` HTML tag using Markdown, how many `#` symbols are required?
+    a) One
+    b) Two
+    c) Three
+    d) Four
+    **Correct Answer: c) Three**
 
-8. **What is the best practice for bolding the middle of a word in Markdown?**  
-   a) Use underscores (`__is__`)  
-   b) Use asterisks (`**is**`)  
-   c) Use single quotes (`'is'`)  
-   d) Use backticks (`` `is` ``)  
-   **Answer:** b) Use asterisks (`**is**`)
+7.  Which characters are used in the alternate syntax for Heading level 1, placed below the text?
+    a) `--`
+    b) `==`
+    c) `***`
+    d) `___`
+    **Correct Answer: b) `==`**
 
-9. **How do you italicize text in Markdown?**  
-   a) `**italic text**`  
-   b) `*italic text*`  
-   c) `***italic text***`  
-   d) `` `italic text` ``  
-   **Answer:** b) `*italic text*`
+8.  According to Markdown heading best practices, what should always be present between the `#` symbols and the heading name for compatibility?
+    a) No space
+    b) A single space
+    c) An underscore
+    d) A dash
+    **Correct Answer: b) A single space**
 
-10. **What is the best practice for italicizing the middle of a word in Markdown?**  
-    a) Use underscores (`_cat_`)  
-    b) Use asterisks (`*cat*`)  
-    c) Use double quotes (`"cat"`)  
-    d) Use parentheses (`(cat)`)  
-    **Answer:** b) Use asterisks (`*cat*`)
+9.  For compatibility, what should be placed before and after a heading?
+    a) A line of code
+    b) Blank lines
+    c) A special character (e.g., `*`)
+    d) A comment line
+    **Correct Answer: b) Blank lines**
 
-11. **How do you create text that is both bold and italic in Markdown?**  
-    a) `**italic and bold**`  
-    b) `*italic and bold*`  
-    c) `***italic and bold***`  
-    d) `_italic and bold_`  
-    **Answer:** c) `***italic and bold***`
+---
 
-12. **What is the correct syntax for a blockquote in Markdown?**  
-    a) `# This is a blockquote`  
-    b) `> This is a blockquote`  
-    c) `* This is a blockquote`  
-    d) `` `This is a blockquote` ``  
-    **Answer:** b) `> This is a blockquote`
+### Paragraphs and Line Breaks
 
-13. **How do you create a blockquote with multiple paragraphs?**  
-    a) Add `>` on blank lines between paragraphs  
-    b) Add `>>` before each paragraph  
-    c) Use a blank line without any symbols  
-    d) Enclose paragraphs in backticks  
-    **Answer:** a) Add `>` on blank lines between paragraphs
+10. How do you create separate paragraphs in Markdown?
+    a) By using `\n` at the end of each line
+    b) By separating lines of text with a blank line
+    c) By indenting each new paragraph with a tab
+    d) By enclosing text within `[p]` tags
+    **Correct Answer: b) By separating lines of text with a blank line**
 
-14. **How do you nest a blockquote in Markdown?**  
-    a) Use `>` for all levels  
-    b) Use `>>` for the nested paragraph  
-    c) Use `>>>` for the nested paragraph  
-    d) Use `#>` for the nested paragraph  
-    **Answer:** b) Use `>>` for the nested paragraph
+11. To create a line break (`<br>`) within a paragraph using Markdown, what is the most common method?
+    a) End the line with a single space
+    b) End the line with a backslash `\`
+    c) End the line with two or more spaces, then type return
+    d) Start the new line with a dash `-`
+    **Correct Answer: c) End the line with two or more spaces, then type return**
 
-15. **Which element can be included in a blockquote?**  
-    a) Headings  
-    b) Lists  
-    c) Both headings and lists  
-    d) Neither headings nor lists  
-    **Answer:** c) Both headings and lists
+12. Why is "trailing whitespace" for line breaks considered controversial?
+    a) It's only supported by outdated Markdown parsers.
+    b) It's visually indistinct in editors and can be used accidentally.
+    c) It creates excessive padding in HTML output.
+    d) It interferes with image embedding.
+    **Correct Answer: b) It's visually indistinct in editors and can be used accidentally.**
 
-16. **What is a best practice for blockquotes to ensure compatibility?**  
-    a) Avoid blank lines before and after blockquotes  
-    b) Put blank lines before and after blockquotes  
-    c) Indent blockquotes with four spaces  
-    d) Use asterisks instead of `>`  
-    **Answer:** b) Put blank lines before and after blockquotes
+---
 
-17. **How do you create an ordered list in Markdown?**  
-    a) Use dashes (`-`) before items  
-    b) Use numbers followed by periods  
-    c) Use asterisks (`*`) before items  
-    d) Use plus signs (`+`) before items  
-    **Answer:** b) Use numbers followed by periods
+### Emphasis
 
-18. **What happens if the numbers in an ordered list are not in sequence?**  
-    a) The list will not render  
-    b) The numbers will be displayed as written  
-    c) The list will render in numerical order starting from 1  
-    d) The list will render as an unordered list  
-    **Answer:** c) The list will render in numerical order starting from 1
+13. To make text **bold** in Markdown, besides two asterisks (`**`), what other characters can be used?
+    a) Single asterisks (`*`)
+    b) Two underscores (`__`)
+    c) Three asterisks (`***`)
+    d) Plus signs (`+`)
+    **Correct Answer: b) Two underscores (`__`)**
 
-19. **What is the best practice for ordered list delimiters?**  
-    a) Use parentheses (`1)`)  
-    b) Use periods (`1.`)  
-    c) Use colons (`1:`)  
-    d) Use commas (`1,`)  
-    **Answer:** b) Use periods (`1.`)
+14. For compatibility, what is the recommended way to bold the *middle* of a word?
+    a) `Love__is__bold`
+    b) `Love**is**bold`
+    c) `Love*is*bold`
+    d) `Love-is-bold`
+    **Correct Answer: b) `Love**is**bold`**
 
-20. **How do you create an unordered list in Markdown?**  
-    a) Use numbers followed by periods  
-    b) Use dashes, asterisks, or plus signs  
-    c) Use backticks  
-    d) Use angle brackets  
-    **Answer:** b) Use dashes, asterisks, or plus signs
+15. To *italicize* text, which Markdown syntax can be used besides a single asterisk (`*`)?
+    a) Two asterisks (`**`)
+    b) A single underscore (`_`)
+    c) Two underscores (`__`)
+    d) A hash sign (`#`)
+    **Correct Answer: b) A single underscore (`_`)**
 
-21. **What should you do if an unordered list item starts with a number followed by a period?**  
-    a) Use a backslash to escape the period  
-    b) Enclose the number in backticks  
-    c) Add a space before the number  
-    d) Use a colon instead of a period  
-    **Answer:** a) Use a backslash to escape the period
+16. How do you make text both ***bold and italic*** in Markdown?
+    a) Using two asterisks (`**`)
+    b) Using three asterisks (`***`) or underscores (`___`)
+    c) Using one asterisk and one underscore (`*_`)
+    d) Using a double tilde (`~~`)
+    **Correct Answer: b) Using three asterisks (`***`) or underscores (`___`)**
 
-22. **What is the best practice for unordered list delimiters?**  
-    a) Mix dashes, asterisks, and plus signs in the same list  
-    b) Use only one type of delimiter in a list  
-    c) Use parentheses for all items  
-    d) Use backticks for all items  
-    **Answer:** b) Use only one type of delimiter in a list
+---
 
-23. **How do you add a paragraph to a list item while preserving list continuity?**  
-    a) Indent the paragraph by two spaces  
-    b) Indent the paragraph by four spaces or one tab  
-    c) Add a blank line before the paragraph  
-    d) Use a backslash before the paragraph  
-    **Answer:** b) Indent the paragraph by four spaces or one tab
+### Blockquotes
 
-24. **How many spaces should a code block be indented when inside a list?**  
-    a) Four spaces  
-    b) Six spaces  
-    c) Eight spaces  
-    d) Two spaces  
-    **Answer:** c) Eight spaces
+17. What character is used to denote a blockquote?
+    a) `#`
+    b) `*`
+    c) `>`
+    d) `-`
+    **Correct Answer: c) `>`**
 
-25. **How do you denote a word as code in Markdown?**  
-    a) Enclose it in single quotes  
-    b) Enclose it in backticks  
-    c) Enclose it in asterisks  
-    d) Enclose it in underscores  
-    **Answer:** b) Enclose it in backticks
+18. To include multiple paragraphs within a single blockquote, what should be added on the blank lines between them?
+    a) Nothing, just a blank line
+    b) A space
+    c) A `>` character
+    d) A `---` horizontal rule
+    **Correct Answer: c) A `>` character**
 
-26. **How do you escape a backtick in a code span?**  
-    a) Use a backslash before the backtick  
-    b) Enclose the code in double backticks  
-    c) Use single quotes instead of backticks  
-    d) Add a space before the backtick  
-    **Answer:** b) Enclose the code in double backticks
+19. How are nested blockquotes created?
+    a) By using `>>>`
+    b) By adding `>>` in front of the nested paragraph
+    c) By indenting the inner blockquote with four spaces
+    d) By using HTML `<q>` tags
+    **Correct Answer: b) By adding `>>` in front of the nested paragraph**
 
-27. **How do you create a code block without using fenced code blocks?**  
-    a) Indent every line by four spaces or one tab  
-    b) Enclose the block in backticks  
-    c) Use a `>` before each line  
-    d) Add asterisks around the block  
-    **Answer:** a) Indent every line by four spaces or one tab
+20. For compatibility, what is the best practice regarding blank lines around blockquotes?
+    a) They are strictly forbidden.
+    b) They should only be after the blockquote.
+    c) They should only be before the blockquote.
+    d) They should be placed before and after the blockquote.
+    **Correct Answer: d) They should be placed before and after the blockquote.**
 
-28. **How do you create a horizontal rule in Markdown?**  
-    a) Use three or more asterisks, dashes, or underscores  
-    b) Use a single dash on a line  
-    c) Use a backslash followed by a dash  
-    d) Use three backticks  
-    **Answer:** a) Use three or more asterisks, dashes, or underscores
+---
 
-29. **What is a best practice for horizontal rules?**  
-    a) Avoid blank lines before and after  
-    b) Put blank lines before and after  
-    c) Indent the rule with four spaces  
-    d) Use backticks around the rule  
-    **Answer:** b) Put blank lines before and after
+### Lists
 
-30. **How do you create a link in Markdown?**  
-    a) `[link text](URL)`  
-    b) `<link text> (URL)`  
-    c) `{link text} [URL]`  
-    d) `*link text* (URL)`  
-    **Answer:** a) `[link text](URL)`
+21. What is the correct way to start an ordered list in Markdown?
+    a) `1) First item`
+    b) `1. First item`
+    c) `- First item`
+    d) `* First item`
+    **Correct Answer: b) `1. First item`**
 
-31. **How do you add a title to a link in Markdown?**  
-    a) Add it in parentheses after the URL  
-    b) Add it in quotation marks after the URL  
-    c) Add it in backticks before the URL  
-    d) Add it in brackets before the link text  
-    **Answer:** b) Add it in quotation marks after the URL
+22. In an ordered list, what rule applies to the numbers used for list items?
+    a) They must always be in sequential numerical order.
+    b) They can be any number, but the list must start with `1.`.
+    c) They must be Roman numerals.
+    d) Only odd numbers are allowed.
+    **Correct Answer: b) They can be any number, but the list must start with `1.`.**
 
-32. **How do you turn a URL into a link without link text?**  
-    a) Enclose it in backticks  
-    b) Enclose it in angle brackets  
-    c) Enclose it in parentheses  
-    d) Enclose it in asterisks  
-    **Answer:** b) Enclose it in angle brackets
+23. Which of the following symbols cannot be used to create an unordered list item?
+    a) `-` (dash)
+    b) `*` (asterisk)
+    c) `+` (plus sign)
+    d) `#` (hash sign)
+    **Correct Answer: d) `#` (hash sign)**
 
-33. **How do you emphasize a link in Markdown?**  
-    a) Add backticks around the link text  
-    b) Add asterisks around the brackets and parentheses  
-    c) Add underscores around the URL  
-    d) Add a backslash before the link  
-    **Answer:** b) Add asterisks around the brackets and parentheses
+24. To create an indented item within a list, how many spaces or tabs should you use for indentation?
+    a) Two spaces or one tab
+    b) Four spaces or one tab
+    c) Eight spaces or two tabs
+    d) One space only
+    **Correct Answer: b) Four spaces or one tab**
 
-34. **What is the first part of a reference-style link in Markdown?**  
-    a) `[link text][label]`  
-    b) `[link text](URL)`  
-    c) `[label]: URL`  
-    d) `<link text> [label]`  
-    **Answer:** a) `[link text][label]`
+25. If an unordered list item starts with a number followed by a period (e.g., `1968. A great year!`), how do you ensure it renders as part of the unordered list and not an ordered one?
+    a) Use double backticks around the number.
+    b) Escape the period with a backslash (`\`).
+    c) Put the entire line in parentheses.
+    d) Change the number to a letter.
+    **Correct Answer: b) Escape the period with a backslash (`\`).**
 
-35. **How is the second part of a reference-style link formatted?**  
-    a) `[label]: URL`  
-    b) `[link text]: URL`  
-    c) `(label): URL`  
-    d) `{label}: URL`  
-    **Answer:** a) `[label]: URL`
+---
 
-36. **Where can you place the second part of a reference-style link?**  
-    a) Only at the end of the document  
-    b) Only immediately after the paragraph  
-    c) Anywhere in the document  
-    d) Only at the beginning of the document  
-    **Answer:** c) Anywhere in the document
+### Code
 
-37. **How do you handle spaces in a URL for compatibility?**  
-    a) Replace spaces with underscores  
-    b) URL encode spaces with `%20`  
-    c) Remove spaces entirely  
-    d) Enclose the URL in backticks  
-    **Answer:** b) URL encode spaces with `%20`
+26. How do you denote a single word or phrase as inline code in Markdown?
+    a) By enclosing it in double quotes (`"word"`)
+    b) By enclosing it in backticks (`` `word` ``)
+    c) By enclosing it in asterisks (`*word*`)
+    d) By enclosing it in curly braces (`{word}`)
+    **Correct Answer: b) By enclosing it in backticks (`` `word` ``)**
 
-38. **How do you encode parentheses in a URL for compatibility?**  
-    a) Use `%28` for `(` and `%29` for `)`  
-    b) Use `%20` for both parentheses  
-    c) Use backslashes before parentheses  
-    d) Use underscores instead of parentheses  
-    **Answer:** a) Use `%28` for `(` and `%29` for `)`
+27. If an inline code snippet itself contains a backtick, how can it be properly displayed?
+    a) Use a backslash before the inner backtick.
+    b) Enclose the snippet in double backticks (`` `` `code` `` ``).
+    c) It's not possible to include backticks in inline code.
+    d) Convert it to a code block.
+    **Correct Answer: b) Enclose the snippet in double backticks (`` `` `code` `` ``).**
 
-39. **How do you add an image in Markdown?**  
-    a) `[alt text](image URL)`  
-    b) `![alt text](image URL)`  
-    c) `<alt text> (image URL)`  
-    d) `*alt text* (image URL)`  
-    **Answer:** b) `![alt text](image URL)`
+28. What is the minimum indentation for each line to create a code block in Markdown?
+    a) Two spaces or one tab
+    b) Four spaces or one tab
+    c) Six spaces or two tabs
+    d) No indentation, just new lines
+    **Correct Answer: b) Four spaces or one tab**
 
-40. **How do you add a title to an image in Markdown?**  
-    a) Add it in brackets before the alt text  
-    b) Add it in quotation marks after the image URL  
-    c) Add it in backticks after the alt text  
-    d) Add it in parentheses after the alt text  
-    **Answer:** b) Add it in quotation marks after the image URL
+---
 
-41. **How do you create a linked image in Markdown?**  
-    a) Enclose the image Markdown in backticks and add a URL  
-    b) Enclose the image Markdown in brackets and add a URL in parentheses  
-    c) Enclose the image URL in angle brackets  
-    d) Add asterisks around the image Markdown  
-    **Answer:** b) Enclose the image Markdown in brackets and add a URL in parentheses
+### Horizontal Rules
 
-42. **How do you escape a character like an asterisk in Markdown?**  
-    a) Add a backslash before the character  
-    b) Enclose the character in backticks  
-    c) Add an asterisk before the character  
-    d) Enclose the character in quotes  
-    **Answer:** a) Add a backslash before the character
+29. What is the minimum number of consecutive dashes (`---`) required on a line by themselves to create a horizontal rule?
+    a) Two
+    b) Three
+    c) Four
+    d) One
+    **Correct Answer: b) Three**
 
-43. **Which character cannot be escaped with a backslash in Markdown?**  
-    a) Asterisk (`*`)  
-    b) Backslash (`\`)  
-    c) Dollar sign (`$`)  
-    d) Backtick (`` ` ``)  
-    **Answer:** c) Dollar sign (`$`)
+30. For compatibility, what is the best practice for placing horizontal rules?
+    a) Directly after text without blank lines.
+    b) Directly before text without blank lines.
+    c) With blank lines before and after them.
+    d) Only at the very beginning or end of the document.
+    **Correct Answer: c) With blank lines before and after them.**
 
-44. **How do you include HTML tags in a Markdown document?**  
-    a) Enclose them in backticks  
-    b) Place them directly in the text  
-    c) Enclose them in angle brackets  
-    d) Add a backslash before each tag  
-    **Answer:** b) Place them directly in the text
+---
 
-45. **What is a best practice for block-level HTML tags in Markdown?**  
-    a) Indent them with four spaces  
-    b) Use blank lines to separate them from surrounding content  
-    c) Enclose them in backticks  
-    d) Add asterisks around them  
-    **Answer:** b) Use blank lines to separate them from surrounding content
+### Links
 
-46. **Why might Markdown syntax not work inside block-level HTML tags?**  
-    a) Markdown is not supported in HTML  
-    b) Block-level HTML tags override Markdown syntax  
-    c) Markdown requires backticks inside HTML  
-    d) HTML tags must be indented  
-    **Answer:** b) Block-level HTML tags override Markdown syntax
+31. How is the link text (the visible part) enclosed when creating a standard Markdown link?
+    a) In parentheses `()`
+    b) In angle brackets `<>`
+    c) In square brackets `[]`
+    d) In curly braces `{}`
+    **Correct Answer: c) In square brackets `[]`**
 
-47. **Which of the following is a valid way to create a nested list?**  
-    a) Indent the nested items by two spaces  
-    b) Indent the nested items by four spaces or one tab  
-    c) Use a backslash before nested items  
-    d) Add a blank line before nested items  
-    **Answer:** b) Indent the nested items by four spaces or one tab
+32. The URL for a standard Markdown link immediately follows the link text and is enclosed in what?
+    a) Square brackets `[]`
+    b) Parentheses `()`
+    c) Angle brackets `<>`
+    d) Quotation marks `""`
+    **Correct Answer: b) Parentheses `()`**
 
-48. **What is the rendered output of `Love**is**bold` in Markdown?**  
-    a) Love *is* bold  
-    b) Love **is** bold  
-    c) Love isbold  
-    d) Love is bold  
-    **Answer:** c) Love isbold
+33. What is the syntax to automatically turn a raw URL or email address into a clickable link?
+    a) `[url](url)`
+    b) `<url>`
+    c) `url`
+    d) `!url`
+    **Correct Answer: b) `<url>`**
 
-49. **What is the HTML output of `*italic text*` in Markdown?**  
-    a) `<i>italic text</i>`  
-    b) `<em>italic text</em>`  
-    c) `<strong>italic text</strong>`  
-    d) `<code>italic text</code>`  
-    **Answer:** b) `<em>italic text</em>`
+34. What is the primary benefit of using reference-style links?
+    a) They automatically open in a new tab.
+    b) They make URLs easier to manage and read in the raw Markdown text.
+    c) They support custom CSS styling.
+    d) They are faster to render.
+    **Correct Answer: b) They make URLs easier to manage and read in the raw Markdown text.**
 
-50. **What is the purpose of the alt text in an image in Markdown?**  
-    a) It specifies the image URL  
-    b) It provides a description for accessibility  
-    c) It sets the image size  
-    d) It adds a caption below the image  
-    **Answer:** b) It provides a description for accessibility
+35. For compatibility, how should spaces within a URL in a Markdown link be handled?
+    a) Leave them as-is.
+    b) Replace them with underscores `_`.
+    c) URL encode them (e.g., `%20`).
+    d) Enclose the entire URL in double quotes.
+    **Correct Answer: c) URL encode them (e.g., `%20`).**
+
+---
+
+### Images
+
+36. What is the correct Markdown syntax to embed an image?
+    a) `[alt text](path/to/image.jpg)`
+    b) `!alt text[path/to/image.jpg]`
+    c) `![alt text](path/to/image.jpg)`
+    d) `<img alt="alt text" src="path/to/image.jpg">`
+    **Correct Answer: c) `![alt text](path/to/image.jpg)`**
+
+37. What is the purpose of the "alt text" in Markdown image syntax?
+    a) It's the caption for the image.
+    b) It's displayed if the image fails to load.
+    c) It serves as the image's filename.
+    d) It adds a border around the image.
+    **Correct Answer: b) It's displayed if the image fails to load.**
+
+38. How do you link an image to another URL in Markdown?
+    a) `[![alt text](image.jpg)](link-url)`
+    b) `![alt text](image.jpg) (link-url)`
+    c) `[link-url]![alt text](image.jpg)`
+    d) You cannot link images in Markdown.
+    **Correct Answer: a) `[![alt text](image.jpg)](link-url)`**
+
+---
+
+### Escaping Characters
+
+39. To display a Markdown formatting character literally (e.g., to show an asterisk `*` instead of italicizing), what do you precede it with?
+    a) A forward slash `/`
+    b) A backslash `\`
+    c) A hash sign `#`
+    d) An exclamation mark `!`
+    **Correct Answer: b) A backslash `\`**
+
+40. Which of the following characters is generally *not* required to be escaped to be displayed literally in common Markdown usage, unless it's part of a formatting sequence?
+    a) `*` (asterisk)
+    b) `\` (backslash)
+    c) `a` (lowercase letter 'a')
+    d) `[` (square bracket)
+    **Correct Answer: c) `a` (lowercase letter 'a')**
+
+---
+
+### Extended Syntax
+
+41. Which extended Markdown syntax element uses `~~text~~` for formatting?
+    a) Bold
+    b) Italic
+    c) Strikethrough
+    d) Highlight
+    **Correct Answer: c) Strikethrough**
+
+42. What is the Markdown syntax for marking a completed task in a task list?
+    a) `- [ ] Task`
+    b) `- [c] Task`
+    c) `- [x] Task`
+    d) `- [+] Task`
+    **Correct Answer: c) `- [x] Task`**
+
+43. How do you add an Emoji using extended Markdown syntax?
+    a) `(emoji_name)`
+    b) `[emoji_name]`
+    c) `:emoji_name:`
+    d) `#emoji_name`
+    **Correct Answer: c) `:emoji_name:`**
+
+44. Which syntax is used for Superscript text?
+    a) `X~2~`
+    b) `X^2^`
+    c) `X_2_`
+    d) `X{2}`
+    **Correct Answer: b) `X^2^`**
+
+45. The extended syntax `H~2~O` would render as what?
+    a) H^2^O
+    b) H₂O (Subscript)
+    c) H²O (Superscript)
+    d) H-2-O
+    **Correct Answer: b) H₂O (Subscript)**
+
+---
+
+### Prompt Engineering Best Practices (from provided context)
+
+46. What is the most important best practice in prompt engineering to improve model performance?
+    a) Using extremely long prompts.
+    b) Providing one-shot/few-shot examples.
+    c) Only using negative constraints.
+    d) Setting a very high temperature.
+    **Correct Answer: b) Providing one-shot/few-shot examples.**
+
+47. When designing prompts, they should be concise, clear, and easy to understand for whom?
+    a) Only the Large Language Model.
+    b) Only other prompt engineers.
+    c) Both you (the user) and the model.
+    d) Only for automated evaluation systems.
+    **Correct Answer: c) Both you (the user) and the model.**
+
+48. What type of instructions are generally more effective in guiding an LLM?
+    a) Negative instructions (what not to do).
+    b) Ambiguous instructions.
+    c) Positive instructions (what to do).
+    d) Instructions with many constraints.
+    **Correct Answer: c) Positive instructions (what to do).**
+
+49. Why is using JSON as an output format for data extraction tasks often beneficial for LLMs?
+    a) It makes the output more visually appealing.
+    b) It increases the model's creativity.
+    c) It forces the model to create a structure and can limit hallucinations.
+    d) It reduces the processing time significantly.
+    **Correct Answer: c) It forces the model to create a structure and can limit hallucinations.**
+
+50. What is a key drawback of using JSON for LLM output, especially with token limits?
+    a) It's difficult to sort the data.
+    b) It always produces plain, unstructured text.
+    c) It consumes significantly more tokens, potentially leading to truncation and invalid JSON.
+    d) It cannot return data types.
+    **Correct Answer: c) It consumes significantly more tokens, potentially leading to truncation and invalid JSON.**
