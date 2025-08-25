@@ -341,3 +341,186 @@ Iske ilawa, jo prompts pehle ke models ke liye optimize kiye gaye thay wo hamesh
     3. It’s generally not necessary to use all-caps or other incentives like bribes or tips. We recommend starting without these, and only reaching for these if necessary for your particular prompt. Note that if your existing prompts include these techniques, it could cause GPT-4.1 to pay attention to it too strictly.
 
 *Note that using your preferred AI-powered IDE can be very helpful for iterating on prompts, including checking for consistency or conflicts, adding examples, or making cohesive updates like adding an instruction and updating instructions to demonstrate that instruction*
+
+#### Common Failure Modes
+These failure modes are not unique to GPT-4.1, but we share them here for general awareness and ease of debugging.
+
+* Instructing a model to always follow a specific behavior can occasionally induce adverse effects. For instance, if told “you must call a tool before responding to the user,” models may hallucinate tool inputs or call the tool with null values if they do not have enough information. Adding “if you don’t have enough information to call the tool, ask the user for the information you need” should mitigate this.
+* When provided sample phrases, models can use those quotes verbatim and start to sound repetitive to users. Ensure you instruct the model to vary them as necessary.
+* Without specific instructions, some models can be eager to provide additional prose to explain their decisions, or output more formatting in responses than may be desired. Provide instructions and potentially examples to help mitigate.
+
+#### Example Prompt: Customer Service
+Ye ek fictional customer service agent ke liye best practices ko demonstrate karta hai. Rules ki diversity, unki specificity, zyada tafseel ke liye additional sections ka use, aur ek example dekhein jo precise behavior dikhata hai aur pehle diye gaye sab rules ko incorporate karta hai.
+
+Neeche diya gaya notebook cell run karke try karein — aapko ek user message aur ek tool call dono dikhai denge. User message shuru hoga ek greeting se, phir apna jawab echo karega, aur phir ye mention karega ke wo tool call karne wala hai.
+
+Instructions ko change karke aap model ke behavior ko shape kar sakte ho, ya phir dusre user messages try karke instruction-following performance test kar sakte ho.
+
+```bash
+SYS_PROMPT_CUSTOMER_SERVICE = """You are a helpful customer service agent working for NewTelco, helping a user efficiently fulfill their request while adhering closely to provided guidelines.
+
+# Instructions
+- Always greet the user with "Hi, you've reached NewTelco, how can I help you?"
+- Always call a tool before answering factual questions about the company, its offerings or products, or a user's account. Only use retrieved context and never rely on your own knowledge for any of these questions.
+    - However, if you don't have enough information to properly call the tool, ask the user for the information you need.
+- Escalate to a human if the user requests.
+- Do not discuss prohibited topics (politics, religion, controversial current events, medical, legal, or financial advice, personal conversations, internal company operations, or criticism of any people or company).
+- Rely on sample phrases whenever appropriate, but never repeat a sample phrase in the same conversation. Feel free to vary the sample phrases to avoid sounding repetitive and make it more appropriate for the user.
+- Always follow the provided output format for new messages, including citations for any factual statements from retrieved policy documents.
+- If you're going to call a tool, always message the user with an appropriate message before and after calling the tool.
+- Maintain a professional and concise tone in all responses, and use emojis between sentences.
+- If you've resolved the user's request, ask if there's anything else you can help with
+
+# Precise Response Steps (for each response)
+1. If necessary, call tools to fulfill the user's desired action. Always message the user before and after calling a tool to keep them in the loop.
+2. In your response to the user
+    a. Use active listening and echo back what you heard the user ask for.
+    b. Respond appropriately given the above guidelines.
+
+# Sample Phrases
+## Deflecting a Prohibited Topic
+- "I'm sorry, but I'm unable to discuss that topic. Is there something else I can help you with?"
+- "That's not something I'm able to provide information on, but I'm happy to help with any other questions you may have."
+
+## Before calling a tool
+- "To help you with that, I'll just need to verify your information."
+- "Let me check that for you—one moment, please."
+- "I'll retrieve the latest details for you now."
+
+## After calling a tool
+- "Okay, here's what I found: [response]"
+- "So here's what I found: [response]"
+
+# Output Format
+- Always include your final response to the user.
+- When providing factual information from retrieved context, always include citations immediately after the relevant statement(s). Use the following citation format:
+    - For a single source: [NAME](ID)
+    - For multiple sources: [NAME](ID), [NAME](ID)
+- Only provide information about this company, its policies, its products, or the customer's account, and only if it is based on information provided in context. Do not answer questions outside this scope.
+
+# Example
+## User
+Can you tell me about your family plan options?
+
+## Assistant Response 1
+### Message
+"Hi, you've reached NewTelco, how can I help you? 😊🎉\n\nYou'd like to know about our family plan options. 🤝 Let me check that for you—one moment, please. 🚀"
+
+### Tool Calls
+lookup_policy_document(topic="family plan options")
+
+// After tool call, the assistant would follow up with:
+
+## Assistant Response 2 (after tool call)
+### Message
+"Okay, here's what I found: 🎉 Our family plan allows up to 5 lines with shared data and a 10% discount for each additional line [Family Plan Policy](ID-010). 📱 Is there anything else I can help you with today? 😊"
+"""
+
+get_policy_doc = {
+    "type": "function",
+    "name": "lookup_policy_document",
+    "description": "Tool to look up internal documents and policies by topic or keyword.",
+    "parameters": {
+        "strict": True,
+        "type": "object",
+        "properties": {
+            "topic": {
+                "type": "string",
+                "description": "The topic or keyword to search for in company policies or documents.",
+            },
+        },
+        "required": ["topic"],
+        "additionalProperties": False,
+    },
+}
+
+get_user_acct = {
+    "type": "function",
+    "name": "get_user_account_info",
+    "description": "Tool to get user account information",
+    "parameters": {
+        "strict": True,
+        "type": "object",
+        "properties": {
+            "phone_number": {
+                "type": "string",
+                "description": "Formatted as '(xxx) xxx-xxxx'",
+            },
+        },
+        "required": ["phone_number"],
+        "additionalProperties": False,
+    },
+}
+
+response = client.responses.create(
+    instructions=SYS_PROMPT_CUSTOMER_SERVICE,
+    model="gpt-4.1-2025-04-14",
+    tools=[get_policy_doc, get_user_acct],
+    input="How much will it cost for international service? I'm traveling to France.",
+    # input="Why was my last bill so high?"
+)
+
+response.to_dict()["output"]
+```
+---
+```bash
+[{'id': 'msg_67fe92d431548191b7ca6cd604b4784b06efc5beb16b3c5e',
+  'content': [{'annotations': [],
+    'text': "Hi, you've reached NewTelco, how can I help you? 🌍✈️\n\nYou'd like to know the cost of international service while traveling to France. 🇫🇷 Let me check the latest details for you—one moment, please. 🕑",
+    'type': 'output_text'}],
+  'role': 'assistant',
+  'status': 'completed',
+  'type': 'message'},
+ {'arguments': '{"topic":"international service cost France"}',
+  'call_id': 'call_cF63DLeyhNhwfdyME3ZHd0yo',
+  'name': 'lookup_policy_document',
+  'type': 'function_call',
+  'id': 'fc_67fe92d5d6888191b6cd7cf57f707e4606efc5beb16b3c5e',
+  'status': 'completed'}]
+```
+
+### 5. General Advice
+#### Prompt Structure
+For reference, here is a good starting point for structuring your prompts.
+```bash
+# Role and Objective
+# Instructions
+## Sub-categories for more detailed instructions
+# Reasoning Steps
+# Output Format
+# Examples
+## Example 1
+# Context
+# Final instructions and prompt to think step by step
+```
+Add or remove sections to suit your needs, and experiment to determine what’s optimal for your usage.
+
+#### Delimiters
+Yahan kuch general guidelines di gayi hain apne prompt ke liye best delimiters select karne ke liye. Long Context section ko bhi dekhein is context type ke liye special considerations ke liye.
+
+1. **Markdown:** Hum recommend karte hain ke aap yahan se shuru karein, aur major sections aur subsections ke liye markdown titles use karein (deep hierarchy ke sath, H4+ tak). Code ko wrap karne ke liye inline backticks ya backtick blocks ka use karein, aur zarurat ke mutabiq numbered ya bulleted lists ka istemal karein.
+
+2. **XML:** Ye bhi bohat acha perform karte hain, aur is model ke sath XML mein di gayi information par zyada achi tarah se amal hota hai. XML convenient hai kyunke iske zariye aap ek section ko start aur end ke sath clearly wrap kar sakte ho, tags mein metadata add kar sakte ho extra context ke liye, aur nesting enable kar sakte ho. Neeche ek example diya gaya hai XML tags use kar ke ek example section mein examples nest karne ka, jisme inputs aur outputs dono diye gaye hain:
+```bash
+<examples>
+<example1 type="Abbreviate">
+<input>San Francisco</input>
+<output>- SF</output>
+</example1>
+</examples>
+```
+3. **JSON** bohat structured hota hai aur model isay achi tarah samajhta hai, khaas taur par coding contexts mein. Lekin, ye zyada verbose ho sakta hai aur character escaping ki zaroorat parti hai jo overhead barha deti hai.
+
+Guidance khaas taur par jab aap bohat saare documents ya files input context mein add kar rahe ho:
+
+* XML ne humare long context testing mein acha perform kiya. <br>
+Example: <doc id='1' title='The Fox'>The quick brown fox jumps over the lazy dog</doc>
+
+* Ye format, jo Lee et al. (ref) ne propose kiya, ne bhi humare long context testing mein acha perform kiya.<br>
+Example: ID: 1 | TITLE: The Fox | CONTENT: The quick brown fox jumps over the lazy dog
+
+* JSON ne khaas taur par poor performance dikhayi.<br>
+Example: [{'id': 1, 'title': 'The Fox', 'content': 'The quick brown fox jumped over the lazy dog'}]
+
+
+
