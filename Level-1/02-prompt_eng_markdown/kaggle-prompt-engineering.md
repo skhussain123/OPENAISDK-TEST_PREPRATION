@@ -102,3 +102,6 @@ Table 2 mein ek few-shot prompt ki misaal di gayi hai, chaliye hum pehle jaisi g
 
 ![dfds](./two.PNG)
 ![dfds](./three.PNG)
+Jab aap apne prompt ke liye misalein chunte hain, to aisi misalein istemal karein jo us kaam se mutalliq hon jo aap anjam dena chahte hain. Misalein mukhtalif, aala miyaar ki, aur achi tarah likhi honi chahiye. Ek chhoti si galti bhi model ko uljha sakti hai aur is ke n natije mein matlooba output nahi milega.
+<br><br>
+Agar aap aisi output paida karne ki koshish kar rahe hain jo mukhtalif inputs ke liye mazboot ho, to apni misalon mein edge cases shamil karna zaroori hai. Edge cases aisi inputs hain jo ghair mamooli ya ghair mutawaqqe hain, lekin model ko phir bhi unhein sambhalne ke qabil hona chahiye.
