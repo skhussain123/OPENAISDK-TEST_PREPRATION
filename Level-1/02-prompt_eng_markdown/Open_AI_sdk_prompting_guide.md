@@ -238,3 +238,106 @@ response = client.responses.create(
 
 response.to_dict()["output"]
 ```
+
+---
+```bash
+[{'id': 'msg_67fe92df26ac819182ffafce9ff4e4fc07c7e06242e51f8b',
+  'content': [{'annotations': [],
+    'text': "Thank you for the report, but “Typerror” is too vague for me to start debugging right away.\n\n**To make progress, I need to:**\n1. Find the exact error message text (e.g. `'TypeError: ...'`).\n2. Find which file and which line/function/class the error occurred in.\n3. Figure out what triggered the error (test file, usage, reproduction steps).\n4. Find the root cause and details.\n\n**Next steps:**\n- Investigate error/log/test output files for a Python `TypeError` message.\n- Examine the relevant code sections for problematic type usage.\n- If possible, reproduce the bug locally.\n\n**Plan:**\n- First, I will search for test files and log output in the `/testbed` directory that may contain the full error message and stack trace.\n\nLet’s start by listing the contents of the `/testbed` directory to look for clues.",
+    'type': 'output_text'}],
+  'role': 'assistant',
+  'status': 'completed',
+  'type': 'message'},
+ {'arguments': '{"input":"!ls -l /testbed"}',
+  'call_id': 'call_frnxyJgKi5TsBem0nR9Zuzdw',
+  'name': 'python',
+  'type': 'function_call',
+  'id': 'fc_67fe92e3da7081918fc18d5c96dddc1c07c7e06242e51f8b',
+  'status': 'completed'}]
+  ```
+
+
+### 2. Long Context
+GPT-4.1 ek powerful 1M token input context window rakhta hai, jo bohat si long context tasks ke liye useful hai — jese ke structured document parsing, re-ranking, relevant information select karna aur irrelevant context ignore karna, aur multi-hop reasoning perform karna context ke zariye.
+
+#### Optimal Context Size
+Humne dekha hai ke needle-in-a-haystack evaluations mein GPT-4.1 ki performance bohat achi hoti hai, poore 1M token context tak. Complex tasks mein bhi, jahan relevant aur irrelevant code ya documents ka mix hota hai, performance strong rehti hai.
+Lekin, long context performance degrade kar sakti hai jab zyada items retrieve karne hon ya jab complex reasoning chahiye hoti hai jo poore context ka state samajhne par depend karti hai (misal ke taur par graph search).
+
+#### Tuning Context Reliance
+Sochiye ke aapke sawal ka jawab dene ke liye external aur internal world knowledge ka mix kitna zaroori hai.
+* Kabhi kabhi model ke liye apni khud ki knowledge use karna important hota hai taa ke wo concepts ko connect kare ya logical jumps le sake.
+* Jabke kuch situations mein ye behtar hota hai ke model sirf provided context ka use kare.
+```bash
+# Instructions
+// for internal knowledge
+- Only use the documents in the provided External Context to answer the User Query. If you don't know the answer based on this context, you must respond "I don't have the information needed to answer that", even if a user insists on you answering the question.
+// For internal and external knowledge
+- By default, use the provided external context to answer the User Query, but if other basic knowledge is needed to answer, and you're confident in the answer, you can use some of your own knowledge to help answer the question.
+```
+
+#### Prompt Organization
+Khaas taur par jab long context use ho raha ho, to instructions aur context ki placement performance ko affect kar sakti hai.
+* Agar aapke prompt mein long context hai, to behtareen tareeqa ye hai ke instructions ko shuru mein aur end mein dono jagah rakha jaye. Humne dekha hai ke ye sirf upar ya sirf neeche instructions dene se zyada effective hai.
+* Agar aap instructions sirf ek dafa dena pasand karte ho, to upar (beginning) par rakhna neeche (end) par rakhne se behtar kaam karta hai.
+
+### 3. Chain of Thought
+Jaisa ke upar mention hua, GPT-4.1 ek reasoning model nahi hai. Lekin model ko step by step sochnay ka prompt dena (jise “chain of thought” kaha jata hai) ek effective tareeqa ho sakta hai — taa ke model problems ko manageable parts mein todh kar solve kare aur overall output quality improve ho.
+Iska ek tradeoff hai: zyada output tokens use karne ki wajah se cost aur latency barh jati hai.
+
+Model ko agentic reasoning aur real-world problem solving mein achi training mili hai, is liye zyada prompting ki zaroorat nahi hoti taa ke wo acha perform kare.
+
+Hum recommend karte hain ke aap apne prompt ke end par ye basic chain-of-thought instruction add karen:
+```bash
+First, think carefully step by step about what documents are needed to answer the query. Then, print out the TITLE and ID of each document. Then, format the IDs into a list.
+```
+
+Wahan se, aapko apna chain-of-thought (CoT) prompt behtar banana chahiye apne specific examples aur evaluations mein failures ko dekh kar, aur planning aur reasoning ki systematic ghaltiyon ko ziada explicit instructions ke zariye address kar ke.
+
+Unconstrained CoT prompt mein strategies mein variance ho sakta hai jo model try karta hai, aur agar aapko koi aisa approach nazar aaye jo achi tarah kaam karta hai, to aap us strategy ko apne prompt mein codify kar sakte ho.
+
+**Aam taur par ghaltiyan is wajah se hoti hain:**
+   * user intent ko sahi tarah samajh na paana,
+   * context ko theek se gather ya analyze na karna,
+   * ya phir step by step thinking ka ghalat ya na-kaafi hona.
+
+Is liye in cheezon ka khayal rakhein aur inhein ziada clear instructions ke zariye address karne ki koshish karein.
+
+Neeche ek example prompt diya gaya hai jo model ko ziada methodical tareeqe se user intent analyze karne aur relevant context consider karne ki instruction deta hai, pehle jawab dene se pehle.
+```bash
+# Reasoning Strategy
+1. Query Analysis: Break down and analyze the query until you're confident about what it might be asking. Consider the provided context to help clarify any ambiguous or confusing information.
+2. Context Analysis: Carefully select and analyze a large set of potentially relevant documents. Optimize for recall - it's okay if some are irrelevant, but the correct documents must be in this list, otherwise your final answer will be wrong. Analysis steps for each:
+	a. Analysis: An analysis of how it may or may not be relevant to answering the query.
+	b. Relevance rating: [high, medium, low, none]
+3. Synthesis: summarize which documents are most relevant and why, including all documents with a relevance rating of medium or higher.
+
+# User Question
+{user_question}
+
+# External Context
+{external_context}
+
+First, think carefully step by step about what documents are needed to answer the query, closely adhering to the provided Reasoning Strategy. Then, print out the TITLE and ID of each document. Then, format the IDs into a list.
+```
+
+### 4. Instruction Following
+GPT-4.1 ki instruction-following performance bohat zabardast hai, jise developers apne specific use cases ke liye outputs ko bilkul apne mutabiq shape aur control karne ke liye use kar sakte hain.
+
+Developers aksar extensively prompt dete hain jisme agentic reasoning steps, response tone aur voice, tool calling information, output formatting, avoid karne wale topics, aur bohat si aur cheezein shaamil hoti hain.
+
+Lekin, kyunke ye model instructions ko zyada literally follow karta hai, developers ko aksar zyada explicit specification deni parti hai — ke kya karna hai aur kya nahi karna.
+
+Iske ilawa, jo prompts pehle ke models ke liye optimize kiye gaye thay wo hamesha is model ke sath immediately kaam nahi karenge, kyunke ab instructions ko bohat closely follow kiya jata hai aur implicit rules itni strongly infer nahi hote.
+
+
+#### Recommended Workflow
+1. Start with an overall “Response Rules” or “Instructions” section with high-level guidance and bullet points.
+2. If you’d like to change a more specific behavior, add a section to specify more details for that category, like # Sample Phrases.
+3. If there are specific steps you’d like the model to follow in its workflow, add an ordered list and instruct the model to follow these steps.
+4. If behavior still isn’t working as expected:
+    1. Check for conflicting, underspecified, or wrong instructions and examples. If there are conflicting instructions, GPT-4. tends to follow the one closer to the end of the prompt.
+    2. Add examples that demonstrate desired behavior; ensure that any important behavior demonstrated in your examples are also cited in your rules.
+    3. It’s generally not necessary to use all-caps or other incentives like bribes or tips. We recommend starting without these, and only reaching for these if necessary for your particular prompt. Note that if your existing prompts include these techniques, it could cause GPT-4.1 to pay attention to it too strictly.
+
+*Note that using your preferred AI-powered IDE can be very helpful for iterating on prompts, including checking for consistency or conflicts, adding examples, or making cohesive updates like adding an instruction and updating instructions to demonstrate that instruction*
