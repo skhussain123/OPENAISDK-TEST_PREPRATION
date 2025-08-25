@@ -1,4 +1,3 @@
-# 📘 MCQs on Agent & Model Settings
 
 ---
 
