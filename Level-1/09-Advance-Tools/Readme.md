@@ -35,6 +35,24 @@ This is the standard behavior. After a tool runs, its output is sent **back to t
 ### Mode 2: `"stop_on_first_tool"` (The Direct Responder)
 This mode stops execution immediately after the **first tool call**. The raw output of that tool becomes the agent's final answer. The LLM does *not* see the tool's result.
 
+```bash
+@function_tool()
+def weather_tool(input:str)-> str:
+    return f"{input} weather is sunny"
+
+
+agent = Agent(
+    name="Assistance",
+    instructions="you are a helpfull assistance if you asked the weather related question youo want to call weather_tool",    
+    model=OpenAIChatCompletionsModel(model='gemini-2.0-flash',openai_client=external_client),
+    tools=[weather_tool],
+    tool_use_behavior="stop_on_first_tool"
+)
+```
+* run_llm_again → Tool call ke baad, agent phir se LLM ko bulaata hai taake tool output ko process karke final response de.
+* stop_on_first_tool → Pehli tool call hi final response hogi; LLM passive ho jata hai, tool ka result directly user ko return hota hai.
+
+
 ### Mode 3: `StopAtTools` (The Workflow Finisher)
 This mode gives you surgical control. You provide a list of "finalizing" tool names. The agent will run its workflow but stop immediately after one of those specific tools is called.
 

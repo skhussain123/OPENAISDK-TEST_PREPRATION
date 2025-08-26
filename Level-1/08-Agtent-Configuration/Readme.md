@@ -83,23 +83,40 @@ print(result.final_output)
 
 ## Global Level
 ```bash
-from agents import Agent, Runner, AsyncOpenAI, set_default_openai_client, set_tracing_disabled, set_default_openai_api
+from agents import Agent, Runner, OpenAIChatCompletionsModel,AsyncOpenAI,set_default_openai_api,set_default_openai_client,set_tracing_disabled
+from dotenv import load_dotenv
+import os
 
-gemini_api_key = ""
-set_tracing_disabled(True)
-set_default_openai_api("chat_completions")
+load_dotenv()
+
+gemini_key = os.getenv('GEMINI_API_KEY')
+set_default_openai_api('chat_completions')
+set_tracing_disabled(disabled=True)
+
+if not gemini_key:
+    raise ValueError("API KEY is NOT Laoded")
 
 external_client = AsyncOpenAI(
-    api_key=gemini_api_key,
-    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+    api_key=gemini_key,
+     base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
 )
+
 set_default_openai_client(external_client)
 
-agent: Agent = Agent(name="Assistant", instructions="You are a helpful assistant", model="gemini-2.0-flash")
+agent =  Agent(
+    name="assistance",
+    instructions="your are a helpfull asistance",
+    model=OpenAIChatCompletionsModel(model='gemini-2.0-flash')
+)
 
-result = Runner.run_sync(agent, "Hello")
+result = Runner.run_sync(starting_agent=agent,input="hi How are you")
 print(result.final_output)
 ```
+
+* set_default_openai_api function use bydeafult openai api and default value set on None
+* set_tracing_disabled default return None
+
+
 
 | Level      | Configure What                            | Override Scope                   | Example Use Case                                         |
 | ---------- | ----------------------------------------- | -------------------------------- | -------------------------------------------------------- |

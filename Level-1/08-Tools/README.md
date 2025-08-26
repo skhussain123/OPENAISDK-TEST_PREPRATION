@@ -89,6 +89,13 @@ def function_tool(
 ) -> ((ToolFunction[...]) -> FunctionTool): ...
 ```
 
+#### Name or description override
+```bash
+@function_tool(name_override="my_weather_func",description_override="my_weather_desc")
+def weather_tool(input:str)-> str:
+    return f"{input} weather is sunny"
+```
+
 ## Agent as a Tool
 In some workflows, you may want a central agent to orchestrate a network of specialized agents, instead of handing off control. You can do this by modeling agents as tools.
 
