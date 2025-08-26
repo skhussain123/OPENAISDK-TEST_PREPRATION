@@ -106,14 +106,15 @@ The simplest way is with a `True`/`False` value. This is great for turning off a
 
 ```python
 @function_tool(is_enabled=False)
-def under_maintenance_tool():
-    """This tool is temporarily disabled."""
-    return "Sorry, this feature is offline for maintenance."
+def addition_tool(a:int, b:int):
+    return a + b
 ```
+* True hone par tool hamesha LLM ke use ke liye available rahega.
+* False hone par tool LLM se completely hidden ho jayega — LLM use call nahi karega.
+
 
 ### The Dynamic On/Off Switch (with a function)
-
-This is where it gets powerful. You can pass a function to `is_enabled` that checks the current context. The tool will only be available if the function returns `True`.
+is_enabled me function (callable) aap context-specific logic laga ke tool ko dynamically enable ya disable kar sakte hain.
 
 *   **Use Case:** An "admin" tool that should only be visible to users with admin privileges.
 
