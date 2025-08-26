@@ -116,17 +116,56 @@ def addition_tool(a:int, b:int):
 ### The Dynamic On/Off Switch (with a function)
 is_enabled me function (callable) aap context-specific logic laga ke tool ko dynamically enable ya disable kar sakte hain.
 
-*   **Use Case:** An "admin" tool that should only be visible to users with admin privileges.
+*  **Use Case:** An "admin" tool that should only be visible to users with admin privileges.
 
 ```python
-# This function checks the context provided during the run.
-def is_user_admin(context: RunContextWrapper, agent: Agent) -> bool:
-    return context.get("user_role") == "admin"
+import os
+from pydantic import BaseModel
+
+from agents import (
+    Agent,
+    Runner,
+    OpenAIChatCompletionsModel,
+    AsyncOpenAI,
+    function_tool,
+    RunContextWrapper,
+)
+from dotenv import load_dotenv
+
+load_dotenv()
+
+gemini_key = os.getenv("GEMINI_API_KEY")
+if not gemini_key:
+    raise ValueError("API KEY is NOT Loaded")
+
+external_client = AsyncOpenAI(
+    api_key=gemini_key,
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+)
+
+class UserContext(BaseModel):
+    user_role: str
+
+def is_user_admin(wrapper: RunContextWrapper[UserContext], agent) -> bool:
+    return wrapper.context.user_role == "admin"
 
 @function_tool(is_enabled=is_user_admin)
 def delete_user_database():
     """[ADMIN ONLY] Deletes the entire user database."""
+    
     return "Database has been deleted."
+
+agent = Agent[UserContext](
+    name="Assistance",
+    instructions="You are a helpful assistant.If user asks to delete, call the delete_user_database tool.",
+    model=OpenAIChatCompletionsModel(model='gemini-2.0-flash', openai_client=external_client),
+    tools=[delete_user_database],
+)
+
+user_ctx = UserContext(user_role="admin")
+result = Runner.run_sync(starting_agent=agent, input="please delete the user data on database?", context=user_ctx)
+
+print(result.final_output)
 ```
 
 ---
@@ -149,6 +188,14 @@ def divide(a: int, b: int) -> str:
 ### The Advanced Way: Custom Error Functions
 
 For more complex scenarios, like custom logging or routing, you can provide a `failure_error_function`. This is less common but offers maximum control.
+
+#### failure_error_function kya hota hai?
+
+failure_error_function ek optional parameter hai jo aap @function_tool decorator ke saath define kar sakte hain.
+
+* Jab koi tool function error (jaise exception ya failure) throw karta hai, to agar aap ne failure_error_function specify kiya hai, to wo function run hoga aur uska return value LLM ko final message ke roop mein diye jaata hai.
+* Agar aap failure_error_function specify nahi karte, to SDK by default default_tool_error_function use karta hai, jo ek generic error message return karta hai:
+* Agar aap failure_error_function=None set karte hain, to errors re-raised hongi (tool crash karega aur fallback message nahi banega).
 
 ---
 
