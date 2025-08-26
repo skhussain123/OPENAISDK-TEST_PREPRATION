@@ -57,14 +57,25 @@ agent = Agent(
 This mode gives you surgical control. You provide a list of "finalizing" tool names. The agent will run its workflow but stop immediately after one of those specific tools is called.
 
 ```python
-from agents import Agent, StopAtTools
+@function_tool()
+def addition_tool(a:int, b:int):
+    return a + b
+
+@function_tool()
+def subtraction_tool(a:int, b:int):
+    return a - b
 
 agent = Agent(
-    name="DataPipeline",
-    tools=[fetch_data, process_data, save_data],
-    tool_use_behavior=StopAtTools(stop_at_tool_names=["save_data"]),
+    name="Assistance",
+    instructions="you are a helpfull assistance if you asked the add related question you want to call addition_tool and subtraction related question you want to call subtraction_tool",    
+    model=OpenAIChatCompletionsModel(model='gemini-2.0-flash',openai_client=external_client),
+    tools=[addition_tool, subtraction_tool],
+    tool_use_behavior=StopAtTools(stop_at_tool_names=["addition_tool"])
 )
 ```
+* jab addition_tool tool call hoga to tool output llm ke pass nh jaeyga. direct answer ayega tool ka.
+* jab subtraction_tool tool call hoga to tool output llm ke pass jaeyga or llm sy process hokr aega.
+
 
 ---
 
