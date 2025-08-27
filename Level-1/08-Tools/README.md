@@ -62,7 +62,7 @@ async def get_weather(city: str) -> str:
     return f"The weather in {city} is sunny."
 ```   
 
-##### @function_tool Class
+##### @function_tool Class (decorator)
 ```bash
 (function)
 def function_tool(
@@ -76,17 +76,6 @@ def function_tool(
     strict_mode: bool = True,
     is_enabled: bool | ((RunContextWrapper[Any], Agent[Any]) -> MaybeAwaitable[bool]) = True
 ) -> FunctionTool: ...
-
-def function_tool(
-    *,
-    name_override: str | None = None,
-    description_override: str | None = None,
-    docstring_style: DocstringStyle | None = None,
-    use_docstring_info: bool = True,
-    failure_error_function: ToolErrorFunction | None = None,
-    strict_mode: bool = True,
-    is_enabled: bool | ((RunContextWrapper[Any], Agent[Any]) -> MaybeAwaitable[bool]) = True
-) -> ((ToolFunction[...]) -> FunctionTool): ...
 ```
 
 #### Name or description override
@@ -97,7 +86,7 @@ def weather_tool(input:str)-> str:
 ```
 * tool ka name llm ke pass function name wala name jata ha agr issy change krna name_override ke perameter sy kr sakty ha.
 * tool desc llm ke pass function doc string me jo likha hoga wo jaga description me. agr doc string nh de apny to description blank jayegi llm ke pass. agr ap issy change krna chahty hato description_override sy kr sakty ha.
-
+* agr hum dot string dekr description_override me bhi description de to wo description_override ko llm ke pss bhjy ga.
 
 
 ## Agent as a Tool
