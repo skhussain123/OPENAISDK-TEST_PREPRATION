@@ -328,6 +328,19 @@ Definition: Top-k sampling mein model har step pe sabse zyada probability wale "
   * Agar top-k=50, toh model har baar top 50 high-probability tokens mein se choose karega.
   * Chhota k (jaise k=10) zyada predictable output deta hai, jabke bada k (jaise k=100) zyada diverse output deta hai.
 
+##### Kaam:
+* Top-k output ko control karta hai by limiting choices to a fixed number of tokens.
+* Yeh creative ya predictable output ke liye use hota hai, depending on k ki value.
+* Example: Technical ya factual answers ke liye chhota k (jaise k=10) better hai, jabke creative tasks ke liye bada k (jaise k=100).
+
+#### Top-p aur Top-k Mein Difference
+| Feature             | Top-p (Nucleus Sampling)                                       | Top-k Sampling                                                             |
+| ------------------- | -------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| **Selection Basis** | Probability threshold (p) ke basis pe tokens select hote hain. | Fixed number (k) ke basis pe top tokens select hote hain.                  |
+| **Flexibility**     | Dynamic hai; nucleus size har step pe change ho sakta hai.     | Static hai; har baar fixed k tokens hi liye jaate hain.                    |
+| **Output Control**  | Zyada natural aur relevant output deta hai.                    | Output predictable ya diverse ho sakta hai, k ke size pe depend karta hai. |
+| **Use Case**        | Creative lekin controlled content (jaise stories).             | Factual ya creative tasks, depending on k value.                           |
+
 
 
 
