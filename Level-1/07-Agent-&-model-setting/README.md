@@ -342,26 +342,6 @@ Definition: Top-k sampling mein model har step pe sabse zyada probability wale "
 | **Use Case**        | Creative lekin controlled content (jaise stories).             | Factual ya creative tasks, depending on k value.                           |
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Tool Choice
 
 1. auto bydefault (llm khud choice kryga konsa tool call krna ha)
@@ -676,7 +656,19 @@ Jab Agent human_review tool ko call kare, to uske baad LLM ko dobara run NAHI ka
 | `StopAtTools(stop_at_tool_names=["human_review"])` | Sirf listed tool pe rukna      | ❌ Continue karta hai | ✅ Ruk jaata hai  
 
 
-#### Parallel Tool Calls
+### Parallel Tool Calls
+* Jab parallel_tool_calls = true hota hai, to model ek hi step mein multiple tools ko ek saath call kar sakta hai (parallel execution).
+* Jab parallel_tool_calls = false hota hai, to model ek waqt pe sirf ek tool call karta hai (sequential execution).
+
+#### Example
+##### parallel_tool_calls = true
+  * Model ek hi turn mein ek saath web.search() aur python dono chala sakta hai.
+  * Fayda: Speed zyada hoti hai, tasks ek hi waqt process hote hain.
+
+##### parallel_tool_calls = false
+  * Model pehle web.search() karega → uska result lega → phir python chalaye ga.
+  * Fayda: Order maintained rehta hai, debugging easy hoti hai.
+
 ```bash
 # Agent can use multiple tools at once
 parallel_agent = Agent(
@@ -699,7 +691,27 @@ sequential_agent = Agent(
 )
 ```
 
-#### Top-P and Penalties
+### frequency_penalty
+* Jab frequency_penalty low (0 ya near 0) hota hai → model zyadatar tokens repeat karne ki aadat rakhta hai (words/phrases dobara use kar sakta hai).
+* Jab frequency_penalty high hota hai → model repeated words ko avoid karta hai, aur nayi variety ke words choose karta hai.
+
+#### Formula-wise idea:
+Ye penalty model ke logit scores (jo token choose karte hain) par lagti hai.
+* Har token jo pehle output mein aa chuka hai, uska score penalize ho jaata hai jitni dafa wo repeat hua hai.
+* Matlab jitni dafa ek word repeat hoga, uske dobara choose hone ka chance kam hota jaata hai.
+
+#### Example
+
+**Prompt: "Write a poem about the moon."**
+##### frequency_penalty = 0
+* Output ho sakta hai:
+* "The moon is bright, the moon is light, the moon is night..." (zyada repetition)
+
+##### frequency_penalty = 2
+* Output ho sakta hai:
+* "The moon glows softly, guiding dreams across the sky..." (kam repetition, zyada variety)
+
+
 ```bash
 # More focused vocabulary
 focused_agent = Agent(
@@ -711,6 +723,29 @@ focused_agent = Agent(
     )
 )
 ```
+
+
+### frequency_penalty
+* frequency_penalty → Ek token jitni dafa repeat hota hai, utni hi zyada penalty lagti hai (repetition count based).
+* presence_penalty → Bas ek hi dafa agar token aa gaya, to uske dobara aane ke chance kam ho jaate hain (presence based, count se farq nahi).
+
+#### Simple Explanation
+* Low presence_penalty (0) → Model easily same words/ideas dobara use karega.
+* High presence_penalty → Model naya vocabulary aur nayi directions explore karega (repeat avoid karega aur naye topics introduce karega).
+
+
+#### Example
+**Prompt: "Talk about cats."**
+##### presence_penalty = 0
+* Output ho sakta hai:
+* "Cats are cute. Cats are playful. Cats love to sleep." (zyada “cats” repeat)
+
+##### presence_penalty = 2
+* Output ho sakta hai:
+* "Cats are cute. They are playful animals that enjoy sleeping and hunting." (naye words aate hain, “cats” dobara kam repeat hota hai)
+
+
+
 
 ## 🎯 When to Use Each Setting
 
@@ -724,3 +759,144 @@ focused_agent = Agent(
 | **High Max Tokens** | Need detailed explanations | Tutorials, documentation |
 
 
+
+
+
+---
+# Agent Workflow Process Explanation
+This document explains the process of how the Agent workflow runs, based on the verbose output provided. The process is broken down into **10 baby steps** to make it easy to understand, especially for beginners. Each step describes what happens in the workflow when the Agent processes a user input like "what is the weather in karachi.what is latest news.write a poem".
+
+---
+
+## Step 1: Agent Workflow Starts
+- **What Happens?**: When you run the `Runner.run_sync` function, the Agent starts a new workflow. A unique ID (`trace_ba3241253da64798b5e87f22baf2d58c`) is created to track this specific execution.
+- **Simple Meaning**: The program begins, and the system assigns a name (ID) to keep track of every step.
+
+---
+
+## Step 2: Agent Span Creation
+- **What Happens?**: A "span" is created to track a specific part of the Agent's work. This span indicates that the Agent (named "assistance") is starting its first turn (iteration) to process the input.
+- **Simple Meaning**: The Agent "assistance" begins working on the user's request.
+
+---
+
+## Step 3: LLM Call Preparation
+- **What Happens?**: Another span is created to indicate that the Large Language Model (LLM, e.g., Gemini-2.0-flash) is about to be called to generate a response.
+- **Simple Meaning**: The system prepares to ask the AI model for an answer.
+
+---
+
+## Step 4: Input and Tools Sent to LLM
+- **What Happens?**: The system sends two things to the LLM:
+  1. **System Prompt**: Instructions telling the Agent which tools to call for specific queries (e.g., `weather_check` for weather queries, `latest_news` for news queries, `poem_writer` for poem queries).
+  2. **User Input**: The user's query ("what is the weather in karachi.what is latest news.write a poem").
+  - A list of available tools (`weather_check`, `latest_news`, `poem_writer`) is also provided.
+- **Simple Meaning**: The AI is told what the user asked and which tools it can use to answer.
+
+---
+
+## Step 5: LLM Response with Tool Calls
+- **What Happens?**: The LLM processes the input and decides to call three tools:
+  1. `weather_check` with input "weather in karachi".
+  2. `latest_news` with input "latest news".
+  3. `poem_writer` with input "write a poem".
+  - The LLM doesn't return a text response (`content: null`) but instead sends these tool calls.
+- **Simple Meaning**: The AI understands the user's three questions and decides to use three tools to answer them.
+
+---
+
+## Step 6: Tools Are Executed
+- **What Happens?**: Each tool is called one by one:
+  - `weather_check` runs and returns "f{input} weather is sunny".
+  - `latest_news` runs and returns "f{input} latest news is call".
+  - `poem_writer` runs and returns "f{input} poem writer is call".
+  - A span is created for each tool call to track its execution.
+  - **Issue**: The outputs contain `f{input}` as a literal string, which is a bug in the tool code (explained later).
+- **Simple Meaning**: The tools are activated, but they give incorrect outputs because of a coding mistake.
+
+---
+
+## Step 7: Second Turn Starts
+- **What Happens?**: After the tools return their results, the Agent starts a second turn to process these results and prepare a final response.
+- **Simple Meaning**: The system takes the tool outputs and prepares to give a final answer.
+
+---
+
+## Step 8: Tool Results Sent Back to LLM
+- **What Happens?**: The LLM is called again with:
+  - The original system prompt and user input.
+  - The tool calls from the first turn.
+  - The tool outputs ("f{input} weather is sunny", etc.).
+  - This gives the LLM context to create a final response.
+- **Simple Meaning**: The AI is shown the tool results so it can make a final answer.
+
+---
+
+## Step 9: Final LLM Response
+- **What Happens?**: The LLM notices that the tool outputs are incorrect (they contain `f{input}` instead of proper formatted responses). It returns a message:
+  ```
+  OK. I have the weather in Karachi, the latest news, and a poem for you. However, there seems to be some issue. Instead of giving the actual weather, news and a poem, I am getting a response that says 'f{input} weather is sunny', 'f{input} latest news is call' and 'f{input} poem writer is call'. Would you like me to try again?
+  ```
+- **Simple Meaning**: The AI sees the mistake in the tool outputs and asks if you want to try again.
+
+---
+
+## Step 10: Workflow Ends and Final Output
+- **What Happens?**: The workflow completes, the trace is reset, and the final output is printed (the LLM's message from Step 9). The trace provider and processor are shut down, and 7 items (spans) are exported for tracking.
+- **Simple Meaning**: The program finishes, and you get the final message saying there was a problem with the tool outputs.
+
+---
+
+## Why the Output Was Incorrect?
+The tools (`weather_check`, `latest_news`, `poem_writer`) have a bug in their code. They return `f{input}` as a literal string instead of formatting the input correctly using an f-string. For example:
+
+```python
+return "f{input} weather is sunny"  # Wrong: Returns literal "f{input}"
+```
+
+Should be:
+
+```python
+return f"{input} weather is sunny"  # Correct: Formats the input properly
+```
+
+### Fixed Tool Code Example
+```python
+@function_tool
+def weather_check(input: str) -> str:
+    """This tool solves weather-related queries"""
+    print("Weather Tool is Called")
+    return f"{input} weather is sunny"
+
+@function_tool
+def latest_news(input: str) -> str:
+    """This tool solves latest news-related queries"""
+    print("Latest News Tool is Called")
+    return f"{input} latest news is fetched"
+
+@function_tool
+def poem_writer(input: str) -> str:
+    """This tool solves poem writer-related queries"""
+    print("Poem Tool is Called")
+    return f"{input} poem is written"
+```
+
+### Expected Output After Fix
+```
+Weather Tool is Called
+Latest News Tool is Called
+Poem Tool is Called
+Final output:
+- weather in karachi weather is sunny
+- latest news latest news is fetched
+- write a poem poem is written
+```
+
+---
+
+## How to Use This Information
+- **Fix the Bug**: Update the tool functions to use proper f-strings as shown above.
+- **Test Again**: Run the code with the fixed tools to get the correct output.
+- **Learn from Tracing**: The verbose output helps you see every step of the Agent's process, which is useful for debugging and understanding how the system works.
+
+If you need further help or want to modify the code, refer to the original code and ensure the API key and network settings are correct to avoid connection errors.
