@@ -95,6 +95,10 @@ def function_tool(
 def weather_tool(input:str)-> str:
     return f"{input} weather is sunny"
 ```
+* tool ka name llm ke pass function name wala name jata ha agr issy change krna name_override ke perameter sy kr sakty ha.
+* tool desc llm ke pass function doc string me jo likha hoga wo jaga description me. agr doc string nh de apny to description blank jayegi llm ke pass. agr ap issy change krna chahty hato description_override sy kr sakty ha.
+
+
 
 ## Agent as a Tool
 In some workflows, you may want a central agent to orchestrate a network of specialized agents, instead of handing off control. You can do this by modeling agents as tools.
