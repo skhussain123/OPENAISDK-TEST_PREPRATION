@@ -301,19 +301,19 @@ print("Last agent to respond:", result.final_output)
 
 ---
 
-### Top-p Sampling Kya Hai?
+## Top-p Sampling Kya Hai?
 Definition: Top-p (nucleus sampling) ek method hai jisme model apne possible outputs (tokens) mein se sirf un tokens ko select karta hai jo ek specific probability threshold (p) ke andar aate hain. Yani, model woh tokens choose karta hai jo combined probability mein ek particular percentage (p) cover karte hain.
 
-#### Kaise Kaam Karta Hai?:
+### Kaise Kaam Karta Hai?:
 * Model har possible token ko probability ke hisaab se rank karta hai.
 * Phir woh chhote se chhota set (nucleus) banata hai jisme tokens ki total probability p (jaise 0.9) tak hoti hai.
 * Sirf is nucleus ke tokens mein se randomly select karta hai.
 
-#### Example:
+### Example:
 * Agar top-p=0.9, toh model woh tokens select karega jo 90% probability cover karte hain. Baaki 10% low-probability tokens ignore ho jaate hain.
 * Yeh output ko creative banata hai, lekin bilkul random nahi, kyunki low-probability wale tokens nahi liye jaate.
 
-#### Kaam:
+### Kaam:
 * Top-p output ko balanced rakhta hai—na bohot predictable, na bohot random.
 * Agar aap creative lekin relevant jawab chahte hain, toh top-p acha hai.
 * Example: Story writing ya engaging content ke liye top-p=0.9 acha hota hai.
