@@ -217,6 +217,15 @@ result = Runner.run_sync(math_tutor, "Solve: 2x + 5 = 13")
 print(result.final_output)
 ```
 
+#### Max Tokens Kya Hai?
+* **Max_tokens** ek parameter hai jo AI model ke har response ke liye maximum kitne "tokens" generate ho sakte hain, yeh control karta hai.
+* **Token Kya Hai?:** Token ek chhoti unit hoti hai jo text ko represent karti hai. Ek token ek word, punctuation, ya space bhi ho sakta hai. Average taur par:
+   * 1 word ≈ 1-2 tokens (English mein).
+   * Example: "Hello, world!" yeh 3 words aur ~5 tokens hai (Hello + comma + space + world + exclamation).
+* Max_tokens ka Kaam: Yeh limit set karta hai ke model ek baar mein kitna lamba jawab de sakta hai. Agar max_tokens=400, toh model ka response 400 tokens se zyada nahi hoga.
+
+---
+
 ### Example 2: Creative Writer with High Temperature
 ```bash
 creative_writer = Agent(
