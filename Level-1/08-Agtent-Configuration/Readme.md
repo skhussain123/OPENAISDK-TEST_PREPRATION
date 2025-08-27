@@ -120,7 +120,7 @@ set_default_openai_client(external_client)
 agent =  Agent(
     name="assistance",
     instructions="your are a helpfull asistance",
-    model=OpenAIChatCompletionsModel(model='gemini-2.0-flash')
+     model=OpenAIChatCompletionsModel(model='gemini-2.0-flash',openai_client=external_client)
 )
 
 result = Runner.run_sync(starting_agent=agent,input="hi How are you")
