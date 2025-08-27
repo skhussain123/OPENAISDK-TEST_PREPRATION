@@ -7,6 +7,10 @@ Agents SDK is setup to use OpenAI as default providers. When using other provide
 3. Global Level
 
 ## 1. AGENT LEVEL
+* Har Agent instance apni khud ki configuration specify kar sakta hai—jaise model, model_settings, tools, instructions, aur even custom ModelProvider.
+* Yeh flexibility deta hai ke different agents use different models or providers in the same application/workflow.
+* Use case: Jab ek workflow mein multiple agents ho, aur aap chahte ho ke har agent ek specific model ya provider use kare (e.g., Spanish agent uses GPT-3.5, English agent uses Gemini, etc.).
+
 ```bash
 import os
 from agents import Agent, Runner, OpenAIChatCompletionsModel, set_tracing_disabled
@@ -43,6 +47,11 @@ print(result.final_output)
 ```
 
 ## 2. Run LEVEL
+* Runner (ya Runner.run) configuration ke through aap ek specific run ke liye model provider, model settings, tracing options etc. override kar sakte hain.
+* Isme aap RunConfig object pass karte ho, jisme settings jaise model choice, modelProvider, modelSettings, tracing flags, guardrails, context, etc. set ho sakte hain.
+* Use case: Jab ek specific execution ke liye different setup chahiye ho (e.g., test run, high-temperature model, tracing disabled, etc.).
+
+
 ```bash
 import os
 from agents import Agent, Runner, OpenAIChatCompletionsModel,AsyncOpenAI
@@ -82,6 +91,11 @@ print(result.final_output)
 ```
 
 ## Global Level
+* Global level pe aap entire application ya SDK instance ke liye defaults set kar sakte hain—jaise ke default OpenAI client, base URL, ya API key.
+* Example: set_default_openai_client(...) se har agent aur run mein woh client automatically istemal ho jata hai.
+* Use case: Jab aap ek consistent LLM provider, endpoint, ya auth config poore app mein use karna chahte ho.
+
+
 ```bash
 from agents import Agent, Runner, OpenAIChatCompletionsModel,AsyncOpenAI,set_default_openai_api,set_default_openai_client,set_tracing_disabled
 from dotenv import load_dotenv
@@ -123,22 +137,6 @@ print(result.final_output)
 | **Global** | Default client/provider, API key, routing | Entire SDK / Application         | Use a single OpenAI client across all agents and runs    |
 | **Run**    | Model, settings, tracing, guardrails      | One specific `Runner.run()` call | Temporary override: high-temperature or tracing-only run |
 | **Agent**  | Model, tools, instructions                | Individual `Agent`               | Mix-and-match models: e.g., specialized agents per task  |
-
-
-#### 1. Global Level
-* Global level pe aap entire application ya SDK instance ke liye defaults set kar sakte hain—jaise ke default OpenAI client, base URL, ya API key.
-* Example: set_default_openai_client(...) se har agent aur run mein woh client automatically istemal ho jata hai.
-* Use case: Jab aap ek consistent LLM provider, endpoint, ya auth config poore app mein use karna chahte ho.
-
-#### 2. Run Level
-* Runner (ya Runner.run) configuration ke through aap ek specific run ke liye model provider, model settings, tracing options etc. override kar sakte hain.
-* Isme aap RunConfig object pass karte ho, jisme settings jaise model choice, modelProvider, modelSettings, tracing flags, guardrails, context, etc. set ho sakte hain.
-* Use case: Jab ek specific execution ke liye different setup chahiye ho (e.g., test run, high-temperature model, tracing disabled, etc.).
-
-#### 3. Agent Level
-* Har Agent instance apni khud ki configuration specify kar sakta hai—jaise model, model_settings, tools, instructions, aur even custom ModelProvider.
-* Yeh flexibility deta hai ke different agents use different models or providers in the same application/workflow.
-* Use case: Jab ek workflow mein multiple agents ho, aur aap chahte ho ke har agent ek specific model ya provider use kare (e.g., Spanish agent uses GPT-3.5, English agent uses Gemini, etc.).
 
 
 ### Question For this Code 
