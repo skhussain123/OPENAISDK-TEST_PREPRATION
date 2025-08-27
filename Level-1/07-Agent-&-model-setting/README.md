@@ -656,9 +656,10 @@ Jab Agent human_review tool ko call kare, to uske baad LLM ko dobara run NAHI ka
 | `StopAtTools(stop_at_tool_names=["human_review"])` | Sirf listed tool pe rukna      | ❌ Continue karta hai | ✅ Ruk jaata hai  
 
 
-### Parallel Tool Calls
+### Parallel Tool Calls (default None)
 * Jab parallel_tool_calls = true hota hai, to model ek hi step mein multiple tools ko ek saath call kar sakta hai (parallel execution).
 * Jab parallel_tool_calls = false hota hai, to model ek waqt pe sirf ek tool call karta hai (sequential execution).
+* Gemini API ka OpenAI-compatible wrapper abhi sirf sequential tool calls allow karta hai (parallel nahi).
 
 #### Example
 ##### parallel_tool_calls = true
@@ -676,7 +677,7 @@ parallel_agent = Agent(
     tools=[weather_tool, calculator, translator],
     model_settings=ModelSettings(
         tool_choice="auto",
-        parallel_tool_calls=True  # Use multiple tools simultaneously
+        parallel_tool_calls=True  # Use multiple tools simultaneously (parallel tool calling not support for gemini chat compatible)
     )
 )
 
@@ -719,11 +720,9 @@ focused_agent = Agent(
     model_settings=ModelSettings(
         top_p=0.3,              # Use only top 30% of vocabulary
         frequency_penalty=0.5,   # Avoid repeating words
-        presence_penalty=0.3     # Encourage new topics
     )
 )
 ```
-
 
 ### frequency_penalty
 * frequency_penalty → Ek token jitni dafa repeat hota hai, utni hi zyada penalty lagti hai (repetition count based).
@@ -744,9 +743,6 @@ focused_agent = Agent(
 * Output ho sakta hai:
 * "Cats are cute. They are playful animals that enjoy sleeping and hunting." (naye words aate hain, “cats” dobara kam repeat hota hai)
 
-
-
-
 ## 🎯 When to Use Each Setting
 
 | Setting | Use When | Example |
@@ -757,7 +753,6 @@ focused_agent = Agent(
 | **Tool Choice: None** | Want chat-only responses | Casual conversation |
 | **Low Max Tokens** | Need brief responses | Quick answers, summaries |
 | **High Max Tokens** | Need detailed explanations | Tutorials, documentation |
-
 
 
 
