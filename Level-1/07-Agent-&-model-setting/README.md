@@ -324,6 +324,9 @@ Definition: Top-k sampling mein model har step pe sabse zyada probability wale "
   * Model sab tokens ko probability ke hisaab se sort karta hai.
   * Top-k tokens (jaise k=50) select karta hai aur unme se randomly ek pick karta hai.
   * Baaki tokens ignore kar diya jaate hain.
+##### Example:
+  * Agar top-k=50, toh model har baar top 50 high-probability tokens mein se choose karega.
+  * Chhota k (jaise k=10) zyada predictable output deta hai, jabke bada k (jaise k=100) zyada diverse output deta hai.
 
 
 
