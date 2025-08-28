@@ -59,7 +59,25 @@ result = Runner.run_sync(starting_agent=triage_agent,input='i have some isses th
 print(result.final_output)
 print(result.last_agent) # <--- this is property
 ```
-*handoff agent ka name llm ke p-ass is tarha jata ha transfer_to_nextjs_agent
+* handoff agent ka name llm ke p-ass is tarha jata ha transfer_to_nextjs_agent
+* age me handoff agent ko name or instruction blank rakh kr run kry to cahl jayega.
+
+**is tarha**
+```bash
+Python_agent = Agent(
+   name="",
+   instructions='',  
+)
+```
+```bash
+Python_agent = Agent(
+   name="Python_agent",
+   instructions='you are a help full Python Assistace',
+   handoff_description="you are poem writer"  
+)
+```
+* **Instructions:** Yeh batata hai ke Python_agent khud kya karega jab usay query milegi. Masalan, instructions='you are a helpful Python Assistant' ka matlab hai ke yeh agent Python-related sawalon ke jawab dega, jaise coding help ya debugging.
+* **Handoff_description:** Yeh triage_agent ke liye ek hint hai jo batata hai ke Python_agent kis tarah ke queries handle kar sakta hai. Masalan, handoff_description="you are poem writer" ka matlab hai ke triage_agent query ko Python_agent ke taraf bhej sakta hai agar query poem se related lagti hai. Lekin jab query Python_agent ke pas jati hai, to woh apne instructions ke mutabiq kaam karta hai, na ke handoff_description ke.
 
 
 **Out Ke Sath ye Agent Class Return hogi result.last_agent ki jasy se**
