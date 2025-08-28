@@ -59,6 +59,8 @@ result = Runner.run_sync(starting_agent=triage_agent,input='i have some isses th
 print(result.final_output)
 print(result.last_agent) # <--- this is property
 ```
+*handoff agent ka name llm ke p-ass is tarha jata ha transfer_to_nextjs_agent
+
 
 **Out Ke Sath ye Agent Class Return hogi result.last_agent ki jasy se**
 ```bash
