@@ -611,65 +611,129 @@ Python default tor pe output ko buffered mode mein rakhta hai — matlab, writin
 
        
 ---
-### Errors Info
-##### if you Run
+### Complete Example
 ```bash
+from agents import Agent, Runner, OpenAIChatCompletionsModel,AsyncOpenAI,set_tracing_disabled
+from dotenv import load_dotenv
+import os
 import asyncio
+from openai.types.responses import ResponseTextDeltaEvent
 
-result = Runner.run(starting_agent=myagent,input='write a 3 poem in list',run_config=config)
-print(result.final_output)
-print(result.last_agent)
-```
+load_dotenv()
+set_tracing_disabled(False)
 
-**You Will See this Error** 
-```bash
-Traceback (most recent call last):
-  File "C:\Users\user\Pictures\example-app\main.py", line 40, in <module>
-    print(result.final_output)
-          ^^^^^^^^^^^^^^^^^^^
-AttributeError: 'coroutine' object has no attribute 'final_output'
-sys:1: RuntimeWarning: coroutine 'Runner.run' was never awaited
-```
+gemini_key = os.getenv("GEMINI_API_KEY")
+if not gemini_key:
+    raise ValueError("API KEY is NOT Loaded")
 
-##### if you Run
-```bash
-import asyncio
+
+external_client = AsyncOpenAI(
+    api_key=gemini_key,
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+)
+
+agent = Agent(
+    name="Assistance",
+    instructions="you are a helpfull assistance.",
+    model=OpenAIChatCompletionsModel(model="gemini-2.0-flash", openai_client=external_client),
+)
 
 async def main():
-    result = Runner.run_sync(starting_agent=myagent,input='write a 3 poem in list',run_config=config)
-    print(result.final_output)
-    print(result.last_agent)
-asyncio.run(main()) 
+  
+  result = Runner.run_streamed(starting_agent=agent,input="write a blog")
+  async for event in result.stream_events():
+      if(event.type == "raw_response_event" and isinstance(event.data,ResponseTextDeltaEvent)):
+          print(event.data.delta)
+
+
+asyncio.run(main())
 ```
 
-**You Will See**
+### Other Stream Events
+* agent_updated_stream_event
+* run_item_stream_event
+  * tool_call_item
+  * tool_call_output_item
+  * message_output_item
+
 ```bash
-RuntimeError: This event loop is already running
-sys:1: RuntimeWarning: coroutine 'AgentRunner.run' was never awaited
-(example-app) PS C:\Users\user\Pictures\example-app>
+from agents import Agent, Runner, OpenAIChatCompletionsModel,AsyncOpenAI,set_tracing_disabled,ItemHelpers,function_tool
+from dotenv import load_dotenv
+import os
+import asyncio
+import random
+
+load_dotenv()
+set_tracing_disabled(False)
+
+gemini_key = os.getenv("GEMINI_API_KEY")
+if not gemini_key:
+    raise ValueError("API KEY is NOT Loaded")
+
+
+external_client = AsyncOpenAI(
+    api_key=gemini_key,
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+)
+
+@function_tool
+def how_many_jokes() -> int:
+    return random.randint(1, 10)
+
+
+agent = Agent(
+    name="Joker",
+    instructions="First call the `how_many_jokes` tool, then tell that many jokes..",
+    model=OpenAIChatCompletionsModel(model="gemini-2.0-flash", openai_client=external_client),
+    tools=[how_many_jokes]
+)
+
+async def main():
+  
+ result = Runner.run_streamed(starting_agent=agent,input="Hello")
+ async for event in result.stream_events():
+      if(event.type == "raw_response_event"):
+          continue
+      elif(event.type == "agent_updated_stream_event"):
+          print(f"Agent updated: {event.new_agent.name}")
+      
+      elif event.type == "run_item_stream_event":
+          if event.item.type == "tool_call_item":
+                print("-- Tool was called")
+          elif event.item.type == "tool_call_output_item":
+                print(f"-- Tool output: {event.item.output}")
+          elif event.item.type == "message_output_item":
+                print(f"-- Message output:\n {ItemHelpers.text_message_output(event.item)}")
+          else:
+                pass      
+              
+asyncio.run(main())
 ```
 
-##### if you Run
+#### 1. raw_response_event
+* Yeh LLM ka raw chunk hota hai (token by token / partial JSON).
+* Matlab jo model backend se stream me bhej raha hai, woh as-is tumhe milta hai.
+* Normally, isse skip karte hain (tum bhi continue kar rahe ho), kyunki woh "low level" hota hai.
+
+#### 2. agent_updated_stream_event
+* Jab agent ki state update hoti hai, yeh event aata hai.
+* Example: agent ne apna name, instructions, ya context update kiya.
+* Tum use print kar rahe ho:
 ```bash
-result = Runner.run_streamed(starting_agent=myagent,input='write a 3 poem in list',run_config=config)
-print(result.final_output)
-print(result.last_agent)
+print(f"Agent updated: {event.new_agent.name}")
 ```
 
-**You Will See this Error**
-```bash
-File "C:\Users\user\Pictures\example-app\.venv\Lib\site-packages\agents\run.py", line 341, in run_streamed 
-    return runner.run_streamed(
-           ^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\user\Pictures\example-app\.venv\Lib\site-packages\agents\run.py", line 612, in run_streamed 
-    streamed_result._run_impl_task = asyncio.create_task(
-                                     ^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\asyncio\tasks.py", line 381, in create_task
-    loop = events.get_running_loop()
-           ^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: no running event loop
-sys:1: RuntimeWarning: coroutine 'AgentRunner._start_streaming' was never awaited
-```
+#### 3. run_item_stream_event
+
+##### a) tool_call_item
+  * Jab agent kisi tool ko call karta hai.
+  * Example: tumhara custom_weather_tool call hua.
+  * Tumne "-- Tool was called" print karwaya.
+
+
+
+
+
 
 ##### runner.run_sync vs runner.run
 1. runner.run() ek asynchronous function ko run karta hai runner ke context ke andar. Isse await ke saath call kiya jata hai, aur yeh async code ke liye hota hai.
