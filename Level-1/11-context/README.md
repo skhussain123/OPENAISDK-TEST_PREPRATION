@@ -121,13 +121,15 @@ myagent =  Agent[UserInfo](  # user class ka sturcture agent ko diya gaya ha [Us
 ## Local or Agent/LLM context 
 ```bash
 import os
-from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel, set_tracing_disabled, RunContextWrapper
+from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel,set_tracing_disabled,RunContextWrapper,function_tool,enable_verbose_stdout_logging
 from dotenv import load_dotenv
 from pydantic import BaseModel
 
-# API key load karna
+
+# Load API key
 load_dotenv()
 set_tracing_disabled(disabled=True)
+# enable_verbose_stdout_logging()
 
 gemini_api_key = os.getenv('GEMINI_API_KEY')
 if not gemini_api_key:
@@ -138,29 +140,38 @@ external_client = AsyncOpenAI(
     base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
 )
 
-# Local Context ke liye Pydantic model
 class UserInfo(BaseModel):
-    user_id: int
-    user_name: str
-    user_city: str
+    user_id : int
+    user_name : str
+    user_father : str
 
-# Local Context object banaya
-user_check = UserInfo(user_id=1354280, user_name="Hussain", user_city="Karachi")
 
-# Function jo Local Context se data nikalta hai
-def get_user_info(wrapper: RunContextWrapper[UserInfo], agent: Agent):
-    return f"User ka naam: {wrapper.context.user_name}, ID: {wrapper.context.user_id}, Shehar: {wrapper.context.user_city}"
+user_check = UserInfo(user_id=1354280,user_name="Hussain",user_father="Faheem")
 
-# Agent define karna
+# Local Context Data Get in Tool
+@function_tool
+def students_data(wrapper: RunContextWrapper[UserInfo], query_type: str, name: str = None):
+    """Fetches student data based on the query type and optional name filter."""
+    if name and wrapper.context.user_name.lower() != name.lower():
+        return f"No student found with name {name}"
+    if query_type == "father_name":
+        return f"The father name of {wrapper.context.user_name} is {wrapper.context.user_father}"
+    elif query_type == "user_id":
+        return f"The user ID of {wrapper.context.user_name} is {wrapper.context.user_id}"
+    else:
+        return f"The user name is {wrapper.context.user_name}, the user ID is {wrapper.context.user_id}, the father name is {wrapper.context.user_father}"
+    
+
 myagent = Agent[UserInfo](
-    name="user data system",
-    instructions="Local context se user ki information nikalne ke liye get_user_info function use karo.",
+    name="students data management system",
+    instructions="For student-related queries, use the students_data tool. Pass 'father_name' as query_type for father name queries, and include the student's name if specified in the query.",
     model=OpenAIChatCompletionsModel(model='gemini-2.0-flash', openai_client=external_client),
+    tools=[students_data],
 )
 
-# Query aur run
-query = "Hussain ki details batao"
-result = Runner.run_sync(starting_agent=myagent, input=query, context=user_check)
+query =  "what is father name of hussain?"
+
+result = Runner.run_sync(starting_agent=myagent, input=query,context=user_check)
 print(result.final_output)
 ```
 
