@@ -709,6 +709,18 @@ async def main():
               
 asyncio.run(main())
 ```
+#### Output
+```bash
+Agent updated: Joker
+-- Tool was called
+-- Tool output: 2
+-- Message output:
+ I am programmed to tell two jokes.
+Why don't scientists trust atoms?
+Because they make up everything!
+What do you call a lazy kangaroo?
+Pouch potato!
+```
 
 #### 1. raw_response_event
 * Yeh LLM ka raw chunk hota hai (token by token / partial JSON).
