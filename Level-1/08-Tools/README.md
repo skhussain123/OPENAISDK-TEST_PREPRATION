@@ -214,6 +214,45 @@ result = Runner.run_sync(starting_agent=triage_agent, input='i want to return by
 rich.print(result.final_output)
 ```
 
+### custom_output_extractor
+Jab tum ek agent ko as_tool method ke zariye tool ke tor par use karte ho, to woh tool ek specific output deta hai. Lekin kabhi-kabhi, tumhe us output ko apne hisaab se process ya modify karna hota hai, taake woh doosre agent ke liye ziyada mufeed ho. Yahan custom_output_extractor kaam aata hai.<br>
+custom_output_extractor ek optional function hai jo tum as_tool method mein pass kar sakte ho. Yeh function RunResult (jo agent ka output hota hai) ko leta hai aur usse ek customized string ya output return karta hai.
+
+* Yeh parameter tumhe yeh control deta hai ke agent ke output mein se kaunsa hissa extract karna hai ya usay kaise format karna hai.
+* Yeh ek tarah ka filter ya transformer hai jo raw output ko tumhare chahay hue format mein badalta hai.
+
+```bash
+from agents import RunResult
+import re
+
+async def extract_temperature(result: RunResult) -> str:
+    print("Raw output:", result.final_output) 
+    
+    # Regex se temperature extract karo
+    match = re.search(r"temperature[s]? around (\d+)°C|temperatures hitting (\d+)°C", result.final_output, re.IGNORECASE)
+    if match:
+        # Agar "temperatures around 32°C" milta hai, to group(1) lo, warna group(2)
+        temp = match.group(1) if match.group(1) else match.group(2)
+        return f"The temperature is {temp}°C"
+    return "Error: Could not extract temperature"
+
+agent_tool = agent_two.as_tool(
+    tool_name="custom_weather_tool",
+    tool_description="this is a custom tool",
+    custom_output_extractor=extract_temperature
+)
+
+agent = Agent(
+    name="CrashAgent",
+    instructions="If asked anything, use agent_tool.",
+    model=OpenAIChatCompletionsModel(model="gemini-2.0-flash", openai_client=external_client),
+    tools=[agent_tool]
+)
+
+result = Runner.run_sync(starting_agent=agent, input="What is the weather in karachi")
+```
+
+
 #### Customizing tool-agents
 ```bash
 from agents import Agent, Runner, function_tool
