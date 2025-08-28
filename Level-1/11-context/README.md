@@ -121,15 +121,13 @@ myagent =  Agent[UserInfo](  # user class ka sturcture agent ko diya gaya ha [Us
 ## Local or Agent/LLM context 
 ```bash
 import os
-from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel,set_tracing_disabled,RunContextWrapper,function_tool
+from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel, set_tracing_disabled, RunContextWrapper
 from dotenv import load_dotenv
 from pydantic import BaseModel
 
-
-# Load API key
+# API key load karna
 load_dotenv()
 set_tracing_disabled(disabled=True)
-
 
 gemini_api_key = os.getenv('GEMINI_API_KEY')
 if not gemini_api_key:
@@ -140,37 +138,29 @@ external_client = AsyncOpenAI(
     base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
 )
 
+# Local Context ke liye Pydantic model
 class UserInfo(BaseModel):
-    name: str
-    age: int
-    city: str
-    roll_num: str
-    
-    
-my_info  = UserInfo(name="hussain",age=22,city="Karachi",roll_num="343432")  
- 
+    user_id: int
+    user_name: str
+    user_city: str
 
-# this is a python custom function for fetch user info with RunContextWrapper
-def check_info(wrapper: RunContextWrapper[UserInfo],agent:Agent):
-    return f"whenever user ask for a roll_number you use given tool user_information to get the roll_nunber of user, user name is {wrapper.context.name}, user age is {wrapper.context.age}"
+# Local Context object banaya
+user_check = UserInfo(user_id=1354280, user_name="Hussain", user_city="Karachi")
 
+# Function jo Local Context se data nikalta hai
+def get_user_info(wrapper: RunContextWrapper[UserInfo], agent: Agent):
+    return f"User ka naam: {wrapper.context.user_name}, ID: {wrapper.context.user_id}, Shehar: {wrapper.context.user_city}"
 
-# this is a fucniton to fetch data in RunContextWrapper and shaare with llm
-@function_tool
-def user_information(wrapper: RunContextWrapper[UserInfo]):
-    return f"user roll_num is {wrapper.context.roll_num}"
-
-
-myagent =  Agent[UserInfo](
-    name="assistance",
-    instructions=check_info,
-    model=OpenAIChatCompletionsModel(model='gemini-2.0-flash',openai_client=external_client),
-    tools=[user_information]
+# Agent define karna
+myagent = Agent[UserInfo](
+    name="user data system",
+    instructions="Local context se user ki information nikalne ke liye get_user_info function use karo.",
+    model=OpenAIChatCompletionsModel(model='gemini-2.0-flash', openai_client=external_client),
 )
 
-query =  "What is the name of user and the age of his and roll number"
-
-result = Runner.run_sync(starting_agent=myagent, input=query,context=my_info)
+# Query aur run
+query = "Hussain ki details batao"
+result = Runner.run_sync(starting_agent=myagent, input=query, context=user_check)
 print(result.final_output)
 ```
 
