@@ -724,16 +724,20 @@ print(f"Agent updated: {event.new_agent.name}")
 ```
 
 #### 3. run_item_stream_event
-
 ##### a) tool_call_item
   * Jab agent kisi tool ko call karta hai.
-  * Example: tumhara custom_weather_tool call hua.
-  * Tumne "-- Tool was called" print karwaya.
+
+##### b) tool_call_output_item
+  * Jab tool se output return hota hai.
+
+##### c) message_output_item
+  * Jab agent message output (final ya intermediate reply) generate karta hai.
+
+##### d) other item types
+* Jaise function_call_item, function_output_item, log_item, etc.
 
 
-
-
-
+---
 
 ##### runner.run_sync vs runner.run
 1. runner.run() ek asynchronous function ko run karta hai runner ke context ke andar. Isse await ke saath call kiya jata hai, aur yeh async code ke liye hota hai.
