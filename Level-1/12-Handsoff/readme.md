@@ -87,6 +87,9 @@ Agent(name='Python_agent', handoff_description=None, tools=[], mcp_servers=[], m
 
 Handoffs allow an agent to delegate task responsibility to another specialized agent. SDK is process ko ek tool call ke roop mein treat karta hai—e.g., agar aap Agent B ko handoff karte hain, toh LLM ko ek “transfer_to_agent_b” tool dikhega, jo handoff initiate karta hai
 
+### handoff make two ways
+* create normal agent and pass tool perameter in triage_agent
+* using handoff()
 
 ## Customizing handoffs via the handoff() function
 The handoff() function lets you customize things.
@@ -100,102 +103,19 @@ The handoff() function lets you customize things.
 * is_enabled: Whether the handoff is enabled. This can be a boolean or a function that returns a boolean, allowing you to dynamically enable or disable the handoff at runtime.
 
 
-**if you want to customize the agent you want to import**
-```bash
-from agents import (
-    Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel,handoff
-)
-```
-
-#### Agent ko Customize krny ka method
-```bash
-import os
-from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel, handoff
-from agents.run import RunConfig
-from dotenv import load_dotenv
-
-# Load API key
-load_dotenv()
-gemini_api_key = os.getenv('GEMINI_API_KEY')
-if not gemini_api_key:
-    raise ValueError("API key is not loaded")
-
-external_client = AsyncOpenAI(
-    api_key=gemini_api_key,
-    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
-)
-
-model = OpenAIChatCompletionsModel(
-    model="gemini-2.0-flash",
-    openai_client=external_client
-)
-
-config = RunConfig(
-    model=model,
-    model_provider=external_client,
-    tracing_disabled=True
-)
-
-# Define specialized agent
-Nextjs_agent = Agent(
-    name="Nextjs_agent",
-    instructions="You are a helpful Next.js assistant."
-)
-
-# jab Nextjs_agent handoff sy call hoga to ye function call hokr customize agent ke details bateyga
-def on_handoff_debug(ctx):
-    print("[DEBUG] Handoff triggered!")
-    print("Tool name:", nextjs_handoff.tool_name)
-    print("Tool description:", nextjs_handoff.tool_description)
-    return Nextjs_agent
-
-
-# Create Handoff object, then manually assign .name
-nextjs_handoff = handoff(
-    agent=Nextjs_agent,
-    tool_name_override="specialized_nextjs_agent",
-    tool_description_override="Transfer to specialized Next.js agent for routing issues.",
-    on_handoff=on_handoff_debug  # <--- jab ap chahty ha Nextjs_agent call hoto koe dusra function call ho jaye to on_handoff attribute use kro
-)
-
-triage_agent = Agent(
-    name="Assistance",
-    instructions="You are a helpful assistant. If the query is about Next.js, hand off to the Next.js agent.",
-    model=model,
-    handoffs=[nextjs_handoff]
-)
-
-result = Runner.run_sync(
-    starting_agent=triage_agent,
-    input="I have some issues with Next.js routing",
-    run_config=config
-)
-
-print("Last agent to respond:", result.last_agent)
-```
-
-**Output**
-```bash
-[DEBUG] Handoff triggered!
-Tool name: specialized_nextjs_agent
-Tool description: Transfer to specialized Next.js agent for routing issues.
-Last agent to respond: Agent(name='Nextjs_agent', handoff_description=None, tools=[], mcp_servers=[], mcp_config={}, instructions='You are a helpful Next.js assistant.', prompt=None, handoffs=[], model=None, model_settings=ModelSettings(temperature=None, top_p=None, frequency_penalty=None, presence_penalty=None, tool_choice=None, parallel_tool_calls=None, truncation=None, max_tokens=None, reasoning=None, verbosity=None, metadata=None, store=None, include_usage=None, response_include=None, top_logprobs=None, extra_query=None, extra_body=None, extra_headers=None, extra_args=None), input_guardrails=[], output_guardrails=[], output_type=None, hooks=None, tool_use_behavior='run_llm_again', reset_tool_choice=True)
-```
-
-#### handoff ye Peramters Lega
+#### Arg
 ```bash
 (function) def handoff(
     agent: Agent[TContext@handoff],
     *,
-    on_handoff: OnHandoffWithoutInput,
-    tool_description_override: str | None = None,
     tool_name_override: str | None = None,
+    tool_description_override: str | None = None,
     input_filter: ((HandoffInputData) -> HandoffInputData) | None = None,
     is_enabled: bool | ((RunContextWrapper[Any], Agent[Any]) -> MaybeAwaitable[bool]) = True
 ) -> Handoff[TContext@handoff, Agent[TContext@handoff]]
 ```
 
-##### Args
+##### Args Defination
 1. agent
 The agent to handoff to, or a function that returns an agent.
 2. tool_name_override
@@ -211,9 +131,162 @@ a function that filters the inputs that are passed to the next agent.
 7. is_enabled
 Whether the handoff is enabled. Can be a bool or a callable that takes the run context and agent and returns whether the handoff is enabled. Disabled handoffs are hidden from the LLM at runtime.
 
+### Difference Between single agent aur handoff() agent
 
-## Handoff inputs
-Handoff Inputs ek mechanism hai jisme, jab ek agent dusre agent ko “handoff” (delegate) kar raha ho, to aap LLM (Large Language Model) se kuch structured data expect kar sakte ho—jaise reason, ticket number, task details—aur wo data naya agent receive kare.
+#### 1. Normal Agent ko Direct Pass Karna
+```bash
+Nextjs_agent = Agent(
+    name="Nextjs_agent",
+    instructions="You are a helpful Next.js assistant."
+)
 
-Ye aap define karte ho using the input_type parameter, jo Pydantic model ki tarah hota hai. SDK is input ko JSON schema ke through validate karta hai aur aap us data ko on_handoff callback me conveniently use kar sakte ho.
+triage_agent = Agent(
+    name="Assistance",
+    instructions="You are a helpful assistant. If the query is about Next.js, hand off to the Next.js agent.",
+    model=model,
+    handoffs=[Nextjs_agent]
+)
+```
+##### Yeh Kya Karta Hai?:
+* Nextjs_agent ko direct handoffs list mein pass kiya gaya hai.
+* triage_agent query ko analyze karta hai aur Nextjs_agent ke instructions ("You are a helpful Next.js assistant") ke basis par decide karta hai ke query Next.js se related hai ya nahi.
+* Handoff ka faisla Nextjs_agent ke name aur instructions par depend karta hai. Yani, triage_agent LLM ke zariye samajhta hai ke query "Next.js" se related hai to Nextjs_agent ko bhej dega.
+
+##### Kab Use Karna?:
+* Jab aap chahte hain ke handoff ka logic simple ho aur triage_agent khud agent ke instructions ya name se faisla kare.
+* Yeh tab kaam karta hai jab handoff ke liye zyada customization ki zarurat nahi hoti.
+
+#### 2. handoff() Function ka Use Karna
+* nextjs_handoff ka name or desc llm pass tool_name_override or tool_description_override wala jaeyga.
+
+```bash
+Nextjs_agent = Agent(
+    name="Nextjs_agent",
+    instructions="You are a helpful Next.js assistant."
+)
+
+nextjs_handoff = handoff(
+    agent=Nextjs_agent,
+    tool_name_override="specialized_nextjs_agent",
+    tool_description_override="Transfer to specialized Next.js agent for routing issues."
+)
+
+triage_agent = Agent(
+    name="Assistance",
+    instructions="You are a helpful assistant. If the query is about Next.js, hand off to the Next.js agent.",
+    model=model,
+    handoffs=[nextjs_handoff]
+)
+```
+##### Yeh Kya Karta Hai?:
+1. handoff() function ke zariye aap Nextjs_agent ko ek custom wrapper mein pass karte hain, jisme aap tool_name_override aur tool_description_override define kar sakte hain.
+2. tool_name_override ek custom naam deta hai jo triage_agent ke liye handoff ke tool ko identify karta hai.
+3. tool_description_override ek specific description deta hai jo triage_agent ko batata hai ke yeh handoff kis tarah ke queries ke liye suitable hai (masalan, "routing issues" ke liye).
+4. triage_agent ab tool_description_override ("Transfer to specialized Next.js agent for routing issues") ko dekhega query ko handoff karne ke liye, na ke sirf Nextjs_agent ke instructions ko.
+
+##### Kab Use Karna?:
+* Jab aap handoff ke logic ko zyada precise aur controlled banana chahte hain.
+* Masalan, agar aap chahte hain ke Nextjs_agent sirf Next.js ke "routing issues" ke liye handoff ho, to tool_description_override mein yeh specific likh sakte hain.
+* Yeh tab useful hai jab aap ke paas multiple agents hain aur aap chaahte hain ke triage_agent specific scenarios ke liye sahi agent select kare.
+
+
+#### Dono mein Farq
+
+#### Control aur Specificity:
+Normal Agent: Handoff ka faisla Nextjs_agent ke name aur instructions par depend karta hai. Yeh zyada generic hota hai aur triage_agent ke LLM par chhod deta hai ke query kaun se agent ke liye hai.
+handoff() Function: tool_description_override ke zariye aap handoff ke logic ko zyada specific bana sakte hain. Masalan, aap keh sakte hain ke sirf "routing issues" ke liye Nextjs_agent ko handoff kiya jaye, chahe query mein "Next.js" ka zikr ho.
+
+#### Customization:
+Normal Agent: Customization sirf instructions tak seemit hai. triage_agent ko khud hi decide karna hota hai ke query kisko bhejna hai.
+handoff() Function: tool_name_override aur tool_description_override ke zariye aap handoff ke behavior ko fine-tune kar sakte hain, jaise specific query types ke liye agent select karna.
+
+
+### is_enabled=True bydefault True
+* is_enabled=True hone ka matlab hai ki handoff option hamesha available hai.
+* is_enabled=false hony pr ab specialized_nextjs_agent llm ke pass nh jayega.
+
+```bash
+Nextjs_agent = Agent(
+    name="Nextjs_agent",
+    instructions="You are a helpful Next.js assistant."
+)
+
+nextjs_handoff = handoff(
+    agent=Nextjs_agent,
+    tool_name_override="specialized_nextjs_agent",
+    tool_description_override="Transfer to specialized Next.js agent for routing issues.",
+    is_enabled=False
+)
+
+triage_agent = Agent(
+    name="Assistance",
+    instructions="You are a helpful assistant. If the query is about Next.js, hand off to the Next.js agent.",
+    model=model,
+    handoffs=[nextjs_handoff]
+)
+```
+
+### input_filter
+input_filter ek function hai jo OpenAI Agents SDK mein query ya input ko process ya modify karta hai pehle ke woh agent ya LLM ke paas jaye. Yeh query ko validate, clean, ya transform karta hai (jaise capital letters mein convert karna) taake agent ke liye sahi aur safe input bheja jaye.
+
+```bash
+from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel, handoff, enable_verbose_stdout_logging,HandoffInputData
+
+# Input Filter Function
+def Convert_capital_letter(handoff_input: 'HandoffInputData') -> 'HandoffInputData':
+    """Query ko capital letters mein convert karta hai aur HandoffInputData return karta hai."""
+    # Query string ko extract karna
+    query = handoff_input.input_history
+    print("DEBUG: Original query:", query)
+    
+    # Query ko capital (uppercase) mein convert karna
+    query = query.upper()
+    print("DEBUG: Capitalized query:", query)
+    
+    # Agar Next.js related query hai, to prefix add karna
+    if "NEXT.JS" in query:
+        query = f"NEXT.JS-RELATED QUERY: {query}"
+    
+    # Modified HandoffInputData object banakar return karna
+    modified_handoff_input = HandoffInputData(
+        input_history=query,
+        pre_handoff_items=handoff_input.pre_handoff_items,
+        new_items=handoff_input.new_items,
+        run_context=handoff_input.run_context
+    )
+    return modified_handoff_input
+
+nextjs_handoff = handoff(
+    agent=Nextjs_agent,
+    tool_name_override="specialized_nextjs_agent",
+    tool_description_override="Transfer to specialized Next.js agent for routing issues.",
+    input_filter=Convert_capital_letter  # Input filter apply kiya
+)
+
+triage_agent = Agent(
+    name="Assistance",
+    instructions="You are a helpful assistant. If the query is about Next.js, hand off to the Next.js agent.",
+    model=model,
+    handoffs=[nextjs_handoff]
+)
+```
+* input_filter sy query pehly Convert_capital_letter function ke pass jayegi or capital letter me convert hokr llm ke pass jayegi
+
+### input_type 
+input_type ek optional parameter hai jo handoff() function mein use hota hai taake yeh define kiya ja sake ke input ka data type kya hoga (masalan, HandoffInputData, string, ya dictionary). Yeh batata hai ke query ya input ka expected format kya hai, taake SDK usay sahi se process kar sake. Iska maqsad hai type safety aur input validation ko ensure karna, khaas kar jab complex inputs ke saath kaam kar rahe hon.
+
+#### Q Use Hota Hai?
+* Input ka structure define karta hai taake handoff process aur input_filter (agar use ho raha hai) us ke mutabiq kaam kare.
+* Errors se bachata hai jo galat input type ke wajah se ho sakte hain.
+* Complex inputs (jaise custom objects) ke liye clarity deta hai.
+```bash
+
+```
+
+
+
+
+
+
+
 
