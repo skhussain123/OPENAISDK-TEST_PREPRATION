@@ -140,7 +140,7 @@ called as a tool, and the conversation is continued by the original agent.
 * tool_name (required)
 * tool_description (required)
 
-* tool_name: The name of the tool. If not provided, the agent's name will be used.
+* tool_name: The name of the tool. If not provided or "" Empty, the agent's name will be used.
 * tool_description: The description of the tool, which should indicate what it does and when to use it.
 * custom_output_extractor: A function that extracts the output from the agent. If not provided, the last message from the agent will be used.
 
