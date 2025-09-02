@@ -143,3 +143,55 @@ agent = Agent(
 
 ```
 
+
+### AsyncOpenAI Class Perameters
+```bash
+class AsyncOpenAI(
+    *,
+    api_key: str | None = None,
+    organization: str | None = None,
+    project: str | None = None,
+    webhook_secret: str | None = None,
+    base_url: str | URL | None = None,
+    websocket_base_url: str | URL | None = None,
+    timeout: float | Timeout | NotGiven | None = NOT_GIVEN,
+    max_retries: int = DEFAULT_MAX_RETRIES,
+    default_headers: Mapping[str, str] | None = None,
+    default_query: Mapping[str, object] | None = None,
+    http_client: AsyncClient | None = None,
+    _strict_response_validation: bool = False
+)
+```
+
+
+### RunConfig Class Perameters
+```bash
+class RunConfig(
+    model: str | Model | None = None,
+    model_provider: ModelProvider = MultiProvider,
+    model_settings: ModelSettings | None = None,
+    handoff_input_filter: HandoffInputFilter | None = None,
+    input_guardrails: list[InputGuardrail[Any]] | None = None,
+    output_guardrails: list[OutputGuardrail[Any]] | None = None,
+    tracing_disabled: bool = False,
+    trace_include_sensitive_data: bool = True,
+    workflow_name: str = "Agent workflow",
+    trace_id: str | None = None,
+    group_id: str | None = None,
+    trace_metadata: dict[str, Any] | None = None
+)
+```
+
+### OpenAIChatCompletionsModel Class Perameters
+```bash
+class OpenAIChatCompletionsModel(
+    model: ChatModel | str,
+    openai_client: AsyncOpenAI
+)
+```
+
+
+
+### Others Info
+* tracing bydfault openai ki taraf sy enabled hoti ha (False hoti ha)
+
