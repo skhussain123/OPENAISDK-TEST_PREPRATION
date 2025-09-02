@@ -119,6 +119,26 @@ result = Runner.run_sync(starting_agent=agent, input="please delete the user dat
 print(result.final_output)
 ```
 
+## 4. Graceful Error Handling
+```python
+@function_tool
+def divide(a: int, b: int) -> str:
+    """Divides two numbers."""
+    try:
+        result = a / b
+        return str(result)
+    except ZeroDivisionError:
+        return "Error: You cannot divide by zero. Please ask for a different number."
+```        
+
+## 5. Custom Error Functions
+For more complex scenarios, like custom logging or routing, you can provide a `failure_error_function`. This is less common but offers maximum control.
+
+### failure_error_function kya hota hai?
+failure_error_function ek optional parameter hai jo aap @function_tool decorator ke saath define kar sakte hain.
+* Jab koi tool function error (jaise exception ya failure) throw karta hai, to agar aap ne failure_error_function specify kiya hai, to wo function run hoga aur uska return value LLM ko final message ke roop mein diye jaata hai.
+* Agar aap failure_error_function specify nahi karte, to SDK by default default_tool_error_function use karta hai, jo ek generic error message return karta hai:
+* Agar aap failure_error_function=None set karte hain, to errors re-raised hongi (tool crash karega aur fallback message nahi banega).
 
 
 
@@ -139,111 +159,10 @@ print(result.final_output)
 
 ---
 
-## Part 2: The Runner's Safety Net – `max_turns`
-
-The `Runner.run` `max_turns` parameter is your ultimate safety net against infinite loops.
-
-*   **Use Case:** A complex research task where you want to allow up to 5 web searches before stopping, no matter what.
-
-```python
-result = await Runner.run(agent, "Find articles about AI agents. You can think and act a maximum of 5 times.", max_turns=6)
-```
-
-*   **What it is:** A hard limit on the number of **calls to the LLM**.
-*   **What happens when it's reached:** It **raises a `MaxTurnsExceeded` exception**. Your application code must be prepared to catch this.
-
-> **🧠 Think About It:** What happens if `max_turns` is 1 and the agent needs to call a tool (search)? The runner will stop it after the first tool call, before taking tool response to llm. Always set `max_turns` high enough for the expected workflow.
-
----
-
-## Part 3: Context is King – Making Tools Appear & Disappear
-
-A good manager doesn't give every tool to every team member. The `is_enabled` flag on a `@function_tool` lets you make tools available only when conditions are right.
-
-### The Static On/Off Switch
-
-The simplest way is with a `True`/`False` value. This is great for turning off a tool for maintenance.
-
-```python
-@function_tool(is_enabled=False)
-def addition_tool(a:int, b:int):
-    return a + b
-```
-* True hone par tool hamesha LLM ke use ke liye available rahega.
-* False hone par tool LLM se completely hidden ho jayega — LLM use call nahi karega.
 
 
-### The Dynamic On/Off Switch (with a function)
-is_enabled me function (callable) aap context-specific logic laga ke tool ko dynamically enable ya disable kar sakte hain.
 
-*  **Use Case:** An "admin" tool that should only be visible to users with admin privileges.
 
-```python
-import os
-from pydantic import BaseModel
-
-from agents import (
-    Agent,
-    Runner,
-    OpenAIChatCompletionsModel,
-    AsyncOpenAI,
-    function_tool,
-    RunContextWrapper,
-)
-from dotenv import load_dotenv
-
-load_dotenv()
-
-gemini_key = os.getenv("GEMINI_API_KEY")
-if not gemini_key:
-    raise ValueError("API KEY is NOT Loaded")
-
-external_client = AsyncOpenAI(
-    api_key=gemini_key,
-    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
-)
-
-class UserContext(BaseModel):
-    user_role: str
-
-def is_user_admin(wrapper: RunContextWrapper[UserContext], agent) -> bool:
-    return wrapper.context.user_role == "admin"
-
-@function_tool(is_enabled=is_user_admin)
-def delete_user_database():
-    """[ADMIN ONLY] Deletes the entire user database."""
-    
-    return "Database has been deleted."
-
-agent = Agent[UserContext](
-    name="Assistance",
-    instructions="You are a helpful assistant.If user asks to delete, call the delete_user_database tool.",
-    model=OpenAIChatCompletionsModel(model='gemini-2.0-flash', openai_client=external_client),
-    tools=[delete_user_database],
-)
-
-user_ctx = UserContext(user_role="admin")
-result = Runner.run_sync(starting_agent=agent, input="please delete the user data on database?", context=user_ctx)
-
-print(result.final_output)
-```
-
----
-
-## Part 4: When Things Go Wrong – Graceful Error Handling
-
-Tools can fail. A resilient agent doesn't crash; it handles the error, and a simple `try/except` block is usually the best way.
-
-```python
-@function_tool
-def divide(a: int, b: int) -> str:
-    """Divides two numbers."""
-    try:
-        result = a / b
-        return str(result)
-    except ZeroDivisionError:
-        return "Error: You cannot divide by zero. Please ask for a different number."
-```
 
 ### The Advanced Way: Custom Error Functions
 
@@ -389,13 +308,3 @@ Final Output: User client_456 has been deleted.
 Final Output: User user_123 has been deleted.
 ---
 ```
-
-## 🏁 Wrap-Up
-
-*   **What it is:** A set of precise controls for managing how and when your agent uses tools.
-*   **Key Controls:** Use `tool_use_behavior` to manage the workflow, `Runner.max_turns` as a safety limit, and `is_enabled` for context-aware tools.
-*   **Best Practices:** Handle errors inside your tools with `try/except` and match the agent's configuration to its real-world pattern (Gateway, Pipeline, or Assistant).
-
-- https://openai.github.io/openai-agents-python/tools/
-- https://github.com/openai/openai-agents-python/tree/main/examples/tools
-- https://github.com/mjunaidca/agents-sdk-decoded/blob/main/01_agent/09_tool_behavior.py -->
