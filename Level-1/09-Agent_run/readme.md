@@ -630,7 +630,9 @@ async def main():
 asyncio.run(main())
 ```
 
-### Other Stream Events
+---
+
+# Other Stream Events
 * agent_updated_stream_event
 * run_item_stream_event
   * tool_call_item
