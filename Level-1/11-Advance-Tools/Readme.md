@@ -24,6 +24,11 @@ agent = Agent(
 ```
 * run_llm_again → Tool call ke baad, agent phir se LLM ko bulaata hai taake tool output ko process karke final response de.
 * stop_on_first_tool → Pehli tool call hi final response hogi; LLM passive ho jata hai, tool ka result directly user ko return hota hai.
+* Example agr mery pass 2 tool ha or meny user input me dono tool call ka promt diya howa ha or Agent me ye use ho raha ha 
+```python
+  tool_use_behavior="stop_on_first_tool"
+```
+to sirf first tool ka output ayega direct function sy..  
 
 
 
