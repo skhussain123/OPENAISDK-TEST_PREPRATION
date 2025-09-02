@@ -174,20 +174,6 @@ Jab humara agent loop mein continuously tool calls ya LLM calls kar raha hota ha
 2. Jab agent ko koi tool call karni hoti hai (e.g. weather tool, calculator, DB lookup), wo non-blocking tareeqay se async call karta hai.
 3. Isi tarah, jab LLM (OpenAI ya koi aur) ko call karta hai with streaming, to response chunks mein wapas aata hai, real-time mein.
 
-##### 1. runner.run(prompt)
-* 🔹 Purpose: Query bhejna aur complete response aik baar mein lena. 
-* 🔹 Nature: Asynchronous (await karna parta hai). 
-* 🔹 Use-case: Jab aapko full result aik hi baar mein chahiye ho.
-
-##### 2. runner.run_sync(prompt)
-* 🔹 Purpose: Same as run(), but sync code ke liye. 
-* 🔹 Nature: Synchronous (without async/await). 
-* 🔹 Use-case: Jab aap ka code async nahi hai (like simple scripts or CLI).
-
-##### 3. runner.stream(prompt)
-* 🔹 Purpose: Prompt bhejna aur real-time streaming mein response lena. 
-* 🔹 Nature: Asynchronous stream (token/token ya chunk/chunk mein response aata hai). 
-* 🔹 Use-case: Chat apps, terminals, jahan user ko live output chahiye hota hai.
 
 | Method              | Async / Sync | Streaming | Output Type     | Use When                             |
 | ------------------- | ------------ | --------- | --------------- | ------------------------------------ |
@@ -195,11 +181,6 @@ Jab humara agent loop mein continuously tool calls ya LLM calls kar raha hota ha
 | `runner.stream()`   | Async        | ✅         | Streamed chunks | Real-time / token-by-token output    |
 | `runner.run_sync()` | Sync         | ❌         | Full message    | When not using async (basic scripts) |
 
-
-#### runner.run_sync vs runner.run
-1. runner.run() ek asynchronous function ko run karta hai runner ke context ke andar.
-Isse await ke saath call kiya jata hai, aur yeh async code ke liye hota hai.
-2. Same as run(), but sync code ke liye. Nature: Synchronous (without async/await).
 
 #### Key Points
 * await ko humesha async funciton ke under use kia jata hain
