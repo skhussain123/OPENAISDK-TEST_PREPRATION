@@ -127,6 +127,35 @@ Never write content yourself. Always call the right tool.
 ) -> Tool
 ```
 
+### Agent as a Tool With is is_enabled 
+```python
+poetry_agent = Agent(
+    name="Poetry Writer Agent",
+    instructions="Write a 3-stanza English poem on the given topic.",
+    model=model
+)
+
+triage_agent = Agent(
+    name="Triage Agent",
+    instructions="""
+        You are a smart assistant.
+        1. If the user asks for a poem or poetry, call the 'english_poetry_writer_tool'.
+        2. Otherwise, respond that you're unable to assist.
+        Never write content yourself.
+    """,
+    tools=[
+        poetry_agent.as_tool(
+        tool_name="english_poetry_writer_tool",
+        tool_description="Writes English poetry on the given topic.",
+        is_enabled=False,)
+        ],
+    model=model
+)
+
+result = Runner.run_sync(triage_agent, "Write a poem about the ocean.", run_config=config)
+print(result.final_output)
+```
+
 **This is different from handoffs in two ways:**
 1. In handoffs, the new agent receives the conversation history. In this tool, the new agent
 receives generated input.

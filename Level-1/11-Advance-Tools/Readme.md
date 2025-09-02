@@ -131,8 +131,8 @@ def divide(a: int, b: int) -> str:
         return "Error: You cannot divide by zero. Please ask for a different number."
 ```        
 
-## 5. Custom Error Functions
-For more complex scenarios, like custom logging or routing, you can provide a `failure_error_function`. This is less common but offers maximum control.
+## 5. Custom Error With failure_error_function
+Agar aap chahte hain ke jab aapka tool call fail ho, to ek specific error message LLM ko bheja jaye, to aap apni custom error function define kar sakte hain.
 
 ### failure_error_function kya hota hai?
 failure_error_function ek optional parameter hai jo aap @function_tool decorator ke saath define kar sakte hain.
@@ -140,6 +140,30 @@ failure_error_function ek optional parameter hai jo aap @function_tool decorator
 * Agar aap failure_error_function specify nahi karte, to SDK by default default_tool_error_function use karta hai, jo ek generic error message return karta hai:
 * Agar aap failure_error_function=None set karte hain, to errors re-raised hongi (tool crash karega aur fallback message nahi banega).
 
+```python
+from agents import RunContextWrapper
+
+
+# Custom error handler
+def custom_error_handler(ctx: RunContextWrapper[Any], error: Exception) -> str:
+    return f"Oops! Something went wrong: {str(error)}"
+
+@function_tool(failure_error_function=custom_error_handler)
+def broken_tool(x: int) -> int:
+    """Always raises an error."""
+    return 1 / 0 
+
+# Simple agent setup
+assistant_agent = Agent(
+    name="ErrorTester",
+    instructions="If asked to use broken_tool, call that tool.",
+    model=model,
+    tools=[broken_tool],
+)
+
+result = Runner.run_sync(assistant_agent, "Use broken_tool with x=10", run_config=config)
+print(result.final_output)
+```
 
 
 
