@@ -121,6 +121,13 @@ result = Runner.run_sync(agent, "Hello!", run_config=config)
 * Sirf wahi chalega jo agent banate waqt set kiya tha (model, client, tracing waghera).
 * Agar tumhe run ki settings change karni ho (jaise ek run me tracing on, dusre me off), to agent dobara banana padega ya manual changes karne padenge.
 
+#### run() vs run_sync() vs run_streamed()
+| Method           | Execution Type  | Return Type          | Use Case                             |
+| ---------------- | --------------- | -------------------- | ------------------------------------ |
+| `run()`          | Async           | `RunResult`          | Async environments, concurrent tasks |
+| `run_sync()`     | Sync (blocking) | `RunResult`          | Simple scripts, CLI tools            |
+| `run_streamed()` | Async + Stream  | `RunResultStreaming` | Real-time feedback (e.g., live UIs)  |
+
 
 #### Agent Basic configuration
 ```python
