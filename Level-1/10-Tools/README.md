@@ -1,6 +1,6 @@
 
 # Tools
-Tools let agents take actions: things like fetching data, running code, calling external APIs, and even using a computer. There are three classes of tools in the Agent SDK:
+OpenAI Agents SDK mein tools woh external functionalities hoti hain jo agents (AI models) ko real-world actions lene mein madad karti hain—jaise web se information lena, code chalana, aur system par tasks perform karna. Ye tools maksad se bhi use ho sakte hain, jese APIs, functions, ya automation tasks. Yeh teen ya chaar categories mein divide hotay hain:
 
 * Hosted tools: these run on LLM servers alongside the AI models. OpenAI offers retrieval, web search and computer use as hosted tools.
 * Function calling: these allow you to use any Python function as a tool.
