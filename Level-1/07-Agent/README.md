@@ -21,7 +21,7 @@ In combination with Python, these primitives are powerful enough to express comp
 * Function tools: Turn any Python function into a tool, with automatic schema generation and Pydantic-powered validation.
 * Tracing: Built-in tracing that lets you visualize, debug and monitor your workflows, as well as use the OpenAI suite of evaluation, fine-tuning and distillation tools.
 
-```bash
+```python
 from agents import Agent, Runner
 agent: Agent = Agent(name="Assistant", instructions="You are a helpful assistant")
 ```
@@ -40,7 +40,7 @@ agent: Agent = Agent(name="Assistant", instructions="You are a helpful assistant
 
 
 #### Run Agent 
-```bash
+```python
 import os
 from agents import Agent, Runner,OpenAIChatCompletionsModel,set_tracing_disabled
 from openai import AsyncOpenAI
@@ -108,7 +108,7 @@ Ye utility function hota hai jo .env file se environment variables (jaise API ke
 
 
 #### When You Want ro Customize Agent Configration 
-```bash
+```python
 config = RunConfig(
     model=model,
     model_provider=external_client,
@@ -123,7 +123,7 @@ result = Runner.run_sync(agent, "Hello!", run_config=config)
 
 
 #### Agent Basic configuration
-```bash
+```python
 agent = Agent(
     name="Haiku agent",
     instructions="Always respond in haiku form",
@@ -139,7 +139,7 @@ agent = Agent(
 
 # 2 . LiteLLM Agent
 **uv add opanai-agents[litellm]**
-```bash
+```python
 
 ```
 
