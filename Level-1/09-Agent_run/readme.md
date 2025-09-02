@@ -512,7 +512,7 @@ RunItemStreamEvent(
 
 
 #### Under this code
-* Humara ye Class sy data nikalna ha 
+* Humy is Class sy data nikalna ha 
 ```python
 RawResponsesStreamEvent(
     data=ResponseTextDeltaEvent(
