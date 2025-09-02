@@ -32,6 +32,11 @@ to sirf first tool ka output ayega direct function sy..
 
 
 ## 2. `StopAtTools` – Agr ap Specific tool ka output finaloutput banana cahaty ha..
+StopAtTools ek TypedDict hai jo ek list accept karta hai: stop_at_tool_names. Yeh list un tools ke names rakhti hai jinhe agar agent call kare, to agent apna execution rok dega aur us tool ka output directly final response ke roop mein istemal karega. Matlab, agent LLM ko dobara se process nahi karega.
+
+
+
+
 
 
 
@@ -39,6 +44,10 @@ to sirf first tool ka output ayega direct function sy..
 
 
 <br>
+<br>
+<br>
+<br>
+<br><br>
 <br>
 <br>
 <br>
