@@ -35,34 +35,7 @@ to sirf first tool ka output ayega direct function sy..
 StopAtTools ek TypedDict hai jo ek list accept karta hai: stop_at_tool_names. Yeh list un tools ke names rakhti hai jinhe agar agent call kare, to agent apna execution rok dega aur us tool ka output directly final response ke roop mein istemal karega. Matlab, agent LLM ko dobara se process nahi karega.
 
 ```python
-from agents import Agent, Runner, function_tool, OpenAIChatCompletionsModel
-from agents.run import RunConfig
 from agents.agent import StopAtTools
-import os
-from dotenv import load_dotenv
-from agents import AsyncOpenAI
-
-load_dotenv()
-
-gemini_key = os.getenv('GEMINI_API_KEY')
-if not gemini_key:
-    raise ValueError("API KEY is NOT Loaded")
-
-external_client = AsyncOpenAI(
-    api_key=gemini_key,
-    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
-)
-
-model = OpenAIChatCompletionsModel(
-    model='gemini-2.0-flash',
-    openai_client=external_client
-)
-
-config = RunConfig(
-    model=model,
-    model_provider=external_client,
-    tracing_disabled=True
-)
 
 @function_tool
 def get_weather(city: str) -> str:
@@ -91,6 +64,27 @@ print(result.final_output)
 * Is configuration mein, agar user get_weather ya finance_query_resolver tool se related koi query karta hai, toh agent us tool ko call karega aur uska output directly final response ke roop mein dega.
 
 
+## 3. Making Tools Appear & Disappear (is_enabled  Default True)
+```python
+@function_tool(is_enabled=True)
+def get_weather(city: str) -> str:
+    """Returns weather info for the specified city."""
+    return f"The weather in {city} is sunny"
+
+
+agent = Agent(
+    name="Assistant",
+    instructions=(
+        "You are a helpful assistant. "
+        "If asked weather-related questions, call get_weather tool. "
+    ),
+    tools=[get_weather],
+)
+```
+* True hone par tool hamesha Agent or LLM ke use ke liye available rahega.
+* False hone par tool Agent or LLM se completely hidden ho jayega — LLM use call nahi karega.
+
+
 
 
 
@@ -110,34 +104,6 @@ print(result.final_output)
 <br>
 <br>
 <br>
-
-
-
-
-
-### Mode 3: `StopAtTools` (The Workflow Finisher)
-This mode gives you surgical control. You provide a list of "finalizing" tool names. The agent will run its workflow but stop immediately after one of those specific tools is called.
-
-```python
-@function_tool()
-def addition_tool(a:int, b:int):
-    return a + b
-
-@function_tool()
-def subtraction_tool(a:int, b:int):
-    return a - b
-
-agent = Agent(
-    name="Assistance",
-    instructions="you are a helpfull assistance if you asked the add related question you want to call addition_tool and subtraction related question you want to call subtraction_tool",    
-    model=OpenAIChatCompletionsModel(model='gemini-2.0-flash',openai_client=external_client),
-    tools=[addition_tool, subtraction_tool],
-    tool_use_behavior=StopAtTools(stop_at_tool_names=["addition_tool"])
-)
-```
-* jab addition_tool tool call hoga to tool output llm ke pass nh jaeyga. direct answer ayega tool ka.
-* jab subtraction_tool tool call hoga to tool output llm ke pass jaeyga or llm sy process hokr aega.
-
 
 ---
 
