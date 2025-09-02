@@ -12,7 +12,7 @@ krny ke liye use hoti hain.
 agent = Agent(name="Assistant", instructions="You are a helpful assistant", model=model)
 
 async def main():
-    result = await Runner.Run(agent, "Hello, how are you.", run_config=config)
+    result = await Runner.run(agent, "Hello, how are you.", run_config=config)
     print(result.final_output)
     print(result.last_agent)
     
