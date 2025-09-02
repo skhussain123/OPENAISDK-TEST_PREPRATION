@@ -733,12 +733,3 @@ print(f"Agent updated: {event.new_agent.name}")
 
 
 ---
-
-##### runner.run_sync vs runner.run
-1. runner.run() ek asynchronous function ko run karta hai runner ke context ke andar. Isse await ke saath call kiya jata hai, aur yeh async code ke liye hota hai.
-2. Same as run(), but sync code ke liye. Nature: Synchronous (without async/await).
-
-##### Key points
-* await ko humesha async funciton ke under use kia jata hain
-* async function ko call krwany ke liye await lagana pharta hain.
-* async.io ki library async function ko run krny ke liye use hoti hain.
