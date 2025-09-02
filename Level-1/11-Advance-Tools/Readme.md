@@ -84,8 +84,40 @@ agent = Agent(
 * True hone par tool hamesha Agent or LLM ke use ke liye available rahega.
 * False hone par tool Agent or LLM se completely hidden ho jayega — LLM use call nahi karega.
 
+### 3.1 is_enabled Dynamic On/Off Switch  
+is_enabled me function (callable) aap context-specific logic laga ke tool ko dynamically enable ya disable kar sakte hain.
+
+```python
+from agents import Agent, Runner, function_tool, OpenAIChatCompletionsModel,RunContextWrapper
+from pydantic import BaseModel
 
 
+class UserData(BaseModel):
+    user_role : str
+    
+
+def is_user_admin(ctx:RunContextWrapper[UserData], agent: Agent)->bool:
+    return ctx.context.user_role == "admin"    
+    
+
+@function_tool(is_enabled=is_user_admin)
+def delete_user_database():
+    """[ADMIN ONLY] Deletes the entire user database."""
+    
+    return "Database has been deleted."
+
+
+agent = Agent(
+    name="Assistance",
+    instructions="You are a helpful assistant.If user asks to delete, call the delete_user_database tool.",
+    model=OpenAIChatCompletionsModel(model='gemini-2.0-flash', openai_client=external_client),
+    tools=[delete_user_database],
+)
+
+user_ctx = UserData(user_role='admin')
+result = Runner.run_sync(starting_agent=agent, input="please delete the user data on database?", context=user_ctx)
+print(result.final_output)
+```
 
 
 
