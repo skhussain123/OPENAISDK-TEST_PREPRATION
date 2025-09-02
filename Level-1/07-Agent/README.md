@@ -265,7 +265,7 @@ class Agent(
 
 
 
-### Others Info
+### Default Perameters Set
 * tracing bydfault openai ki taraf sy enabled hoti ha (False hoti ha)
 * DEFAULT_MAX_TURNS = 10
 
