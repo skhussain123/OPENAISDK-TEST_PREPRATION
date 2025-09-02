@@ -145,7 +145,7 @@ agent = Agent(
 
 
 ### AsyncOpenAI Class Perameters
-```bash
+```python
 class AsyncOpenAI(
     *,
     api_key: str | None = None,
@@ -165,7 +165,7 @@ class AsyncOpenAI(
 
 
 ### RunConfig Class Perameters
-```bash
+```python
 class RunConfig(
     model: str | Model | None = None,
     model_provider: ModelProvider = MultiProvider,
@@ -183,7 +183,7 @@ class RunConfig(
 ```
 
 ### OpenAIChatCompletionsModel Class Perameters
-```bash
+```python
 class OpenAIChatCompletionsModel(
     model: ChatModel | str,
     openai_client: AsyncOpenAI
