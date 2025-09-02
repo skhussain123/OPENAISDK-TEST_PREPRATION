@@ -19,7 +19,6 @@ Tools let agents take actions: things like fetching data, running code, calling 
 
 ### Visual Representation
 ![Tool Calling Example](./tool_calling.png)
-
 ---
 
 
@@ -36,7 +35,7 @@ You can use any Python function as a tool. The Agents SDK will setup the tool au
 * The schema for the function inputs is automatically created from the function's arguments
 * Descriptions for each input are taken from the docstring of the function, unless disabled
 
-```bash
+```python
 @function_tool
 def get_weather(city: str) -> str:
     
@@ -56,14 +55,14 @@ my_agent =  Agent(
 * @function_tool function signature or dot string ki help sy fucntion schema banata ha or llm us function shemea ko he read krta ha
 
 #### async Tool 
-```bash
+```python
 @function_tool
 async def get_weather(city: str) -> str:
     return f"The weather in {city} is sunny."
 ```   
 
 ##### @function_tool Class (decorator)
-```bash
+```python
 (function)
 def function_tool(
     func: ToolFunction[...],
@@ -79,7 +78,7 @@ def function_tool(
 ```
 
 #### Name or description override
-```bash
+```python
 @function_tool(name_override="my_weather_func",description_override="my_weather_desc")
 def weather_tool(input:str)-> str:
     return f"{input} weather is sunny"
@@ -92,7 +91,7 @@ def weather_tool(input:str)-> str:
 ## Agent as a Tool
 In some workflows, you may want a central agent to orchestrate a network of specialized agents, instead of handing off control. You can do this by modeling agents as tools.
 
-```bash
+```python
 # Define a support agent
 poetry_agent = Agent(
     name="Poetry Writer Agent",
@@ -120,7 +119,7 @@ Never write content yourself. Always call the right tool.
 ```
 
 ### as_tools() Class
-```bash
+```python
 (method) def as_tool(
     tool_name: str | None,
     tool_description: str | None,
@@ -147,7 +146,7 @@ called as a tool, and the conversation is continued by the original agent.
 
 
 #### Complete Code Example Agent As a Tool
-```bash
+```python
 import os
 from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel,FileSearchTool
 from dotenv import load_dotenv
@@ -221,7 +220,7 @@ custom_output_extractor ek optional function hai jo tum as_tool method mein pass
 * Yeh parameter tumhe yeh control deta hai ke agent ke output mein se kaunsa hissa extract karna hai ya usay kaise format karna hai.
 * Yeh ek tarah ka filter ya transformer hai jo raw output ko tumhare chahay hue format mein badalta hai.
 
-```bash
+```python
 from agents import RunResult
 import re
 
@@ -254,7 +253,7 @@ result = Runner.run_sync(starting_agent=agent, input="What is the weather in kar
 
 
 #### Customizing tool-agents
-```bash
+```python
 from agents import Agent, Runner, function_tool
 
 @function_tool
@@ -316,7 +315,7 @@ Imagine you’re at a restaurant:
 
 
 # Web Search Tool (Usinh with Open Ai API Key)
-```bash
+```python
 from agents import Agent, Runner, WebSearchTool
 import rich
 
@@ -335,14 +334,14 @@ rich.print(result.final_output)
 1. first of create data.txt in nodepad
 
 **data.txt file content**
-```bash
+```python
 name:hussain
 std_id : 3423534634
 ```
 2. Goto the openai dashboard-->storage goto to vector_stores and create vector_stores and (upload) data.txt file here
 and copy vector_stores id
 
-```bash
+```python
 from agents import Agent, Runner, WebSearchTool
 import rich
 
