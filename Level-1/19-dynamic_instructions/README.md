@@ -137,3 +137,11 @@ agent = Agent(
     model=model,
 )
 ```
+
+#### Context Parameter
+
+The context contains:
+* Messages: Conversation history
+* User data: Custom user information
+* Run state: Current execution state
+* Metadata: Additional information
