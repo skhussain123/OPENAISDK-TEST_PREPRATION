@@ -11,7 +11,7 @@ Agents SDK is setup to use OpenAI as default providers. When using other provide
 * Yeh flexibility deta hai ke different agents use different models or providers in the same application/workflow.
 * Use case: Jab ek workflow mein multiple agents ho, aur aap chahte ho ke har agent ek specific model ya provider use kare (e.g., Spanish agent uses GPT-3.5, English agent uses Gemini, etc.).
 
-```bash
+```python
 import os
 from agents import Agent, Runner, OpenAIChatCompletionsModel, set_tracing_disabled
 from openai import AsyncOpenAI
@@ -52,7 +52,7 @@ print(result.final_output)
 * Use case: Jab ek specific execution ke liye different setup chahiye ho (e.g., test run, high-temperature model, tracing disabled, etc.).
 
 
-```bash
+```python
 import os
 from agents import Agent, Runner, OpenAIChatCompletionsModel,AsyncOpenAI
 from agents.run import RunConfig
@@ -96,7 +96,7 @@ print(result.final_output)
 * Use case: Jab aap ek consistent LLM provider, endpoint, ya auth config poore app mein use karna chahte ho.
 
 
-```bash
+```python
 from agents import Agent, Runner, OpenAIChatCompletionsModel,AsyncOpenAI,set_default_openai_api,set_default_openai_client,set_tracing_disabled
 from dotenv import load_dotenv
 import os
@@ -150,7 +150,7 @@ This line is used to load environment variables from a file named .env into your
 
 #### 2. OpenAIChatCompletionsModel 
 you can use OpenAIChatCompletionsModel to connect to third-party LLMs if.OpenAI SDK uses GPT models by default. If we want to use a third-party LLM, we can use OpenAIChatCompletionsModel to connect to it, as long as that model supports the same message format.
-```bash
+```python
 class OpenAIChatCompletionsModel(
     model: ChatModel | str,
     openai_client: AsyncOpenAI
@@ -160,7 +160,7 @@ class OpenAIChatCompletionsModel(
 lekin agr app lite llm ha use krty hato sirf api use hogi. or lite llm ka use krkr ap world ke 100 plus models access kr sakty hain.
 
 #### 3. RunConfig (@dataclass)
-```bash
+```python
 class RunConfig(
     model: str | Model | None = None,
     model_provider: ModelProvider = MultiProvider,
@@ -179,7 +179,7 @@ class RunConfig(
 
 #### 4. AsyncOpenAI (@dataclass)
 AsyncOpenAI is a Python class from the OpenAI library that enables asynchronous API calls to OpenAI's services
-```bash
+```python
 class AsyncOpenAI(
     *,
     api_key: str | None = None,
@@ -200,7 +200,7 @@ class AsyncOpenAI(
 #### 5. Agent (@dataclass)
 he Agent class creates an AI agent with specific behavior and capabilities, as defined by its parameters.
 agent name: str pereamter required or all perameter optional
-```bash
+```python
 class Agent(
     name: str,
     instructions: str | ((RunContextWrapper[Any], Agent[Any]) -> MaybeAwaitable[str]) | None = None,
@@ -232,11 +232,11 @@ class Agent(
 Runner class ek utility ya controller class hai jo AI agents ke execution ko handle karta hai. Yeh agents (jaise aapka Agent class) aur unke associated models (jaise OpenAIChatCompletionsModel) ke saath kaam karta hai, taki user prompts ko process karke responses generate kiye ja sakein. Aapke code mein, Runner.run_sync(agent, "Hello, how are you.", run_config=config) ka use dikhta hai, jo indicate karta hai ke Runner ek interface provide karta hai jo synchronous ya asynchronous tarike se agent ke operations ko execute karta hai.
 
 dir(Runner)
-```bash
+```python
 ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'run', 'run_streamed', 'run_sync']
 ```
 
 ### Normal agent ke sath ye ye cheeezy hoti ha 
-```bash
+```python
 Agent(name='Assistance', handoff_description=None, tools=[], mcp_servers=[], mcp_config={}, instructions='you are a help full assistance.if your asked the Nextjs related question you want handoff the Nextjs_agent and any python question you want to handoff Python_agent', prompt=None, handoffs=[], model=<agents.models.openai_chatcompletions.OpenAIChatCompletionsModel object at 0x000002139ECEFB50>, model_settings=ModelSettings(temperature=None, top_p=None, frequency_penalty=None, presence_penalty=None, tool_choice=None, parallel_tool_calls=None, truncation=None, max_tokens=None, reasoning=None, verbosity=None, metadata=None, store=None, include_usage=None, response_include=None, top_logprobs=None, extra_query=None, extra_body=None, extra_headers=None, extra_args=None), input_guardrails=[], output_guardrails=[], output_type=None, hooks=None, tool_use_behavior='run_llm_again', reset_tool_choice=True)
 ```
