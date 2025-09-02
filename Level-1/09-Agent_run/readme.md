@@ -8,7 +8,7 @@ krny ke liye use hoti hain.
 * Nature: Asynchronous (await karna parta hai).
 * Use-case: Jab aapko full result aik hi baar mein chahiye ho.
 
-```bash
+```python
 agent = Agent(name="Assistant", instructions="You are a helpful assistant", model=model)
 
 async def main():
@@ -21,12 +21,12 @@ asyncio.run(main())
 * result.last_agent ye humy Agent ki Class return krygi is tarha
 
 **Return Agent Class**
-```bash
+```python
 Agent(name='Assistance', handoff_description=None, tools=[], mcp_servers=[], mcp_config={}, instructions='you are a help full Assistance', prompt=None, handoffs=[], model=<agents.models.openai_chatcompletions.OpenAIChatCompletionsModel object at 0x000002C02750EAD0>, model_settings=ModelSettings(temperature=None, top_p=None, frequency_penalty=None, presence_penalty=None, tool_choice=None, parallel_tool_calls=None, truncation=None, max_tokens=None, reasoning=None, verbosity=None, metadata=None, store=None, include_usage=None, response_include=None, top_logprobs=None, extra_query=None, extra_body=None, extra_headers=None, extra_args=None), input_guardrails=[], output_guardrails=[], output_type=None, hooks=None, tool_use_behavior='run_llm_again', reset_tool_choice=True)
 ```
 
 #### run method ye peramters leta ha 
-```bash
+```python
 (method) def run(
     starting_agent: Agent[TContext@run],
     input: str | list[TResponseInputItem],
@@ -82,7 +82,7 @@ A run result containing all the inputs, guardrail results and the output of the 
 * Nature: Synchronous (without async/await).
 * Use-case: Jab aap ka code async nahi hai (like simple scripts or CLI).
 
-```bash
+```python
 result =  Runner.run_sync(agent, "Write kids Poetry funy?", run_config=config)
 print(result.final_output)
 print(result.last_agent)
@@ -91,12 +91,12 @@ print(result.last_agent)
 lekin async function me nh chlyga..
 
 **Return Agent**
-```bash
+```python
 Agent(name='Assistance', handoff_description=None, tools=[], mcp_servers=[], mcp_config={}, instructions='you are a help full Assistance', prompt=None, handoffs=[], model=<agents.models.openai_chatcompletions.OpenAIChatCompletionsModel object at 0x000001695DD82890>, model_settings=ModelSettings(temperature=None, top_p=None, frequency_penalty=None, presence_penalty=None, tool_choice=None, parallel_tool_calls=None, truncation=None, max_tokens=None, reasoning=None, verbosity=None, metadata=None, store=None, include_usage=None, response_include=None, top_logprobs=None, extra_query=None, extra_body=None, extra_headers=None, extra_args=None), input_guardrails=[], output_guardrails=[], output_type=None, hooks=None, tool_use_behavior='run_llm_again', reset_tool_choice=True)
 ```
 
 #### run_sync method ye peramters leta ha 
-```bash
+```python
 (method) def run_sync(
     starting_agent: Agent[TContext@run_sync],
     input: str | list[TResponseInputItem],
@@ -210,7 +210,7 @@ Isse await ke saath call kiya jata hai, aur yeh async code ke liye hota hai.
 run_streamed() is a higher-level helper in the OpenAI Agents SDK that gives you real-time streaming (like stream()), but with the final assembled response object at the end.
 
 
-```bash
+```python
 async def main():
     result = Runner.run_streamed(starting_agent=agent,input='hello how are you')
     
@@ -221,7 +221,7 @@ asyncio.run(main())
 ```
 
 **OUTPUT**
-```bash
+```python
 AgentUpdatedStreamEvent(
     new_agent=Agent(
         name='Assistance',
@@ -532,7 +532,7 @@ RunItemStreamEvent(
 
 #### Under this code
 * Humara ye Class sy data nikalna ha 
-```bash
+```python
 RawResponsesStreamEvent(
     data=ResponseTextDeltaEvent(
         content_index=0,
@@ -548,14 +548,14 @@ RawResponsesStreamEvent(
 ```
 * sirf unhi ka data nikalo jiski event type run_item_stream_event ho and isinstance ye check krta ha ke event.type ResponseTextDeltaEvent ka he instance hena.
 
-```bash
+```python
 async for event in result.stream_events():
      if event.type == "raw_response_event" and isinstance(event.type, ResponseTextDeltaEvent):
             print(event.data.delta)
 ```
 
 #### isinstance(event.type, ResponseTextDeltaEvent) --> under this Code With pyton Code
-```bash
+```python
 class Userinfo:
     def __init__(self, name):
         self.name = name
@@ -597,7 +597,7 @@ asyncio.run(main())
 By default, Python ka print() har cheez ke baad ek newline (\n) laga deta hai.
 Magar agar aap end="" specify karein, to kuch bhi add nahi hota—output ek hi line mein rehta hai.
 
-```bash
+```python
 print("Hello", end=" ")
 print("World!")   # output / Hello World
 ```
@@ -612,7 +612,7 @@ Python default tor pe output ko buffered mode mein rakhta hai — matlab, writin
        
 ---
 ### Complete Example
-```bash
+```python
 from agents import Agent, Runner, OpenAIChatCompletionsModel,AsyncOpenAI,set_tracing_disabled
 from dotenv import load_dotenv
 import os
@@ -656,7 +656,7 @@ asyncio.run(main())
   * tool_call_output_item
   * message_output_item
 
-```bash
+```python
 from agents import Agent, Runner, OpenAIChatCompletionsModel,AsyncOpenAI,set_tracing_disabled,ItemHelpers,function_tool
 from dotenv import load_dotenv
 import os
@@ -731,7 +731,7 @@ Pouch potato!
 * Jab agent ki state update hoti hai, yeh event aata hai.
 * Example: agent ne apna name, instructions, ya context update kiya.
 * Tum use print kar rahe ho:
-```bash
+```python
 print(f"Agent updated: {event.new_agent.name}")
 ```
 
