@@ -34,6 +34,63 @@ to sirf first tool ka output ayega direct function sy..
 ## 2. `StopAtTools` – Agr ap Specific tool ka output finaloutput banana cahaty ha..
 StopAtTools ek TypedDict hai jo ek list accept karta hai: stop_at_tool_names. Yeh list un tools ke names rakhti hai jinhe agar agent call kare, to agent apna execution rok dega aur us tool ka output directly final response ke roop mein istemal karega. Matlab, agent LLM ko dobara se process nahi karega.
 
+```python
+from agents import Agent, Runner, function_tool, OpenAIChatCompletionsModel
+from agents.run import RunConfig
+from agents.agent import StopAtTools
+import os
+from dotenv import load_dotenv
+from agents import AsyncOpenAI
+
+load_dotenv()
+
+gemini_key = os.getenv('GEMINI_API_KEY')
+if not gemini_key:
+    raise ValueError("API KEY is NOT Loaded")
+
+external_client = AsyncOpenAI(
+    api_key=gemini_key,
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+)
+
+model = OpenAIChatCompletionsModel(
+    model='gemini-2.0-flash',
+    openai_client=external_client
+)
+
+config = RunConfig(
+    model=model,
+    model_provider=external_client,
+    tracing_disabled=True
+)
+
+@function_tool
+def get_weather(city: str) -> str:
+    """Returns weather info for the specified city."""
+    return f"The weather in {city} is sunny"
+
+@function_tool
+def finance_query_resolver(query: str) -> str:
+    """Resolves the user's finance query."""
+    return f"Finance query resolved for: {query}"
+
+agent = Agent(
+    name="Assistant",
+    instructions=(
+        "You are a helpful assistant. "
+        "If asked weather-related questions, call get_weather tool. "
+        "If asked finance-related questions, call finance_query_resolver tool."
+    ),
+    tools=[get_weather, finance_query_resolver],
+    tool_use_behavior=StopAtTools(stop_at_tool_names=["get_weather", "finance_query_resolver"])
+)
+
+result = Runner.run_sync(agent, "What's the weather in Karachi?", run_config=config)
+print(result.final_output)
+```
+* Is configuration mein, agar user get_weather ya finance_query_resolver tool se related koi query karta hai, toh agent us tool ko call karega aur uska output directly final response ke roop mein dega.
+
+
 
 
 
