@@ -1,4 +1,4 @@
-# 1. `tool_use_behavior` – The Agent's Control Knob
+## 1. `tool_use_behavior` – Direct Tool Output 
 
 Your primary tool for managing workflow is the `Agent`'s `tool_use_behavior` parameter. It dictates what happens after a tool is successfully executed.
 
@@ -31,46 +31,21 @@ agent = Agent(
 to sirf first tool ka output ayega direct function sy..  
 
 
+## 2. `StopAtTools` – Agr ap Specific tool ka output finaloutput banana cahaty ha..
 
 
 
 
 
 
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 
-
-
-
-
-
-
-<!-- # Advanced Tools MasterClass
-
-Welcome to the next level of tool calling. If basic tools are about giving your agent *abilities*, advanced tools are about giving you *control*. This guide will teach you how to manage your agent's workflow, handle errors gracefully, and build robust, real-world applications.
-
-> **The Big Idea:** You are a manager, and your tools are your team. Advanced features are your management playbook for telling them *when* to work, *if* they can work, and *what to do* when they run into trouble.
-
-### What We'll Master in This Step
-
-To give you a roadmap, here are the key questions we will answer. By the end of this guide, you'll be able to confidently control your agent's behavior in complex, real-world scenarios:
-
-*   **Controlling Execution Flow:** How can I use `tool_use_behavior` to stop my agent after its first action (`"stop_on_first_tool"`), or only after a specific "finalizing" tool (`StopAtTools`)?
-*   **Preventing Runaway Agents:** What is the `max_turns` safety net, how does it limit LLM calls, and how does it raise an exception when reached?
-*   **Creating Context-Aware Tools:** How do I make tools available *only* under specific conditions, like creating an "admin-only" tool using the dynamic `is_enabled` flag?
-*   **Building Resilient Agents:** How can my agent handle tool failures gracefully with `try/except` so it can recover instead of crashing?
-*   **Managing Stateful Tools:** For rare cases where a tool needs to remember information, how do we build one using the `FunctionTool` class, and why is this pattern used sparingly?
-*   **Applying Production Patterns:** How do these features map to real-world architectures like API Gateways, Data Pipelines, and Interactive Assistants?
-
-## 🤔 Why Do We Need an Advanced Tools MasterClass?
-
-Without advanced controls, agents can get stuck in loops, crash on a simple error, or try to use tools they shouldn't have access to. This costs time and money. Advanced tools solve these critical problems:
-*   **Control:** Stop your agent from running forever or calling tools unnecessarily.
-*   **Context:** Enable or disable tools based on the user's permissions or the situation.
-*   **Resilience:** Handle failures without crashing the entire process.
-*   **Precision:** Build sophisticated, multi-step workflows that execute predictably.
-
----
 
 
 
