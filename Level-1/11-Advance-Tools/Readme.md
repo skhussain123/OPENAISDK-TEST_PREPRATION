@@ -1,4 +1,4 @@
-## Part 1: Mastering `tool_use_behavior` – The Agent's Control Knob
+## `tool_use_behavior` – The Agent's Control Knob
 
 Your primary tool for managing workflow is the `Agent`'s `tool_use_behavior` parameter. It dictates what happens after a tool is successfully executed.
 
