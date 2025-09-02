@@ -197,6 +197,72 @@ class OpenAIChatCompletionsModel(
 )
 ```
 
+#### Agent Class Perameters
+```python
+class Agent(
+    name: str,
+    handoff_description: str | None = None,
+    tools: list[Tool] = list,
+    mcp_servers: list[MCPServer] = list,
+    mcp_config: MCPConfig = lambda : MCPConfig(),
+    instructions: str | ((RunContextWrapper[Any], Agent[Any]) -> MaybeAwaitable[str]) | None = None,
+    prompt: Prompt | DynamicPromptFunction | None = None,
+    handoffs: list[Agent[Any] | Handoff[Any, Any]] = list,
+    model: str | Model | None = None,
+    model_settings: ModelSettings = ModelSettings,
+    input_guardrails: list[InputGuardrail[Any]] = list,
+    output_guardrails: list[OutputGuardrail[Any]] = list,
+    output_type: type[Any] | AgentOutputSchemaBase | None = None,
+    hooks: AgentHooks[Any] | None = None,
+    tool_use_behavior: StopAtTools | ToolsToFinalOutputFunction[Any] | Literal['run_llm_again', 'stop_on_first_tool'] = "run_llm_again",
+    reset_tool_choice: bool = True
+)
+```
+
+#### run_sync Method Perameters
+```python
+(method) def run_sync(
+    starting_agent: Agent[TContext@run_sync],
+    input: str | list[TResponseInputItem],
+    *,
+    context: TContext@run_sync | None = None,
+    max_turns: int = DEFAULT_MAX_TURNS,
+    hooks: RunHooks[TContext@run_sync] | None = None,
+    run_config: RunConfig | None = None,
+    previous_response_id: str | None = None,
+    session: Session | None = None
+) -> RunResult
+```
+
+#### run Method Perameters
+```python
+(method) def run(
+    starting_agent: Agent[TContext@run],
+    input: str | list[TResponseInputItem],
+    *,
+    context: TContext@run | None = None,
+    max_turns: int = DEFAULT_MAX_TURNS,
+    hooks: RunHooks[TContext@run] | None = None,
+    run_config: RunConfig | None = None,
+    previous_response_id: str | None = None,
+    session: Session | None = None
+) -> CoroutineType[Any, Any, RunResult]
+```
+
+#### run_streamed method Perameters
+```python
+(method) def run_streamed(
+    starting_agent: Agent[TContext@run_streamed],
+    input: str | list[TResponseInputItem],
+    context: TContext@run_streamed | None = None,
+    max_turns: int = DEFAULT_MAX_TURNS,
+    hooks: RunHooks[TContext@run_streamed] | None = None,
+    run_config: RunConfig | None = None,
+    previous_response_id: str | None = None,
+    session: Session | None = None
+) -> RunResultStreaming
+```
+
 
 
 ### Others Info
