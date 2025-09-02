@@ -267,4 +267,5 @@ class Agent(
 
 ### Others Info
 * tracing bydfault openai ki taraf sy enabled hoti ha (False hoti ha)
+* DEFAULT_MAX_TURNS = 10
 
