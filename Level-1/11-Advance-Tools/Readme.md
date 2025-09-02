@@ -2,10 +2,10 @@
 
 Your primary tool for managing workflow is the `Agent`'s `tool_use_behavior` parameter. It dictates what happens after a tool is successfully executed.
 
-### Mode 1: `"run_llm_again"` (The Default Thinker)
+### Mode 1: `"run_llm_again"` (Default )
 This is the standard behavior. After a tool runs, its output is sent **back to the LLM**. The LLM then analyzes the result and decides what to do next.
 
-### Mode 2: `"stop_on_first_tool"` (The Direct Responder)
+### Mode 2: `"stop_on_first_tool"`
 This mode stops execution immediately after the **first tool call**. The raw output of that tool becomes the agent's final answer. The LLM does *not* see the tool's result.
 
 ```bash
