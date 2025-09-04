@@ -280,13 +280,54 @@ triage_agent = Agent(
 * input_filter sy query pehly Convert_capital_letter function ke pass jayegi or capital letter me convert hokr llm ke pass jayegi
 
 
-
 ## 3. on_handoff parameter ka role
-on_handoff ek callback function hai jo handoff initiate hone par chalaya jaata hai.
+on_handoff ek callback function hota hai jo handoff() mein pass kiya jaata hai.
+* Ye function tab chalta hai jab handoff invoke kiya jaata hai — yani jab ek agent control transfer kar ke doosre agent ko delegate karta hai.
+* Is function ko RunContextWrapper milta hai (aur agar input_type specified hai to structured input bhi), aur ye ek agent ko return karta hai, jise execution continue karna hota hai.
 
-**Ye function do cheezain leta hai:**
-1. RunContextWrapper — current agent ka run context.
-2. Input data — agar input_type defined hai, to LLM se generate hui structured input data; warna empty string.
+```python
+from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel,handoff,RunContextWrapper
+from typing import Any
+
+
+Nextjs_agent = Agent(
+    name="Nextjs Agent",
+    instructions="You are a helpful NextJS assistant."
+)
+   # on_handoff callback define karo
+def on_handoff_callback(ctx: RunContextWrapper[Any]):
+    print("Handoff trigger hua — context:", ctx)
+    return Nextjs_agent
+
+   # Handoff object create karo, customizing behavior
+nextjs_handoff = handoff(
+    agent=Nextjs_agent,
+    on_handoff=on_handoff_callback
+)
+
+triage_agent = Agent(
+    name="Triage Assistance Agent",
+    instructions=(
+        "You are a helpful assistant.\n"
+        "If the user asks a Next.js related question, hand off to the Nextjs agent."
+    ),
+    model=model,
+    handoffs=[nextjs_handoff]
+)
+
+result = Runner.run_sync(
+    starting_agent=triage_agent,
+    input="I have some issues with Next.js ops",
+    run_config=config
+)
+```
+
+
+
+
+
+
+
 
 
 
@@ -294,7 +335,7 @@ on_handoff ek callback function hai jo handoff initiate hone par chalaya jaata h
 
 
 ## 4. input_type 
-input_type ek optional parameter hai jo handoff() function mein use hota hai taake yeh define kiya ja sake ke input ka data type kya hoga (masalan, HandoffInputData, string, ya dictionary). Yeh batata hai ke query ya input ka expected format kya hai, taake SDK usay sahi se process kar sake. Iska maqsad hai type safety aur input validation ko ensure karna, khaas kar jab complex inputs ke saath kaam kar rahe hon.
+input_type aik optional parameter hai jo batata hai ke handoff ke waqt input ka expected format kya hai (jaise ek Pydantic model, string, ya dictionary). SDK is se us input ko validate karta hai aur ensure karta hai ke LLM se jo data aaya hai woh sahi structure mein hai.
 
 #### Q Use Hota Hai?
 * Input ka structure define karta hai taake handoff process aur input_filter (agar use ho raha hai) us ke mutabiq kaam kare.
@@ -302,7 +343,11 @@ input_type ek optional parameter hai jo handoff() function mein use hota hai taa
 * Complex inputs (jaise custom objects) ke liye clarity deta hai.
 ```bash
 
+
 ```
+
+
+
 
 
 
