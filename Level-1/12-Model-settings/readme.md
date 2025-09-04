@@ -574,7 +574,7 @@ focused_agent = Agent(
 )
 ```
 
-# 6. frequency_penalty
+# 6. presence_penalty
 * frequency_penalty → Ek token jitni dafa repeat hota hai, utni hi zyada penalty lagti hai (repetition count based).
 * presence_penalty → Bas ek hi dafa agar token aa gaya, to uske dobara aane ke chance kam ho jaate hain (presence based, count se farq nahi).
 
