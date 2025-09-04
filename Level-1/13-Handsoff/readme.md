@@ -91,10 +91,9 @@ Python_agent = Agent(
 "description": "Handoff to the Python_agent agent to handle the request. you a Inteligent Python Teacher ",
 ```
 
+---
 
-
-
-## handoff make two ways
+# 1. handoff make two ways
 * create normal agent and pass tool perameter in triage_agent
 * using handoff()
 
