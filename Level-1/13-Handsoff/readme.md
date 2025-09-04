@@ -322,28 +322,48 @@ result = Runner.run_sync(
 )
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
 ## 4. input_type 
-input_type aik optional parameter hai jo batata hai ke handoff ke waqt input ka expected format kya hai (jaise ek Pydantic model, string, ya dictionary). SDK is se us input ko validate karta hai aur ensure karta hai ke LLM se jo data aaya hai woh sahi structure mein hai.
+Definition: input_type ek optional parameter hai jo handoff() function mein diya ja sakta hai, taake aap specify kar saken ke handoff ke waqt LLM se jo input milta hai uska expected structure ya type kya hoga—jaise ek Pydantic model (structured data), string, ya dict.
 
-#### Q Use Hota Hai?
-* Input ka structure define karta hai taake handoff process aur input_filter (agar use ho raha hai) us ke mutabiq kaam kare.
-* Errors se bachata hai jo galat input type ke wajah se ho sakte hain.
-* Complex inputs (jaise custom objects) ke liye clarity deta hai.
-```bash
+1. Structured definition: Pehle, aap ek Pydantic model define karte hain, jisme aap specify karte hain ke input ka format kya hoga (jaise fields aur types).
+2. handoff() call mein input_type parameter use karte hain taake SDK is model ke basis par LLM se aane wale input ko validate kar sake.
+3. Agar validation successful hoti hai, to structured input aapke on_handoff callback ya next agent tak bheja jaata hai, strongly typed.
+4. Agar input mismatch ho, to SDK error throw karta hai—type safety aur reliability ensure hoti hai.
+
+```python
+from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel,handoff,RunContextWrapper
+from pydantic import BaseModel
+
+# Step 1: Structured input type define karein
+class EscalationData(BaseModel):
+    reason: str
 
 
+specialist = Agent(
+    name="Escalation Agent",
+    instructions="You are a Escalation Agent"
+)
+
+# on_handoff callback define karein (structured input receive karega)
+def on_handoff_callback(ctx: RunContextWrapper, input_data: EscalationData):
+    print("Handoff ho gaya! Reason:", input_data.reason)
+    return specialist
+
+
+handoff_obj = handoff(
+    agent=specialist,
+    input_type=EscalationData,
+    on_handoff=on_handoff_callback
+)
+
+triage_agent = Agent(
+    name="Triage Agent",
+    instructions="Agar user escalation ka reason bataye, to escalate karo.",
+    handoffs=[handoff_obj]
+)
+
+result = Runner.run_sync(starting_agent=triage_agent, input="I have some issues with Next.js ops", run_config=config )
+print("Final Output:", result.final_output)
 ```
 
 
