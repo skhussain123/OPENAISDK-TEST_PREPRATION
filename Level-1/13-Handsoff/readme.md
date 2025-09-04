@@ -282,6 +282,12 @@ triage_agent = Agent(
 
 
 ## 3. on_handoff parameter ka role
+on_handoff ek callback function hai jo handoff initiate hone par chalaya jaata hai.
+
+**Ye function do cheezain leta hai:**
+1. RunContextWrapper — current agent ka run context.
+2. Input data — agar input_type defined hai, to LLM se generate hui structured input data; warna empty string.
+
 
 
 
