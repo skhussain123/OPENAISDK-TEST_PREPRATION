@@ -60,15 +60,7 @@ print(result.final_output)
 print(result.last_agent) # <--- this is property
 ```
 * handoff agent ka name llm ke p-ass is tarha jata ha transfer_to_nextjs_agent
-* age me handoff agent ko name or instruction blank rakh kr run kry to cahl jayega.
 
-**is tarha**
-```bash
-Python_agent = Agent(
-   name="",
-   instructions='',  
-)
-```
 ```bash
 Python_agent = Agent(
    name="Python_agent",
