@@ -192,7 +192,7 @@ Definition: Top-k sampling mein model har step pe sabse zyada probability wale "
 | **Use Case**        | Creative lekin controlled content (jaise stories).             | Factual ya creative tasks, depending on k value.                           |
 
 
-# Tool Choice
+# 3. Tool Choice
 
 1. auto bydefault (llm khud choice kryga konsa tool call krna ha)
 2. none   (tool call nh kr paega llm)
@@ -506,7 +506,7 @@ Jab Agent human_review tool ko call kare, to uske baad LLM ko dobara run NAHI ka
 | `StopAtTools(stop_at_tool_names=["human_review"])` | Sirf listed tool pe rukna      | ❌ Continue karta hai | ✅ Ruk jaata hai  
 
 
-### Parallel Tool Calls (default None)
+# 4. Parallel Tool Calls (default None)
 * Jab parallel_tool_calls = true hota hai, to model ek hi step mein multiple tools ko ek saath call kar sakta hai (parallel execution).
 * Jab parallel_tool_calls = false hota hai, to model ek waqt pe sirf ek tool call karta hai (sequential execution).
 * Gemini API ka OpenAI-compatible wrapper abhi sirf sequential tool calls allow karta hai (parallel nahi).
@@ -542,7 +542,7 @@ sequential_agent = Agent(
 )
 ```
 
-### frequency_penalty
+# 5. frequency_penalty
 * Jab frequency_penalty low (0 ya near 0) hota hai → model zyadatar tokens repeat karne ki aadat rakhta hai (words/phrases dobara use kar sakta hai).
 * Jab frequency_penalty high hota hai → model repeated words ko avoid karta hai, aur nayi variety ke words choose karta hai.
 
@@ -574,7 +574,7 @@ focused_agent = Agent(
 )
 ```
 
-### frequency_penalty
+# 6. frequency_penalty
 * frequency_penalty → Ek token jitni dafa repeat hota hai, utni hi zyada penalty lagti hai (repetition count based).
 * presence_penalty → Bas ek hi dafa agar token aa gaya, to uske dobara aane ke chance kam ho jaate hain (presence based, count se farq nahi).
 
