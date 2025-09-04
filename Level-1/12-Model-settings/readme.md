@@ -49,7 +49,6 @@ Note: For gemini temprature range extends to 2.
 * **Example:** Jaise aapka "Story Writer" (temperature 0.9) wala example hai, yeh setting stories ya creative writing ke liye perfect hai.
 
 
-
 ### Example 1: Math Tutor with Low Temperature
 ```bash
 from agents import Agent, ModelSettings, Runner
@@ -607,88 +606,5 @@ focused_agent = Agent(
 
 
 
-
----
-# Agent Workflow Process Explanation
-This document explains the process of how the Agent workflow runs, based on the verbose output provided. The process is broken down into **10 baby steps** to make it easy to understand, especially for beginners. Each step describes what happens in the workflow when the Agent processes a user input like "what is the weather in karachi.what is latest news.write a poem".
-
----
-
-## Step 1: Agent Workflow Starts
-- **What Happens?**: When you run the `Runner.run_sync` function, the Agent starts a new workflow. A unique ID (`trace_ba3241253da64798b5e87f22baf2d58c`) is created to track this specific execution.
-- **Simple Meaning**: The program begins, and the system assigns a name (ID) to keep track of every step.
-
----
-
-## Step 2: Agent Span Creation
-- **What Happens?**: A "span" is created to track a specific part of the Agent's work. This span indicates that the Agent (named "assistance") is starting its first turn (iteration) to process the input.
-- **Simple Meaning**: The Agent "assistance" begins working on the user's request.
-
----
-
-## Step 3: LLM Call Preparation
-- **What Happens?**: Another span is created to indicate that the Large Language Model (LLM, e.g., Gemini-2.0-flash) is about to be called to generate a response.
-- **Simple Meaning**: The system prepares to ask the AI model for an answer.
-
----
-
-## Step 4: Input and Tools Sent to LLM
-- **What Happens?**: The system sends two things to the LLM:
-  1. **System Prompt**: Instructions telling the Agent which tools to call for specific queries (e.g., `weather_check` for weather queries, `latest_news` for news queries, `poem_writer` for poem queries).
-  2. **User Input**: The user's query ("what is the weather in karachi.what is latest news.write a poem").
-  - A list of available tools (`weather_check`, `latest_news`, `poem_writer`) is also provided.
-- **Simple Meaning**: The AI is told what the user asked and which tools it can use to answer.
-
----
-
-## Step 5: LLM Response with Tool Calls
-- **What Happens?**: The LLM processes the input and decides to call three tools:
-  1. `weather_check` with input "weather in karachi".
-  2. `latest_news` with input "latest news".
-  3. `poem_writer` with input "write a poem".
-  - The LLM doesn't return a text response (`content: null`) but instead sends these tool calls.
-- **Simple Meaning**: The AI understands the user's three questions and decides to use three tools to answer them.
-
----
-
-## Step 6: Tools Are Executed
-- **What Happens?**: Each tool is called one by one:
-  - `weather_check` runs and returns "f{input} weather is sunny".
-  - `latest_news` runs and returns "f{input} latest news is call".
-  - `poem_writer` runs and returns "f{input} poem writer is call".
-  - A span is created for each tool call to track its execution.
-  - **Issue**: The outputs contain `f{input}` as a literal string, which is a bug in the tool code (explained later).
-- **Simple Meaning**: The tools are activated, but they give incorrect outputs because of a coding mistake.
-
----
-
-## Step 7: Second Turn Starts
-- **What Happens?**: After the tools return their results, the Agent starts a second turn to process these results and prepare a final response.
-- **Simple Meaning**: The system takes the tool outputs and prepares to give a final answer.
-
----
-
-## Step 8: Tool Results Sent Back to LLM
-- **What Happens?**: The LLM is called again with:
-  - The original system prompt and user input.
-  - The tool calls from the first turn.
-  - The tool outputs ("f{input} weather is sunny", etc.).
-  - This gives the LLM context to create a final response.
-- **Simple Meaning**: The AI is shown the tool results so it can make a final answer.
-
----
-
-## Step 9: Final LLM Response
-- **What Happens?**: The LLM notices that the tool outputs are incorrect (they contain `f{input}` instead of proper formatted responses). It returns a message:
-  ```
-  OK. I have the weather in Karachi, the latest news, and a poem for you. However, there seems to be some issue. Instead of giving the actual weather, news and a poem, I am getting a response that says 'f{input} weather is sunny', 'f{input} latest news is call' and 'f{input} poem writer is call'. Would you like me to try again?
-  ```
-- **Simple Meaning**: The AI sees the mistake in the tool outputs and asks if you want to try again.
-
----
-
-## Step 10: Workflow Ends and Final Output
-- **What Happens?**: The workflow completes, the trace is reset, and the final output is printed (the LLM's message from Step 9). The trace provider and processor are shut down, and 7 items (spans) are exported for tracking.
-- **Simple Meaning**: The program finishes, and you get the final message saying there was a problem with the tool outputs.
 
 ---
