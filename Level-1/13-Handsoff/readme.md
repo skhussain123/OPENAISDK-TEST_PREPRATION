@@ -79,7 +79,22 @@ Agent(name='Python_agent', handoff_description=None, tools=[], mcp_servers=[], m
 
 Handoffs allow an agent to delegate task responsibility to another specialized agent. SDK is process ko ek tool call ke roop mein treat karta hai—e.g., agar aap Agent B ko handoff karte hain, toh LLM ko ek “transfer_to_agent_b” tool dikhega, jo handoff initiate karta hai
 
-### handoff make two ways
+**Jab Hum Agent ko instructions or handoff_description dengy to Triage Agent ke pass Merge hokr is tarha jaega**
+```python
+Python_agent = Agent(
+   name="Python_agent",
+   instructions='you are a help full Python Assistace',  
+   handoff_description="you a Inteligent Python Teacher " 
+)
+```
+```python
+"description": "Handoff to the Python_agent agent to handle the request. you a Inteligent Python Teacher ",
+```
+
+
+
+
+## handoff make two ways
 * create normal agent and pass tool perameter in triage_agent
 * using handoff()
 
