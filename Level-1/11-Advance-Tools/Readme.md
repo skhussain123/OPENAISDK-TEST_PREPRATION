@@ -165,7 +165,26 @@ result = Runner.run_sync(assistant_agent, "Use broken_tool with x=10", run_confi
 print(result.final_output)
 ```
 
+### 6. FunctionTool kya hai OpenAI SDK mein?
 
+OpenAI Agent SDK mein, FunctionTool aik aisa structure hai jo aapko apni Python function ko ek “tool” mein convert karne ke liye madad deta hai. Matlab, aap jo Python function likhte hain—kuch bhi karne wala; jaise data fetch karna, kisi API ko call karna, ya kisi file ko read/write karna—usko AI agent se directly istemal hone layak bana deta hai.
+
+
+
+
+
+
+
+### 7. The Runner's Safety Net – max_turns
+```python
+result = await Runner.run(agent, "Find articles about AI agents. You can think and act a maximum of 5 times.", max_turns=6)
+```
+* What it is: A hard limit on the number of calls to the LLM.
+* What happens when it's reached: It raises a MaxTurnsExceeded exception. Your application code must be prepared to catch this.
+
+* Agar max_turns = 1 ho aur agent ko koi tool call karna ho (jaise search), to kya hoga?
+Tool call to ho jayega, lekin uska response LLM tak wapas nahi pohanchayega, kyunke runner pehle hi stop kar dega.
+* Is liye hamesha max_turns itna zyada set karo jitna workflow ke liye zaroori hai, warna agent apna kaam pura nahi kar paayega.
 
 
 

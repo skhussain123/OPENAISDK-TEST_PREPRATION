@@ -312,15 +312,6 @@ In certain cases, you might want to modify the output of the tool-agents before 
 
 You can do this by supplying the custom_output_extractor argument to the as_tool method:
 
-
-
-
-
-
-
-
-
-
 ### Custom function tools
 Sometimes, you don't want to use a Python function as a tool. You can directly create a FunctionTool if you prefer. You'll need to provide:
 * name
