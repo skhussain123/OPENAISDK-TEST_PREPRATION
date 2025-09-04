@@ -137,7 +137,7 @@ a function that filters the inputs that are passed to the next agent.
 7. is_enabled
 Whether the handoff is enabled. Can be a bool or a callable that takes the run context and agent and returns whether the handoff is enabled. Disabled handoffs are hidden from the LLM at runtime.
 
-### Difference Between single agent aur handoff() agent
+# 2. Difference Between single agent aur handoff() agent
 
 #### 1. Normal Agent ko Direct Pass Karna
 ```bash
@@ -208,7 +208,7 @@ Normal Agent: Customization sirf instructions tak seemit hai. triage_agent ko kh
 handoff() Function: tool_name_override aur tool_description_override ke zariye aap handoff ke behavior ko fine-tune kar sakte hain, jaise specific query types ke liye agent select karna.
 
 
-### is_enabled=True bydefault True
+## 1. is_enabled=True bydefault True
 * is_enabled=True hone ka matlab hai ki handoff option hamesha available hai.
 * is_enabled=false hony pr ab specialized_nextjs_agent llm ke pass nh jayega.
 
@@ -233,7 +233,7 @@ triage_agent = Agent(
 )
 ```
 
-### input_filter
+## 2. input_filter
 input_filter ek function hai jo OpenAI Agents SDK mein query ya input ko process ya modify karta hai pehle ke woh agent ya LLM ke paas jaye. Yeh query ko validate, clean, ya transform karta hai (jaise capital letters mein convert karna) taake agent ke liye sahi aur safe input bheja jaye.
 
 ```bash
@@ -281,13 +281,13 @@ triage_agent = Agent(
 
 
 
-## on_handoff parameter ka role
+## 3. on_handoff parameter ka role
 
 
 
 
 
-## input_type 
+## 4. input_type 
 input_type ek optional parameter hai jo handoff() function mein use hota hai taake yeh define kiya ja sake ke input ka data type kya hoga (masalan, HandoffInputData, string, ya dictionary). Yeh batata hai ke query ya input ka expected format kya hai, taake SDK usay sahi se process kar sake. Iska maqsad hai type safety aur input validation ko ensure karna, khaas kar jab complex inputs ke saath kaam kar rahe hon.
 
 #### Q Use Hota Hai?
