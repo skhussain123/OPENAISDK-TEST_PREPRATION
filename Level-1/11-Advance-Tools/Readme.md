@@ -165,15 +165,17 @@ result = Runner.run_sync(assistant_agent, "Use broken_tool with x=10", run_confi
 print(result.final_output)
 ```
 
-### 6. FunctionTool kya hai OpenAI SDK mein?
+### 6. Custom Function Tool kya hai?
+Custom Function Tool ek aisa tool hai jo aap directly FunctionTool class ko initialize karke create karte ho, na ke kisi Python function ko decorator ke through convert karke. Aapko apni taraf se:
 
-OpenAI Agent SDK mein, FunctionTool aik aisa structure hai jo aapko apni Python function ko ek “tool” mein convert karne ke liye madad deta hai. Matlab, aap jo Python function likhte hain—kuch bhi karne wala; jaise data fetch karna, kisi API ko call karna, ya kisi file ko read/write karna—usko AI agent se directly istemal hone layak bana deta hai.
+* name
+* description
+* params_json_schema — jo arguments ka JSON schema hota hai
+* on_invoke_tool — ek async function jo context aur arguments (JSON string) receive karta hai, aur return karta hai ek output string
+```python
+```
 
-
-
-
-
-
+---
 
 ### 7. The Runner's Safety Net – max_turns
 ```python
