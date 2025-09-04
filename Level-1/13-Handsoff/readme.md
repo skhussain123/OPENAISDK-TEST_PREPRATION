@@ -233,7 +233,7 @@ triage_agent = Agent(
 )
 ```
 
-## 2. input_filter
+## 2. input_filter 
 input_filter ek function hai jo OpenAI Agents SDK mein query ya input ko process ya modify karta hai pehle ke woh agent ya LLM ke paas jaye. Yeh query ko validate, clean, ya transform karta hai (jaise capital letters mein convert karna) taake agent ke liye sahi aur safe input bheja jaye.
 
 ```bash
@@ -280,7 +280,7 @@ triage_agent = Agent(
 * input_filter sy query pehly Convert_capital_letter function ke pass jayegi or capital letter me convert hokr llm ke pass jayegi
 
 
-## 3. on_handoff parameter ka role
+## 3. on_handoff parameter 
 on_handoff ek callback function hota hai jo handoff() mein pass kiya jaata hai.
 * Ye function tab chalta hai jab handoff invoke kiya jaata hai — yani jab ek agent control transfer kar ke doosre agent ko delegate karta hai.
 * Is function ko RunContextWrapper milta hai (aur agar input_type specified hai to structured input bhi), aur ye ek agent ko return karta hai, jise execution continue karna hota hai.
@@ -322,7 +322,7 @@ result = Runner.run_sync(
 )
 ```
 
-## 4. input_type 
+## 4. input_type parameter 
 Definition: input_type ek optional parameter hai jo handoff() function mein diya ja sakta hai, taake aap specify kar saken ke handoff ke waqt LLM se jo input milta hai uska expected structure ya type kya hoga—jaise ek Pydantic model (structured data), string, ya dict.
 
 1. Structured definition: Pehle, aap ek Pydantic model define karte hain, jisme aap specify karte hain ke input ka format kya hoga (jaise fields aur types).
