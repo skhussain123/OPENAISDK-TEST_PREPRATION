@@ -303,6 +303,24 @@ async def run_my_agent(input: str) -> str:
     return str(result.final_output)
 ```
 
+### Custom output extraction
+In certain cases, you might want to modify the output of the tool-agents before returning it to the central agent. This may be useful if you want to:
+
+* Extract a specific piece of information (e.g., a JSON payload) from the sub-agent's chat history.
+* Convert or reformat the agent’s final answer (e.g., transform Markdown into plain text or CSV).
+* Validate the output or provide a fallback value when the agent’s response is missing or malformed.
+
+You can do this by supplying the custom_output_extractor argument to the as_tool method:
+
+
+
+
+
+
+
+
+
+
 ### Custom function tools
 Sometimes, you don't want to use a Python function as a tool. You can directly create a FunctionTool if you prefer. You'll need to provide:
 * name
