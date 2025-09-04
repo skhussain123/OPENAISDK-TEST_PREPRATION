@@ -162,7 +162,8 @@ triage_agent = Agent(
 * Jab aap chahte hain ke handoff ka logic simple ho aur triage_agent khud agent ke instructions ya name se faisla kare.
 * Yeh tab kaam karta hai jab handoff ke liye zyada customization ki zarurat nahi hoti.
 
-#### 2. handoff() Function ka Use Karna
+
+### 2. handoff() Function ka Use Karna
 * nextjs_handoff ka name or desc llm pass tool_name_override or tool_description_override wala jaeyga.
 
 ```bash
@@ -278,7 +279,15 @@ triage_agent = Agent(
 ```
 * input_filter sy query pehly Convert_capital_letter function ke pass jayegi or capital letter me convert hokr llm ke pass jayegi
 
-### input_type 
+
+
+## on_handoff parameter ka role
+
+
+
+
+
+## input_type 
 input_type ek optional parameter hai jo handoff() function mein use hota hai taake yeh define kiya ja sake ke input ka data type kya hoga (masalan, HandoffInputData, string, ya dictionary). Yeh batata hai ke query ya input ka expected format kya hai, taake SDK usay sahi se process kar sake. Iska maqsad hai type safety aur input validation ko ensure karna, khaas kar jab complex inputs ke saath kaam kar rahe hon.
 
 #### Q Use Hota Hai?
