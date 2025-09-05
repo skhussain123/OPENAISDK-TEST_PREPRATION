@@ -4,8 +4,10 @@ Structured outputs are crucial when you need your AI agents to provide data in a
 
 --- 
 The type of the output object. If not provided, the output will be str. In most cases, you should pass a regular Python type (e.g. a dataclass, Pydantic model, TypedDict, etc). You can customize this in two ways:
+
+#### Take Perameters
 ```bash
-(variable) output_type: None
+output_type: type[Any] | AgentOutputSchemaBase | None = None,
 ```
 1. If you want non-strict schemas, pass `AgentOutputSchema(MyClass, strict_json_schema=False)`.
 2. If you want to use a custom JSON schema (i.e. without using the SDK's automatic schema)
