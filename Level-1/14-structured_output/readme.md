@@ -96,7 +96,7 @@ print("Age:", result.final_output.age)           # 25
 print("Job:", result.final_output.occupation)    # "teacher"
 ```
 
-### 4. Different Data Types
+### 4. Meeting Minutes Extractor
 ```python
 from pydantic import BaseModel
 from typing import List, Optional
@@ -167,5 +167,200 @@ print("=== Meeting Minutes ===")
 print(result.final_output)
 ```
 
+### 5. Different Data Types
+```python
+from typing import Optional, List
+from datetime import datetime
+
+class ProductInfo(BaseModel):
+    name: str                           # Text
+    price: float                        # Decimal number
+    in_stock: bool                      # True/False
+    categories: List[str]               # List of text items
+    discount_percent: Optional[int] = 0 # Optional number, default 0
+    reviews_count: int                  # Whole number
+
+# Create product info extractor
+agent = Agent(
+    name="ProductExtractor",
+    instructions="Extract product information from product descriptions.",
+    output_type=ProductInfo
+)
+
+# Test with product description
+result = Runner.run_sync(
+    agent,
+    "The iPhone 15 Pro costs $999.99, it's available in electronics and smartphones categories, currently in stock with 1,247 reviews."
+)
+
+print("Product:", result.final_output.name)         # "iPhone 15 Pro"
+print("Price:", result.final_output.price)          # 999.99
+print("In Stock:", result.final_output.in_stock)    # True
+print("Categories:", result.final_output.categories) # ["electronics", "smartphones"]
+print("Reviews:", result.final_output.reviews_count) # 1247
+```
+
+## Exercise 1: Build a Resume Parser
+```python
+from typing import List, Optional
+
+class Education(BaseModel):
+    degree: str
+    institution: str
+    graduation_year: int
+    gpa: Optional[float] = None
+
+class Experience(BaseModel):
+    position: str
+    company: str
+    start_year: int
+    end_year: Optional[int] = None  # None if current job
+    responsibilities: List[str]
+
+class Resume(BaseModel):
+    full_name: str
+    email: str
+    phone: str
+    summary: str
+    education: List[Education]
+    experience: List[Experience]
+    skills: List[str]
+    languages: List[str]
+
+# Create resume parser
+resume_parser = Agent(
+    name="ResumeParser",
+    instructions="Extract structured information from resume text.",
+    output_type=Resume
+)
+
+# Test with sample resume
+sample_resume = """
+John Smith
+Email: john.smith@email.com, Phone: (555) 123-4567
+
+Professional Summary:
+Experienced software developer with 5 years in web development and team leadership.
+
+Education:
+- Bachelor of Computer Science, MIT, 2018, GPA: 3.8
+- Master of Software Engineering, Stanford, 2020
+
+Experience:
+- Senior Developer at Google (2020-present): Led team of 5 developers, implemented microservices architecture
+- Junior Developer at Startup Inc (2018-2020): Built React applications, maintained CI/CD pipelines
+
+Skills: Python, JavaScript, React, Docker, Kubernetes
+Languages: English (native), Spanish (conversational), French (basic)
+"""
+
+result = Runner.run_sync(resume_parser, sample_resume)
+
+print("=== Parsed Resume ===")
+print(f"Name: {result.final_output.full_name}")
+print(f"Email: {result.final_output.email}")
+print(f"Phone: {result.final_output.phone}")
+print(f"Summary: {result.final_output.summary}")
+
+print("\nEducation:")
+for edu in result.final_output.education:
+    gpa_str = f", GPA: {edu.gpa}" if edu.gpa else ""
+    print(f"  • {edu.degree} from {edu.institution} ({edu.graduation_year}){gpa_str}")
+
+print("\nExperience:")
+for exp in result.final_output.experience:
+    end_year = exp.end_year if exp.end_year else "present"
+    print(f"  • {exp.position} at {exp.company} ({exp.start_year}-{end_year})")
+    for resp in exp.responsibilities:
+        print(f"    - {resp}")
+
+print(f"\nSkills: {', '.join(result.final_output.skills)}")
+print(f"Languages: {', '.join(result.final_output.languages)}")
+```
+
+## Exercise 2: Create a Recipe Analyzer
+```python
+from typing import List, Optional
+
+class Ingredient(BaseModel):
+    name: str
+    amount: str
+    unit: str
+    notes: Optional[str] = None
+
+class NutritionInfo(BaseModel):
+    calories_per_serving: Optional[int] = None
+    prep_time_minutes: int
+    cook_time_minutes: int
+    difficulty_level: str = Field(..., regex=r'^(easy|medium|hard)$')
+
+class Recipe(BaseModel):
+    title: str
+    description: str
+    servings: int
+    ingredients: List[Ingredient]
+    instructions: List[str]
+    nutrition: NutritionInfo
+    cuisine_type: str
+    dietary_tags: List[str]  # vegetarian, vegan, gluten-free, etc.
+
+# Create recipe analyzer
+recipe_analyzer = Agent(
+    name="RecipeAnalyzer",
+    instructions="Extract detailed recipe information from recipe text.",
+    output_type=Recipe
+)
+
+# Test with recipe
+recipe_text = """
+Spaghetti Carbonara
+A classic Italian pasta dish with eggs, cheese, and pancetta.
+Serves 4 people. Prep time: 15 minutes, Cook time: 20 minutes. Medium difficulty.
+
+Ingredients:
+- 400g spaghetti pasta
+- 150g pancetta, diced
+- 3 large eggs
+- 100g Parmesan cheese, grated
+- 2 cloves garlic, minced
+- Black pepper to taste
+- Salt for pasta water
+
+Instructions:
+1. Boil salted water and cook spaghetti according to package directions
+2. Fry pancetta in a large pan until crispy
+3. Beat eggs with Parmesan cheese in a bowl
+4. Drain pasta and add to pancetta pan
+5. Remove from heat and quickly mix in egg mixture
+6. Serve immediately with extra Parmesan
+
+Cuisine: Italian
+Dietary notes: Contains gluten, dairy, and eggs
+Approximate calories: 650 per serving
+"""
+
+result = Runner.run_sync(recipe_analyzer, recipe_text)
+
+print("=== Recipe Analysis ===")
+print(f"Title: {result.final_output.title}")
+print(f"Description: {result.final_output.description}")
+print(f"Servings: {result.final_output.servings}")
+print(f"Cuisine: {result.final_output.cuisine_type}")
+print(f"Difficulty: {result.final_output.nutrition.difficulty_level}")
+print(f"Total Time: {result.final_output.nutrition.prep_time_minutes + result.final_output.nutrition.cook_time_minutes} minutes")
+
+print("\nIngredients:")
+for ing in result.final_output.ingredients:
+    notes_str = f" ({ing.notes})" if ing.notes else ""
+    print(f"  • {ing.amount} {ing.unit} {ing.name}{notes_str}")
+
+print("\nInstructions:")
+for i, step in enumerate(result.final_output.instructions, 1):
+    print(f"  {i}. {step}")
+
+print(f"\nDietary Tags: {', '.join(result.final_output.dietary_tags)}")
+if result.final_output.nutrition.calories_per_serving:
+    print(f"Calories per serving: {result.final_output.nutrition.calories_per_serving}")
+```
 
 
