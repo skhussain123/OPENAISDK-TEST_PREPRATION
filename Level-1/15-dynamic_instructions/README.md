@@ -26,7 +26,8 @@ me RunContextWrapper[TContext] or Agent[TContext] dena zarori ha
 
 
 ### 1. Simple sync function
-```bash
+
+```python
 from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel,RunContextWrapper,
 
 def dynamic_instructure(ctx: RunContextWrapper, agent: Agent) ->str:
@@ -39,8 +40,23 @@ agent = Agent(
 )
 ```
 
-### 2. Other Example With Context
-```bash
+### 2. Get Agent Name
+```python
+def dynamic_instructions(context: RunContextWrapper, agent: Agent) -> str:
+    return f"You are {agent.name}. Adapt to the user's needs."
+
+agent = Agent(
+    name="Smart Assistant",
+    instructions=dynamic_instructions 
+)
+
+result = Runner.run_sync(starting_agent=agent, input="", run_config=config)
+print(result.final_output)
+```
+
+### 3. Other Example With Context
+
+```python
 async def dynamic_instructure(ctx: RunContextWrapper, agent: Agent) ->str:
     return f"i am {ctx.context} how are"
 
@@ -55,7 +71,7 @@ print("Final Output:", result.final_output)
 * async or sync dono function use kr sakty ha run, rync  run_stream ke sath 
 
 
-### 3. Same Example With Pydentic Class
+### 4. Same Example With Pydentic Class
 ```bash
 from pydentic import BaseModel
 
@@ -74,7 +90,7 @@ agent = Agent(
 )
 ```
 
-### 4. Same Example With Python Class 
+### 5. Same Example With Python Class 
 ```bash
 class Dynamic_Class():
     def __init__(self):
@@ -95,7 +111,7 @@ result = Runner.run_sync(starting_agent=agent,input='how are you?',run_config=co
 print(result.final_output)
 ```
 
-### 5. Async Dynamic Instructions
+### 6. Async Dynamic Instructions
 ```bash
 import asyncio
 
@@ -114,7 +130,7 @@ agent = Agent(
 )
 ```
 
-### 6. Time-Based Instructions 
+### 7. Time-Based Instructions 
 ```bash
 import datetime
 
@@ -137,7 +153,6 @@ agent = Agent(
     model=model,
 )
 ```
-
 #### Context Parameter
 
 The context contains:
@@ -145,3 +160,51 @@ The context contains:
 * User data: Custom user information
 * Run state: Current execution state
 * Metadata: Additional information
+
+### 8. Stateful Instructions (Remembers Interactions)
+```python
+
+class StatefulInstructions:
+    def __init__(self):
+        self.interaction_count = 0
+    
+    def __call__(self, context: RunContextWrapper, agent: Agent) -> str:
+        self.interaction_count += 1
+        
+        if self.interaction_count == 1:
+            return "You are a learning assistant. This is our first interaction - be welcoming!"
+        elif self.interaction_count <= 3:
+            return f"You are a learning assistant. This is interaction #{self.interaction_count} - build on our conversation."
+        else:
+            return f"You are an experienced assistant. We've had {self.interaction_count} interactions - be efficient."
+
+instruction_gen = StatefulInstructions()
+
+agent = Agent(
+    name="Smart Assistant",
+    instructions=instruction_gen 
+)
+
+query =  input("Enter Query : ")
+
+result = Runner.run_sync(starting_agent=agent, input=query, run_config=config)
+print(result.final_output)
+```
+
+### Agent Parameter
+The agent contains:
+* Name: Agent's identity
+* Tools: Available tools
+* Settings: Model settings
+* Configuration: Agent configuration
+
+
+### 
+```python
+def explore_agent(context: RunContextWrapper, agent: Agent) -> str:
+    # Access agent properties
+    agent_name = agent.name
+    tool_count = len(agent.tools)
+    
+    return f"You are {agent_name} with {tool_count} tools. Be helpful!"
+```    
