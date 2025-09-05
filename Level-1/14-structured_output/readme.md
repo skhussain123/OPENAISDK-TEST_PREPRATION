@@ -3,6 +3,14 @@
 Structured outputs are crucial when you need your AI agents to provide data in a predictable and usable format. Instead of free-form text, you can enforce a specific structure, making it easier for your applications to parse and utilize the information. The OpenAI Agents SDK provides mechanisms to achieve this
 
 --- 
+The type of the output object. If not provided, the output will be str. In most cases, you should pass a regular Python type (e.g. a dataclass, Pydantic model, TypedDict, etc). You can customize this in two ways:
+```bash
+(variable) output_type: None
+```
+1. If you want non-strict schemas, pass `AgentOutputSchema(MyClass, strict_json_schema=False)`.
+2. If you want to use a custom JSON schema (i.e. without using the SDK's automatic schema)
+creation, subclass and pass an `AgentOutputSchemaBase` subclass.
+
 
 The type of the output object. If not provided, the output will be `str`. In most cases,
 * you should pass a regular Python type (e.g. a dataclass, Pydantic model, TypedDict, etc).
