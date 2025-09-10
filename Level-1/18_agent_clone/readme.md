@@ -12,7 +12,8 @@ OpenAI Agents SDK mein clone() method shallow copy use karta hai. Yani agent ke 
 
 * Shallow copy ek naya object banata hai, lekin ismein original object ke references (pointers) copy hote hain, na ke actual data. Yani agar original object mein koi mutable items (jaise lists ya dictionaries) hain, to dono objects (original aur copy) unhi mutable items ko share karte hain.
 * Kaise hota hai?: Shallow copy sirf top-level structure ko copy karta hai, lekin nested objects (objects ke andar objects) ka reference wahi rehta hai.
-```bash
+
+```python
 import copy
 
 original = [1, 2, [3, 4]]
@@ -28,7 +29,7 @@ print(shallow)   # [1, 2, [99, 4]]
 ### Deep Copy
 * Kya hai?: Deep copy ek naya object banata hai aur original object ke saare data ko recursively copy karta hai, yani nested objects bhi naye banaye jaate hain. Copy aur original bilkul alag hote hain, koi shared reference nahi hota.
 * Kaise hota hai?: Deep copy poori data structure ko duplicate karta hai, chahe kitne bhi nested objects hon.
-```bash
+```python
 import copy
 
 original = [1, 2, [3, 4]]
@@ -44,4 +45,249 @@ print(deep)      # [1, 2, [99, 4]]
 #### Difference
 * Shallow Copy: Sirf top-level copy karta hai, nested objects share hote hain. Fast hai lekin changes original ko bhi affect kar sakte hain.
 8 Deep Copy: Poora object aur uske saare nested objects copy hote hain. Thoda slow hai lekin original aur copy bilkul alag hote hain.
+
+
+```python
+# Base agent
+base_agent = Agent(
+    name="BaseAssistant",
+    instructions="You are a helpful assistant.",
+)
+
+# Clone with different instructions
+creative_agent = base_agent.clone(
+    name="CreativeAssistant",
+    instructions="You are a creative writing assistant. Always respond with vivid, imaginative language.",
+)
+```
+
+### Shallow Copy Behavior
+```python
+# Original agent with tools
+original_agent = Agent(
+    name="Original",
+    tools=[calculator, weather_tool],
+    instructions="You are helpful."
+)
+
+# Clone the agent
+cloned_agent = original_agent.clone(
+    name="Cloned",
+    instructions="You are creative."
+)
+
+# What happens:
+# ✅ New agent object created
+# ✅ New name and instructions
+# ✅ Same tools list (shared reference)
+# ✅ Same model settings (unless overridden)
+```
+
+### Understanding Shared References
+```python
+# Tools are shared between original and clone
+original_agent.tools.append(new_tool)
+# This affects both original_agent AND cloned_agent!
+
+# To avoid this, pass new tools list:
+independent_clone = original_agent.clone(
+    name="Independent",
+    tools=[calculator, weather_tool, new_tool]  # New list
+)
+```
+
+## 1. Basic Cloning
+```python
+# Base agent
+base_agent = Agent(
+    name="BaseAssistant",
+    instructions="You are a helpful assistant.",
+)
+
+# Simple clone
+friendly_agent = base_agent.clone(
+    name="FriendlyAssistant",
+    instructions="You are a very friendly and warm assistant."
+)
+
+query = "Hello, how are you?"
+
+result_base = Runner.run_sync(base_agent, query, run_config=config)
+result_friendly = Runner.run_sync(friendly_agent, query, run_config=config)
+
+print("Base Agent:", result_base.final_output)
+print("Friendly Agent:", result_friendly.final_output)
+```
+
+
+## 2. Cloning with Different Tools
+```python
+@function_tool
+def calculate_area(length: float, width: float) -> str:
+    return f"Area = {length * width} square units"
+
+
+@function_tool
+def get_weather(city: str) -> str:
+    return f"Weather in {city}: Sunny, 72°F"
+
+
+# Base agent with one tool
+base_agent = Agent(
+    name="BaseAssistant",
+    tools=[calculate_area],
+    instructions="You are a helpful assistant."
+)
+
+# Clone with additional tool
+weather_agent = base_agent.clone(
+    name="WeatherAssistant",
+    tools=[calculate_area, get_weather],  # New tools list
+    instructions="You are a weather and math assistant."
+)
+
+# Clone with different tools
+math_agent = base_agent.clone(
+    name="MathAssistant",
+    tools=[calculate_area],  # Same tools
+    instructions="You are a math specialist."
+)
+
+query = "Hello, how are you?"
+
+math_base = Runner.run_sync(math_agent, query, run_config=config)
+result_weather = Runner.run_sync(weather_agent, query, run_config=config)
+
+print("Math Agent:", math_base.final_output)
+print("Weather Agent:", result_weather.final_output)
+```
+
+# Advanced Examples
+
+### 1. Multiple Clones from One Base
+```python
+# Create a base agent
+base_agent = Agent(
+    name="BaseAssistant",
+    instructions="You are a helpful assistant.",
+)
+
+# Create multiple specialized variants
+agents = {
+    "Creative": base_agent.clone(
+        name="CreativeWriter",
+        instructions="You are a creative writer. Use vivid language.",
+    ),
+    "Precise": base_agent.clone(
+        name="PreciseAssistant", 
+        instructions="You are a precise assistant. Be accurate and concise.",
+    ),
+    "Friendly": base_agent.clone(
+        name="FriendlyAssistant",
+        instructions="You are a very friendly assistant. Be warm and encouraging."
+    ),
+    "Professional": base_agent.clone(
+        name="ProfessionalAssistant",
+        instructions="You are a professional assistant. Be formal and business-like."
+    )
+}
+
+# Test all variants
+query = "Tell me about artificial intelligence."
+
+for name, agent in agents.items():
+    result = Runner.run_sync(agent, query, run_config=config)
+    print(f"\n{name} Agent:")
+    print(result.final_output[:100] + "...")
+```
+
+#### Shallow Copy Behavior
+| What's Copied | What's Shared | What's Independent |
+|---------------|----------------|-------------------|
+| **Agent object** | ✅ New object | ✅ Independent |
+| **Name** | ✅ New value | ✅ Independent |
+| **Instructions** | ✅ New value | ✅ Independent |
+| **Model settings** | ✅ New object | ✅ Independent |
+| **Tools list** | ❌ Shared reference | ⚠️ Careful! |
+| **Handoffs** | ❌ Shared reference | ⚠️ Careful! |
+
+
+#### Best Practices
+```python
+# ✅ Good: Pass new lists for mutable objects
+independent_clone = base_agent.clone(
+    name="Independent",
+    tools=[tool1, tool2, tool3],  # New list
+    handoffs=[handoff1, handoff2]  # New list
+)
+
+# ❌ Risky: Rely on shared references
+shared_clone = base_agent.clone(
+    name="Shared",
+    # tools and handoffs are shared with original!
+)
+```
+
+### Understand Shared References
+```python
+# Create base agent with tools
+@function_tool
+def tool1() -> str:
+    return "Tool 1"
+
+@function_tool  
+def tool2() -> str:
+    return "Tool 2"
+
+base_agent = Agent(
+    name="Base",
+    tools=[tool1],
+    instructions="You are helpful."
+)
+
+# Create clones
+shared_clone = base_agent.clone(name="Shared")
+independent_clone = base_agent.clone(
+    name="Independent",
+    tools=[tool1, tool2]  # New list
+)
+
+# Modify original
+@function_tool
+def tool3() -> str:
+    return "Tool 3"
+
+base_agent.tools.append(tool3)
+
+# Check what happened
+print("Base tools:", len(base_agent.tools))           # 2
+print("Shared clone tools:", len(shared_clone.tools)) # 2 (shared!)
+print("Independent clone tools:", len(independent_clone.tools)) # 2 (independent!)
+```
+* Agar aap chahte hain ke cloned agent ke tools ya handoffs independent hon, to hamesha nayi list provide karen:
+
+```python
+independent_clone = base_agent.clone(
+    name="Independent",
+    tools=[tool1, tool2, tool3],  # Nayi list
+    handoffs=[handoff1, handoff2]  # Nayi list
+)
+```
+
+* Shared References se Bacho: Agar aap tools ya handoffs ko explicitly nahi dete, to shared references ke wajah se unexpected changes ho sakte hain:
+```python
+shared_clone = base_agent.clone(name="Shared")  # Risky: tools aur handoffs shared hain
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
