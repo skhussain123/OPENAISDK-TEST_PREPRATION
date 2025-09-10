@@ -37,12 +37,12 @@ Note: For gemini temprature range extends to 2.
 * **Kaam:** Is setting mein jawab bohot precise aur consistent hote hain. Randomness ya creativity bohot kam hoti hai.
 * **Example:** Jaise aapka "Math Tutor" (temperature 0.1) wala example hai, yeh setting perfect hai jab aapko accurate aur clear jawab chahiye, jaise mathematical solutions ya factual information.
 
-#### 2. Medium Temperature (0.4 - 0.7)
+#### 2. Medium Temperature (0.4 - 0.6)
 * **Kya Hota Hai?:** Yeh ek balanced approach hai. Model thodi creativity ke saath jawab deta hai, lekin phir bhi zyada tar predictable aur relevant rehta hai.
 * 3. **Kaam:** Yeh setting tab useful hai jab aapko thodi flexibility chahiye, lekin jawab bilkul out-of-the-box nahi hone chahiye. Maslan, agar aap ek discussion ya explanation chahte hain jo thoda engaging ho lekin factual bhi rahe.
 * **Example:** General knowledge questions ya discussions ke liye yeh setting kaam aati hai.
 
-#### 3. High Temperature (0.8 - 1.0 ya usse zyada)
+#### 3. High Temperature (0.7 - 0.9 ya usse zyada)
 
 * **Kya Hota Hai?:** Jab temperature zyada hoti hai, jaise 0.9, toh model bohot creative aur random jawab deta hai. Yeh different aur unique ideas generate kar sakta hai, lekin kabhi kabhi jawab kam accurate ya off-topic bhi ho sakte hain.
 * **Kaam:** Yeh setting tab use hoti hai jab aapko creative ya imaginative content chahiye, jaise stories, poems, ya out-of-the-box ideas
