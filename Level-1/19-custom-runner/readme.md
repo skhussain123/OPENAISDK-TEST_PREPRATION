@@ -1,7 +1,7 @@
 
 
 
-
+# Custom Runner
 Openai sdk me runner ki class me run, runsync,runstreamed ke methods hoty hain. jinka behaviour ko hum custom class bana 
 kr waha chnage kr sakty hain.
 
