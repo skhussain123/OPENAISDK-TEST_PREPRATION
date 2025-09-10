@@ -15,6 +15,10 @@ Input guardrails run in 3 steps:
 3. Finally, we check if .tripwire_triggered is true. If true, an InputGuardrailTripwireTriggered exception is raised, so you can appropriately respond to the user or handle the exception.
 
 
+* Kya Hota Hai?: Guardrail function input ko process karta hai aur ek GuardrailFunctionOutput object return karta hai. Ye output batata hai ke input valid hai ya nahi, aur agar koi issue hai to kya issue hai.
+* GuardrailFunctionOutput ko ek InputGuardrailResult object mein wrap kiya jata hai, jo final result ko standardize karta hai taake system usse easily handle kar sake.
+
+
 Input guardrails are intended to run on user input, so an agent's guardrails only run if the agent is the first agent. You might wonder, why is the guardrails property on the agent instead of passed to Runner.run? It's because guardrails tend to be related to the actual Agent - you'd run different guardrails for different agents, so colocating the code is useful for readability.
 
 ### Output guardrails
