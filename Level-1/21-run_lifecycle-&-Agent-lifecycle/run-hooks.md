@@ -69,8 +69,10 @@ async def on_agent_end(
         pass
 ```        
 ```bash
+from typing import Any
+
 class MyRunHook(RunHooks):
-    async def on_agent_end(self, context, agent, system_prompt):
+    async def on_agent_end(self, context, agent, output: Any):
         print(f"[RUN] Agent `{agent.name}` End")
 
 billing_check = Agent(
@@ -198,8 +200,9 @@ print(result.final_output)
 
 
 #### 6. on_llm_start
+* same a agenthooks
 #### 7. on_llm_end
-
+* same a agenthooks
 
 
 
