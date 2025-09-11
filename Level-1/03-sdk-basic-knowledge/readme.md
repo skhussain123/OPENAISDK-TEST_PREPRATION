@@ -383,3 +383,15 @@ Overall, developers and early adopters are very positive about the SDK, praising
 2. gemini 1.5 flash
 3. gemini 2.0 flash
 4. grmini 2.5 flash
+
+
+####  Lmm ko hum input me 4 cheezy bjh sakty ha
+1. system prompt (agent parsona)
+2. user prompt
+3. tool schema (tool peramters, description, etc)
+4. tool output (jo tool ka result hota ha wo bhi lmm ko input me de sakty ha.)
+
+
+#### Lmm 2 cheezy output me return kr sakta ha
+1. String (jissy hun pydentic ya dataclases sy kisi bhi sturcture format me convert kr sakty ha)
+2. llm ko bata sakty ha konsa tool call krna ha
