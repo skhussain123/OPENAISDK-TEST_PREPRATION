@@ -23,6 +23,11 @@ In combination with Python, these primitives are powerful enough to express comp
 7. Tracing: Built-in tracing that lets you visualize, debug and monitor your workflows, as well as use the OpenAI suite of evaluation, fine-tuning and distillation tools.
 
 
+### Openai ke api ki 2 types introduce krwai ha.
+* Assistant Api (Assistant api me ye faida ha jo ap chat krty ha oska eik thrade banta us thrade me asi conversation store hoti ha server pr. )
+* ChatCompletionApi (jo single input leta ha process krta ha. or output de deta ha. kuch yaad nh rakhta.) 
+* Responsive Api (Assistant Api ka advance variant responsive api ha.)
+
 # OpenAI Agents SDK: Provides a Foundational Layer For Building AI Agents
 
 The OpenAI Agents SDK is an open‐source, lightweight framework that lets developers build and orchestrate “agentic” AI applications—systems where multiple AI “agents” work together to perform complex, multi-step tasks autonomously. 
