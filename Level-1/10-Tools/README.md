@@ -161,10 +161,6 @@ print(result.final_output)
 receives generated input.
 2. In handoffs, the new agent takes over the conversation. In this tool, the new agent is
 called as a tool, and the conversation is continued by the original agent.This is different from handoffs in two ways:
-3. In handoffs, the new agent receives the conversation history. In this tool, the new agent
-receives generated input.
-4. In handoffs, the new agent takes over the conversation. In this tool, the new agent is
-called as a tool, and the conversation is continued by the original agent.
 
 * tool_name (required)
 * tool_description (required)
