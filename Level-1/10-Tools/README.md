@@ -348,7 +348,7 @@ Imagine you’re at a restaurant:
 * Tool Call: Instead, if you ask the waiter to bring a side dish, the waiter simply takes your specific request (the generated input) and returns with the dish. You, as the diner, still engage directly with the waiter, who integrates that dish into your meal.
 
 
-# Web Search Tool (Usinh with Open Ai API Key)
+# Web Search Tool (Using with Open Ai API Key)
 ```python
 from agents import Agent, Runner, WebSearchTool
 import rich
