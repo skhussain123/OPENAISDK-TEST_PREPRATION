@@ -468,6 +468,7 @@ To display a literal character that would otherwise be used to format text in a 
 | **Horizontal Rule** | `---`                                                  |
 | **Link**            | `[title](https://www.example.com)`                     |
 | **Image**           | `![alt text](image.jpg)`                               |
+| **Clickable Image**   `[![alt text](image.jpg)](https://example.com)`        |
 
 
 
