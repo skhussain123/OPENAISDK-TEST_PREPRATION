@@ -192,18 +192,18 @@ Tool call to ho jayega, lekin uska response LLM tak wapas nahi pohanchayega, kyu
 ### Some Exceptions
 
 #### 1. ModelBehaviorError
-* Bases: AgentsException
+* Bases: AgentsException <br>
 Exception raised when the model does something unexpected, e.g. calling a tool that doesn't exist, or providing malformed JSON.
 
 
 #### 2. UserError
-* Bases: AgentsException
+* Bases: AgentsException <br>
 Exception raised when the user makes an error using the SDK.
 
 #### 3. InputGuardrailTripwireTriggered
-* Bases: AgentsException
+* Bases: AgentsException <br>
 Exception raised when a guardrail tripwire is triggered.
 
 #### 4. OutputGuardrailTripwireTriggered
-* Bases: AgentsException
+* Bases: AgentsException <br>
 Exception raised when a guardrail tripwire is triggered.
