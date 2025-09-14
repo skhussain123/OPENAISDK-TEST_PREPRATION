@@ -197,13 +197,13 @@ Exception raised when the model does something unexpected, e.g. calling a tool t
 
 
 #### 2. UserError
-* Bases: AgentsException <br>
+- Bases: AgentsException <br>
 Exception raised when the user makes an error using the SDK.
 
 #### 3. InputGuardrailTripwireTriggered
-* Bases: AgentsException <br>
+- Bases: AgentsException <br>
 Exception raised when a guardrail tripwire is triggered.
 
 #### 4. OutputGuardrailTripwireTriggered
-* Bases: AgentsException <br>
+- Bases: AgentsException <br>
 Exception raised when a guardrail tripwire is triggered.
