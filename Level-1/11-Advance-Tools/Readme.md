@@ -189,6 +189,21 @@ Tool call to ho jayega, lekin uska response LLM tak wapas nahi pohanchayega, kyu
 * Is liye hamesha max_turns itna zyada set karo jitna workflow ke liye zaroori hai, warna agent apna kaam pura nahi kar paayega.
 
 
+### Some Exceptions
+
+#### 1. ModelBehaviorError
+* Bases: AgentsException
+Exception raised when the model does something unexpected, e.g. calling a tool that doesn't exist, or providing malformed JSON.
 
 
+#### 2. UserError
+* Bases: AgentsException
+Exception raised when the user makes an error using the SDK.
 
+#### 3. InputGuardrailTripwireTriggered
+* Bases: AgentsException
+Exception raised when a guardrail tripwire is triggered.
+
+#### 4. OutputGuardrailTripwireTriggered
+* Bases: AgentsException
+Exception raised when a guardrail tripwire is triggered.
