@@ -48,6 +48,13 @@ Note: For gemini temprature range extends to 2.
 * **Kaam:** Yeh setting tab use hoti hai jab aapko creative ya imaginative content chahiye, jaise stories, poems, ya out-of-the-box ideas
 * **Example:** Jaise aapka "Story Writer" (temperature 0.9) wala example hai, yeh setting stories ya creative writing ke liye perfect hai.
 
+#### Comparision
+| Temperature | Expect karo                                                                                               |
+| ----------- | --------------------------------------------------------------------------------------------------------- |
+| **0.1-0.2** | Jawab bohat seedha, predictable, kam variation; similar answers baar baar milenge.                        |
+| **0.5-0.7** | Thodi creativity – thode unexpected comparisons, metaphors ya ideas; phir bhi relevant.                   |
+| **0.9-1.0** | Zyada alag, creative aur kabhi kabhi unusual ya imaginative jawab; kabhi topic se thoda dur ja sakta hai. |
+
 
 ### Example 1: Math Tutor with Low Temperature
 ```bash
