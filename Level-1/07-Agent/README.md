@@ -263,9 +263,25 @@ class Agent(
 ) -> RunResultStreaming
 ```
 
-
-
 ### Default Perameters Set
 * tracing bydfault openai ki taraf sy enabled hoti ha (False hoti ha)
 * DEFAULT_MAX_TURNS = 10
 
+
+
+## Experiments
+```python
+agent = Agent(
+    name=""
+)
+result = Runner.run_sync(starting_agent=agent,input="Hi ahow are you", run_config=config)
+print(result.last_agent)
+```
+* blank name bhi rakh kr agent chal jayega..
+
+```python
+agent = Agent(
+    name=None
+)
+```
+* none use krengy to Error ayega.
