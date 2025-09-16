@@ -62,6 +62,7 @@ result = Runner.run_sync(agent, "What's the weather in Karachi?", run_config=con
 print(result.final_output)
 ```
 * Is configuration mein, agar user get_weather ya finance_query_resolver tool se related koi query karta hai, toh agent us tool ko call karega aur uska output directly final response ke roop mein dega.
+* agr me dono tool call krwa do input dekr. to out sirf first tool ka ayega.
 
 
 ## 3. Making Tools Appear & Disappear (is_enabled  Default True)

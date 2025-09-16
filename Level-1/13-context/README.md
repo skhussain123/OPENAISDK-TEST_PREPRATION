@@ -118,6 +118,52 @@ myagent =  Agent[UserInfo](  # user class ka sturcture agent ko diya gaya ha [Us
 )
 ```
 
+### With DataClasses Example
+```python
+import os
+from dataclasses import dataclass
+from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel, set_tracing_disabled, RunContextWrapper
+
+# pehle external_client define jaisa pehle tha (main code mein)
+# assume external_client already defined
+
+@dataclass
+class UserInfo:
+    name: str
+    age: int
+    city: str
+    roll_num: str
+
+    def __post_init__(self):
+        # optional validation
+        if not isinstance(self.name, str):
+            raise TypeError("name must be a string")
+        if not isinstance(self.age, int):
+            raise TypeError("age must be an integer")
+        # etc. ho sakta hai aur checks karna ho
+        # agar tum chaho, default values bhi de sakte ho
+
+# function to fetch info
+def check_info(wrapper: RunContextWrapper[UserInfo], agent: Agent):
+    u = wrapper.context
+    return (f"the user name is {u.name}, the user age is {u.age}, "
+            f"the user city is {u.city}, the user roll_num is {u.roll_num}")
+
+# define agent
+myagent = Agent[UserInfo](
+    name="assistance",
+    instructions={check_info},
+    model=OpenAIChatCompletionsModel(model='gemini-2.0-flash', openai_client=external_client)
+)
+
+# create context
+my_info = UserInfo(name="hussain", age=22, city="Karachi", roll_num="343432")
+
+# run
+result = Runner.run_sync(starting_agent=myagent, input='what is the age of hussain', context=my_info)
+print(result.final_output)
+```
+
 ## Local or Agent/LLM context 
 ```bash
 import os
