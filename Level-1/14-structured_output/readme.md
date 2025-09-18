@@ -114,6 +114,32 @@ result = Runner.run_sync(starting_agent=triage_agent, input="Hi i am hussain, Ho
 print("Final Output:", result.final_output)
 ```
 
+
+### Using Dataclasses as output_type in Agents
+```python
+from pydantic.dataclasses import dataclass
+
+@dataclass
+class UserInfo:
+    name: str
+    age: int
+    
+    
+# Agent setup
+triage_agent = Agent(
+    name="Triage Agent",
+    instructions="Agar user escalation ka reason bataye, to escalate karo.",
+    output_type=UserInfo
+)
+
+# Runner
+result = Runner.run_sync(
+    starting_agent=triage_agent,
+     input="My name is Hussain and I am 22 years old",
+    run_config=config
+)
+```
+
 ### Example 2 With Conditions
 ```python
 from dotenv import load_dotenv
