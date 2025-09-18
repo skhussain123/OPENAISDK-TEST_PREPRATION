@@ -31,7 +31,68 @@ The type of the output object. If not provided, the output will be `str`. In mos
 ## Structured Outputs vs. JSON Mode:
 It's important to differentiate between "Structured Outputs" and the simpler "JSON mode." "JSON mode" ensures that the output is valid JSON, but it doesn't guarantee that it conforms to a specific schema. "Structured Outputs" goes further, guaranteeing schema adherence. This is a very important distinction.
 
-### Example 1
+
+## Non-Strict Schema (Flexible Validation)
+```python
+from agents import Agent, Runner, OpenAIChatCompletionsModel, AsyncOpenAI, AgentOutputSchema
+from dotenv import load_dotenv
+from agents.run import RunConfig
+import os
+from pydantic import BaseModel
+
+load_dotenv()
+
+gemini_api_key = os.getenv('GEMINI_API_KEY')
+
+if not gemini_api_key:
+    raise ValueError("API key is not loaded")
+
+# External client setup
+external_client = AsyncOpenAI(
+    api_key=gemini_api_key,
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+)
+
+# Model setup
+model = OpenAIChatCompletionsModel(
+    model="gemini-2.0-flash",
+    openai_client=external_client
+)
+
+# Run configuration
+config = RunConfig(
+    model=model,
+    model_provider=external_client,
+    tracing_disabled=True
+)
+
+# Pydantic model for structured output
+class UserInfo(BaseModel):
+    name: str
+    age: int
+
+
+# Non-strict schema so thoda flexible rahega
+output_schema = AgentOutputSchema(UserInfo, strict_json_schema=False)
+
+# Agent setup
+triage_agent = Agent(
+    name="Triage Agent",
+    instructions="Agar user escalation ka reason bataye, to escalate karo.",
+    output_type=output_schema
+)
+
+# Runner
+result = Runner.run_sync(
+    starting_agent=triage_agent,
+    input="user name hussain and age 22",
+    run_config=config
+)
+
+print("Final Output:", result.final_output)
+```
+
+### Example 1 (default Pydantic-based schema)
 ```python
 from dotenv import load_dotenv
 from pydantic import BaseModel, Field
