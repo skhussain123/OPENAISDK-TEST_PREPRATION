@@ -1,16 +1,4 @@
 
-
-
-
-### 1. @pydantic.dataclasses.dataclass vs BaseModel
-| Feature               | `BaseModel`                                          | `@pydantic.dataclasses.dataclass`                                             |
-| --------------------- | ---------------------------------------------------- | ----------------------------------------------------------------------------- |
-| **Origin**            | Pydantic ka core model                               | Python `dataclass` ko Pydantic ke validation ke sath wrap karta hai           |
-| **Validation**        | Har assignment aur init pe hoti hai                  | Init pe hoti hai (runtime assignment pe nahi hoti by default)                 |
-| **Schema Generation** | Full JSON schema support deta hai (OpenAPI friendly) | JSON schema support deta hai but kuch advanced features limited ho sakti hain |
-| **Usage**             | Jab strict schema + validation + docs chahiye ho     | Jab lightweight dataclass feel chahiye ho lekin validation bhi chahiye ho     |
-| **Performance**       | Thoda zyada overhead (kyunke extra features hain)    | Thoda fast aur lightweight                                                    |
-
 1. Only dataclass + strict validation + no validation + data parsing 
 2. BaseModel → Full schema + strict validation + API-ready.
 3. dataclass → Simpler structure + thodi flexible + Pythonic.
