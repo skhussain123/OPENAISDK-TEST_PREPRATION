@@ -90,6 +90,9 @@ async def main():
     
 asyncio.run(main())
 ```
+* Trace: ek poori journey ya workflow hai — matlab ek request ya transaction jo shayad multiple agents/services/tools se guzarti hai. 
+* Span: Trace ke andar ek choti ya bada operation — jaise “database query”, “API call”, “tool execution”, ya koi aur step. Har span ka hisa hota hai us trace me.
+
 
 ### Local Tracing
 TracingProcessor eik abstract class ha mtlb me iska is class ka koe instance nh bana sakta. mujhe TracingProcessor me mojood 
