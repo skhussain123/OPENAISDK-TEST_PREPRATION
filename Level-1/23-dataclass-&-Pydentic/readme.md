@@ -95,8 +95,24 @@ result = Runner.run_sync(
     run_config=config
 )
 ```
+---
+
+#### @pydantic.dataclasses.dataclass vs BaseModel
+BaseModel ek special class hai jo tum inherit karte ho. Ye tumhe full Pydantic power deta hai:
+* Type validation + automatic conversion (string "101" ko int 101 bana dega).
+* Methods jaise .dict(), .json(), .model_dump() ready-made milte hain.
+* Zyada config options (strict mode, allow extra fields, etc.).
+* API frameworks jaise FastAPI isko heavily use karte hain, kyunki request/response easily serialize ho jate hain
 
 
+#### @pydantic.dataclasses.dataclass
+Ye asal me ek Python dataclass hai, bas Pydantic ka wrapper lagta hai.
+* Matlab tumhe Python ka dataclass style milta hai, lekin andar validation bhi hoti hai.
+* Ye lightweight hai, itna heavy nahi jitna BaseModel.
+* Serialization methods (.dict(), .json()) by default nahi hote, bas dataclasses.asdict() use karna padta hai.
+* Agar tum sirf data store + validation chahte ho without full API features, to ye best hai.
 
+1. BaseModel = Full Pydantic features, API/serialization ke liye best.
+2. @dataclass = Pythonic style + validation, lekin simple aur lightweight.
 
 
