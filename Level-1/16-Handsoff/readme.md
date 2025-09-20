@@ -365,6 +365,9 @@ triage_agent = Agent(
 result = Runner.run_sync(starting_agent=triage_agent, input="I have some issues with Next.js ops", run_config=config )
 print("Final Output:", result.final_output)
 ```
+* iska matlab hai ke handoff hone ke waqt jo data next agent ko pass hoga, woh EscalationData type ka hoga.
+Yani specialist agent sirf tab trigger hoga jab usay EscalationData type ka input milega.
+
 
 
 
