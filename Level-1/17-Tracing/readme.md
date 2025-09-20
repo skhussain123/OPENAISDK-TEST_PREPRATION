@@ -209,6 +209,9 @@ asyncio.run(main())
 | **on\_span\_end(span)**     | Jab woh span poori tarah finish ho jaye — matlab us operation ka kaam ho gaya ho. ([OpenAI GitHub][2])                                                                              |
 | **force\_flush()**          | Jab tum chahtay ho ke **queued (pending) traces/spans** turant backend ya jo bhi exporter hai, usko bhej do/batch export karo — bina wait ki usual schedule ya buffer full hone ka. |
 
+#### force_flush() ka matlab
+1. force_flush() ek method hai jo queued (matlab abhi export ya process hone ke intezar me) traces ya spans ko turant process/export karne ke liye use hoti hai. 
+2. Yani agar tumhare paas kuch trace/span events pending hain (buffer ya queue me), aur tum chahte ho ke abhi un sab ka data export ho jaye ya delete/clear ho jaye abhi, toh force_flush() call karte ho.
 
 
 ### External tracing processors list
