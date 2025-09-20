@@ -201,8 +201,13 @@ async def main():
 asyncio.run(main())
 ```
 
-
-
+| Method                      | Kab/Consition par Trigger hota hai                                                                                                                                                  |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **on\_trace\_start(trace)** | Jab ek *naya trace* shuru hota hai. For example jab tum `with trace("workflow name"):` use karo, ya Runner.run() start ho jaye aur tracing enabled ho. ([OpenAI GitHub][1])         |
+| **on\_trace\_end(trace)**   | Jab woh trace khatam hota hai. Yani jitna task ya workflow trace karna tha, finish ho gaya ho. ([OpenAI GitHub][2])                                                                 |
+| **on\_span\_start(span)**   | Span ka individual operation ya step start hone par. Jaise agent span, generation span, tool call span, handoff span etc. ([OpenAI GitHub][1])                                      |
+| **on\_span\_end(span)**     | Jab woh span poori tarah finish ho jaye — matlab us operation ka kaam ho gaya ho. ([OpenAI GitHub][2])                                                                              |
+| **force\_flush()**          | Jab tum chahtay ho ke **queued (pending) traces/spans** turant backend ya jo bhi exporter hai, usko bhej do/batch export karo — bina wait ki usual schedule ya buffer full hone ka. |
 
 
 
