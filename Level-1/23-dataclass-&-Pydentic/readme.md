@@ -11,38 +11,67 @@
 | **Usage**             | Jab strict schema + validation + docs chahiye ho     | Jab lightweight dataclass feel chahiye ho lekin validation bhi chahiye ho     |
 | **Performance**       | Thoda zyada overhead (kyunke extra features hain)    | Thoda fast aur lightweight                                                    |
 
-* BaseModel → Full schema + strict validation + API-ready.
-* dataclass → Simpler structure + thodi flexible + Pythonic.
+1. Only dataclass + strict validation + no validation + data parsing 
+2. BaseModel → Full schema + strict validation + API-ready.
+3. dataclass → Simpler structure + thodi flexible + Pythonic.
 
+### 1. dataclass Example
+```python
 
-## 2. Type Hints for Validation and Schema Definition
-Dono (BaseModel aur pydantic.dataclasses.dataclass) type hints ko use karte hain taake:
+from dataclasses import dataclass
 
-* Runtime validation ho
-* Automatic JSON schema generate ho
+@dataclass
+class UserInfo:
+    id: int
+    name: str
+    
+user = UserInfo(id="1011",name="Hussain")
+print(user.id)
+print(type(user.id))    
 
-#### Example with BaseModel:
+# OUTPUT:
+# 1011
+# <class 'str'>
+```
+* Not Data Validation (no check user id int or string)
+* Not Data Parsing (string to int convert)
+
+### 2. Example with Pydantic
 ```python
 from pydantic import BaseModel
 
-class User(BaseModel):
+class UserInfo(BaseModel):
+    id: int
     name: str
-    age: int
+    
+user = UserInfo(id="1011", name="Hussain")
+print(user.id)
+print(type(user.id))
+
+# OUTPUT:
+# 1011
+# <class 'int'>
 ```
 
-#### Example with Pydantic dataclass
+### 4. Example with @pydantic.dataclasses.dataclass
 ```python
 from pydantic.dataclasses import dataclass
 
 @dataclass
-class User:
+class UserInfo:
+    id: int
     name: str
-    age: int
+    
+user = UserInfo(id="1011", name="Hussain")
+print(user.id)
+print(type(user.id))
+
+# OUTPUT:
+# 1011
+# <class 'int'>
 ```
-* Dono ka output LLM ke agent schema ke liye JSON structure banata hai.
 
-
-### 3. Using Dataclasses as output_type in Agents
+### 5. Using Dataclasses as output_type in Agents
 ```python
 from pydantic.dataclasses import dataclass
 
@@ -68,69 +97,6 @@ result = Runner.run_sync(
 ```
 
 
-## Example 1: Using BaseModel
-```python
-from agents import Agent, Runner
-from pydantic import BaseModel
-from agents.run import RunConfig
-
-# ✅ Strict schema with BaseModel
-class UserInfoModel(BaseModel):
-    name: str
-    age: int
-
-triage_agent_model = Agent(
-    name="Assistant with BaseModel",
-    instructions="Extract user info from user input.",
-    output_type=UserInfoModel
-)
-
-result_model = Runner.run_sync(
-    starting_agent=triage_agent_model,
-    input="Hi, my name is Hussain and I am 22 years old.",
-    run_config=config
-)
-
-print("BaseModel Output:", result_model.final_output)
-```
-#### BaseModel Output:
-* Strictly validated object
-* Extra features like .dict() and .json() available
-```python
-name='Hussain' age=22
-```
-
-## Example 2: Using @pydantic.dataclasses.dataclass
-```python
-from pydantic.dataclasses import dataclass
-
-# ✅ Lightweight dataclass schema
-@dataclass
-class UserInfoDataClass:
-    name: str
-    age: int
-
-triage_agent_dataclass = Agent(
-    name="Assistant with Dataclass",
-    instructions="Extract user info from user input.",
-    output_type=UserInfoDataClass
-)
-
-result_dataclass = Runner.run_sync(
-    starting_agent=triage_agent_dataclass,
-    input="Hello, I am Hussain and my age is 22.",
-    run_config=config
-)
-
-print("Dataclass Output:", result_dataclass.final_output)
-```
-#### Dataclass Output:
-* Python native dataclass instance
-* Lighter but fewer helper methods
-
-```python
-UserInfoDataClass(name='Hussain', age=22)
-```
 
 
 
