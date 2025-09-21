@@ -232,7 +232,37 @@ print("Math Agent:", math_base.final_output)
 print("Weather Agent:", result_weather.final_output)
 ```
 
-## 6. independent clone Agent (✅ Good: Pass new lists for mutable objects)
+## 7.
+```python
+@function_tool
+def weather_checker(input: str) -> str:
+    return f"weather = {input} is suuny"
+
+
+@function_tool(name_override="News Tool")
+def news_checker(input: str) -> str:
+    return f"this lastest = {input} is hussain"
+
+
+original_agent = Agent(
+    name="Original",
+    tools=[weather_checker,news_checker],
+    instructions="You are helpful. if user asked weather related question you want to use weather_checker tool",
+)
+
+independent_clone  = original_agent.clone(
+    name="Cloned2",
+    instructions="Using custom tools list",
+    tools=[news_checker],
+)
+
+result1 = Runner.run_sync(independent_clone, input="what is the weather in karachi",run_config=config)
+```
+1. agr me verbose me original agent ko debug kro to llm ke pass agent weather or result tool dono jayengy.
+2. agr me verbose me clone agent ko debug kro to llm ke pass agent sirf result tool jayenga. 
+
+
+## 8. independent clone Agent (✅ Good: Pass new lists for mutable objects)
 ```python
 @function_tool
 def weather_checker(input: str) -> str:
@@ -334,6 +364,10 @@ shared_clone = base_agent.clone(
     # tools and handoffs are shared with original!
 )
 ```
+toh tum tools ya handoffs ke liye naya list pass nahin kar rahe. Clone bana toh hai, lekin tools/handoffs ki lists original agent ke saath share ho rahi hain. MATLAB:
+- Agar tum base_agent.tools list mein kuch add ya remove karoge, wo change clone ke tools mein bhi nazar ayega,
+- Aur agar clone mein kisi tool ka state change hua—agar tool mutable ho—wo original mein bhi reflect karega.
+
 
 ### Understand Shared References
 ```python
