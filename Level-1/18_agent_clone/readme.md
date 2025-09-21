@@ -44,6 +44,13 @@ cloned_agent = original_agent.clone(
 # ✅ Same tools list (shared reference)
 # ✅ Same model settings (unless overridden)
 ```
+#### Kya cheezein clone me change ho sakti hain:
+1. name
+2. instructions
+3. model
+4. tools (agar agent kisi tool set ke saath bana hai to tool set badal sakte ho)
+5. model_settings (tool_choice, streaming settings, etc.
+
 
 ### Understanding Shared References
 ```python
@@ -98,8 +105,44 @@ print("Friendly Agent:", result_friendly.final_output)
         return dataclasses.replace(self, **kwargs)
 ```        
 
+## 2. Tools and handoff Example
+```python
+@function_tool
+def weather_checker(input: str) -> str:
+    return f"weather = {input} is suuny"
 
-## 2. Cloning with Different Tools
+
+Mathagent = Agent(
+    name="Math agent",
+    tools=[weather_checker],
+    instructions="You are helpful math assistant",
+)
+
+
+# Original agent with tools
+original_agent = Agent(
+    name="Original",
+    tools=[weather_checker],
+    instructions="You are helpful. if user asked weather related question you want to use weather_checker tool",
+    handoffs=[
+        Mathagent
+    ]
+)
+
+# Clone the agent
+cloned_agent = original_agent.clone(
+    name="Cloned",
+    instructions="You are helpful.you can use weather_tool and calculator base on user query."
+)
+
+result = Runner.run_sync(cloned_agent, input="what is the weather in karachi",run_config=config)
+print(result.final_output)
+print(result.last_agent)
+```
+- cloned_agent ke pass original agent ke tools, handoff, name, instructions, model settings, tool behaviour ayengy.
+
+
+## 3. Cloning with Different Tools
 ```python
 @function_tool
 def calculate_area(length: float, width: float) -> str:
@@ -140,6 +183,8 @@ result_weather = Runner.run_sync(weather_agent, query, run_config=config)
 print("Math Agent:", math_base.final_output)
 print("Weather Agent:", result_weather.final_output)
 ```
+
+---
 
 # Advanced Examples
 
