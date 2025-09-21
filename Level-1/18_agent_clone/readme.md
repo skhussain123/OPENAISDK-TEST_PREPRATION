@@ -232,6 +232,41 @@ print("Math Agent:", math_base.final_output)
 print("Weather Agent:", result_weather.final_output)
 ```
 
+## 6. independent clone Agent (✅ Good: Pass new lists for mutable objects)
+```python
+@function_tool
+def weather_checker(input: str) -> str:
+    return f"weather = {input} is suuny"
+
+
+Mathagent = Agent(
+    name="Math agent",
+    tools=[weather_checker],
+    instructions="You are helpful math assistant",
+)
+
+
+# Original agent with tools
+original_agent = Agent(
+    name="Original",
+    tools=[weather_checker],
+    instructions="You are helpful. if user asked weather related question you want to use weather_checker tool",
+    handoffs=[
+        Mathagent
+    ]
+)
+
+independent_clone  = original_agent.clone(
+    name="Cloned2",
+    instructions="Using custom tools list",
+    tools=[weather_checker],
+)
+
+result = Runner.run_sync(independent_clone, input="what is the weather in karachi",run_config=config)
+print(original_agent.tools is independent_clone.tools)  # False because same object are not pointed
+
+```
+
 ---
 
 # Advanced Examples
@@ -284,7 +319,7 @@ for name, agent in agents.items():
 | **Handoffs** | ❌ Shared reference | ⚠️ Careful! |
 
 
-#### Best Practices
+### Best Practices
 ```python
 # ✅ Good: Pass new lists for mutable objects
 independent_clone = base_agent.clone(
