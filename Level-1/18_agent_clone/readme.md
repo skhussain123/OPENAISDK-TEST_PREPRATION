@@ -132,7 +132,7 @@ print(result.last_agent)
 4. clone(): Jab tum original.clone(...) karo, toh ek naya Agent object banta hai jiski kuch cheezein same hoti hain, kuch override ho sakti hain. Agar tools ya handoffs override na kiye ho, toh shallow copy hoti hai.
 5. Shallow copy: Matlab agent ka outer shell ya container naya banta hai (naya Agent object), lekin andar jo mutable cheezein hain (tools list, handoffs etc.), un ke references share ho sakte hain.
 
-## 4. Tool override with Clone agent
+## 4. Tool and handoff override with Clone agent
 ```python
 @function_tool
 def weather_checker(input: str) -> str:
@@ -190,18 +190,7 @@ result = Runner.run_sync(cloned_agent, input="what is the weather in karachi",ru
 print(original_agent.tools is cloned_agent.tools)
 ```
 
-
-
-
-
-
-
-
-
-
-
-<!-- 
-## 3. Cloning with Different Tools
+## 6. Cloning with Different Tools
 ```python
 @function_tool
 def calculate_area(length: float, width: float) -> str:
@@ -361,16 +350,3 @@ independent_clone = base_agent.clone(
 ```python
 shared_clone = base_agent.clone(name="Shared")  # Risky: tools aur handoffs shared hain
 ```
-
-
-
-
-
-
-
-
-
-
-
-
- -->
