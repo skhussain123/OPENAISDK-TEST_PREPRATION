@@ -23,7 +23,7 @@ creative_agent = base_agent.clone(
 )
 ```
 
-### Shallow Copy Behavior
+### 1. Shallow Copy Behavior
 ```python
 # Original agent with tools
 original_agent = Agent(
@@ -52,20 +52,7 @@ cloned_agent = original_agent.clone(
 5. model_settings (tool_choice, streaming settings, etc.
 
 
-### Understanding Shared References
-```python
-# Tools are shared between original and clone
-original_agent.tools.append(new_tool)
-# This affects both original_agent AND cloned_agent!
-
-# To avoid this, pass new tools list:
-independent_clone = original_agent.clone(
-    name="Independent",
-    tools=[calculator, weather_tool, new_tool]  # New list
-)
-```
-
-## 1. Basic Cloning
+## 2. Basic Cloning
 ```python
 # Base agent
 base_agent = Agent(
@@ -105,7 +92,7 @@ print("Friendly Agent:", result_friendly.final_output)
         return dataclasses.replace(self, **kwargs)
 ```        
 
-## 2. Tools and handoff Example
+## 3. Tools and handoff Example
 ```python
 @function_tool
 def weather_checker(input: str) -> str:
@@ -139,7 +126,71 @@ result = Runner.run_sync(cloned_agent, input="what is the weather in karachi",ru
 print(result.final_output)
 print(result.last_agent)
 ```
-- cloned_agent ke pass original agent ke tools, handoff, name, instructions, model settings, tool behaviour ayengy.
+1. cloned_agent ke pass original agent ke tools, handoff, name, instructions, model settings, tool behaviour ayengy.
+2. clone() se naya Agent object banta hai, jisme 'name' aur 'instructions' override ho sakti hain agar diya ho, warna original ki values copy ho jaati hain.
+3. Lekin tools list agar override na ho, toh same list object cloned aur original dono mein share hoti hai.
+4. clone(): Jab tum original.clone(...) karo, toh ek naya Agent object banta hai jiski kuch cheezein same hoti hain, kuch override ho sakti hain. Agar tools ya handoffs override na kiye ho, toh shallow copy hoti hai.
+5. Shallow copy: Matlab agent ka outer shell ya container naya banta hai (naya Agent object), lekin andar jo mutable cheezein hain (tools list, handoffs etc.), un ke references share ho sakte hain.
+
+## 4. Tool override with Clone agent
+```python
+@function_tool
+def weather_checker(input: str) -> str:
+    return f"weather = {input} is suuny"
+
+
+Mathagent = Agent(
+    name="Math agent",
+    tools=[weather_checker],
+    instructions="You are helpful math assistant",
+)
+
+
+# Original agent with tools
+original_agent = Agent(
+    name="Original",
+    tools=[weather_checker],
+    instructions="You are helpful. if user asked weather related question you want to use weather_checker tool",
+    handoffs=[
+        Mathagent
+    ]
+)
+
+# Clone the agent
+new_tools = [weather_checker]  # e.g., only one tool
+
+cloned_agent = original_agent.clone(
+    tools=new_tools,
+    name="Cloned2",
+    instructions="Using custom tools list"
+)
+
+result = Runner.run_sync(cloned_agent, input="what is the weather in karachi",run_config=config)
+print(original_agent.tools is cloned_agent.tools) # True
+```
+
+1. Yahan orig.tools is cloned2.tools ka false hona matlab hai: tools list container ek hi nahi hai do agents ke paas. Clone ke paas tools list ko override kar diya gaya tha (naya list pass kar diya clone karte waqt), isliye tools list alag hai.
+2. is operator check karta hai ki do variables exactly same object ko refer karte hain ya nahin (same memory me).
+3. tools[0] matlab tools list ka pehla item, yahan ek tool function ya object jese weather_checker.
+4. Ye check karta hai ki ye ek tool (item) same object hai do tools lists me ya nahin.
+5. Yahan true ka matlab hai: dono lists me wo tool object same hai. Clone ne list container naya banaya hai, lekin list ke andar jo actual functions/tools hain unmein se pehla tool same reference use kar raha hai.
+
+### 4. handoff same work as Tools
+---
+
+## 5. Tool override with 2nd way
+```python
+cloned_agent = original_agent.clone(
+    name="Cloned2",
+    instructions="Using custom tools list"
+)
+cloned_agent.tools.append(weather_checker)
+
+result = Runner.run_sync(cloned_agent, input="what is the weather in karachi",run_config=config)
+print(original_agent.tools is cloned_agent.tools)
+```
+
+
 
 
 
