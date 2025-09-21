@@ -29,6 +29,7 @@ agent_creative = Agent(
 * High (0.7-0.9): Creative writing, brainstorming
 
 Note: For gemini temprature range extends to 2.
+**Creativity ka matlab hai “naya sochna” aur “naye tareeke se kisi cheez ko banana ya hal karna”.**
 
 ### Temperature ke Types aur Unka Kaam
 
@@ -43,7 +44,6 @@ Note: For gemini temprature range extends to 2.
 * **Example:** General knowledge questions ya discussions ke liye yeh setting kaam aati hai.
 
 #### 3. High Temperature (0.7 - 0.9 ya usse zyada)
-
 * **Kya Hota Hai?:** Jab temperature zyada hoti hai, jaise 0.9, toh model bohot creative aur random jawab deta hai. Yeh different aur unique ideas generate kar sakta hai, lekin kabhi kabhi jawab kam accurate ya off-topic bhi ho sakte hain.
 * **Kaam:** Yeh setting tab use hoti hai jab aapko creative ya imaginative content chahiye, jaise stories, poems, ya out-of-the-box ideas
 * **Example:** Jaise aapka "Story Writer" (temperature 0.9) wala example hai, yeh setting stories ya creative writing ke liye perfect hai.
@@ -197,6 +197,13 @@ Definition: Top-k sampling mein model har step pe sabse zyada probability wale "
 | **Flexibility**     | Dynamic hai; nucleus size har step pe change ho sakta hai.     | Static hai; har baar fixed k tokens hi liye jaate hain.                    |
 | **Output Control**  | Zyada natural aur relevant output deta hai.                    | Output predictable ya diverse ho sakta hai, k ke size pe depend karta hai. |
 | **Use Case**        | Creative lekin controlled content (jaise stories).             | Factual ya creative tasks, depending on k value.                           |
+
+#### Top_p , Top_k, Temperature
+| Setting | Temperature              | Top-k                | Top-p                | Output ka nature                                                 |
+| ------- | ------------------------ | -------------------- | -------------------- | ---------------------------------------------------------------- |
+| A       | Low (0.2)                | Low (e.g. k=5)       | Strict (p=0.3-0.5)   | Bohut predictable, safe; repeat hone wali phrases; kam surprises |
+| B       | Medium (0.7)             | Moderate (k=50)      | Moderate (p=0.8-0.9) | Accha balance; thodi variety, context maintain hogi              |
+| C       | High (1.0 ya us se upar) | High (k=200 ya open) | High (p≈1.0)         | Bohut creative, unpredictable; risk of off topic parts           |
 
 
 # 3. Tool Choice
