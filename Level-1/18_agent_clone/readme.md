@@ -142,6 +142,14 @@ print(result.last_agent)
 - cloned_agent ke pass original agent ke tools, handoff, name, instructions, model settings, tool behaviour ayengy.
 
 
+
+
+
+
+
+
+
+<!-- 
 ## 3. Cloning with Different Tools
 ```python
 @function_tool
@@ -314,4 +322,4 @@ shared_clone = base_agent.clone(name="Shared")  # Risky: tools aur handoffs shar
 
 
 
-
+ -->
