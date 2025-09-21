@@ -20,7 +20,11 @@ shallow_copy[0].append(99)
 
 print("Original:", list1)   # Both changed!
 print("Copy:    ", shallow_copy)
-````
+
+# OUTPUT
+# Original: [[1, 2, 99], [3, 4]]
+# Copy:     [[1, 2, 99], [3, 4]]
+```
 
 📌 **Why?** Both lists share the same inner lists.
 
@@ -35,11 +39,21 @@ print("Copy:    ", shallow_copy)
 ### Example:
 
 ```python
+import copy
+
+list1 = [[1, 2], [3, 4]]
+deepcopy = copy.copy(list1)
+
 deep_copy = copy.deepcopy(list1)
 deep_copy[0].append(100)
 
 print("Original:", list1)   # Unchanged
 print("Copy:    ", deep_copy)
+
+# OUTPUT
+# Original: [[1, 2], [3, 4]]
+# Copy:     [[1, 2, 100], [3, 4]]
+
 ```
 
 ---
