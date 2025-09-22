@@ -7,10 +7,13 @@
 * It is scoped per-agent, meaning it's only active for the agent it's attached to—not global across all agents.
 
 #### Key Capabilities
-* on_start / on_end: Triggered when the agent begins or finishes execution.
-* on_tool_start / on_tool_end: Called when a tool invocation starts or completes.
-* on_handoff: Fires when the agent hands off to another sub-agent.
-
+1. on_start(self, context:RunContextWrapper, agent)
+2. on_end(self, context:RunContextWrapper, agent,output:Any)
+3. on_handoff(self, context:RunContextWrapper, agent:Agent, source:Agent)
+4. on_tool_start(self, context:RunContextWrapper, agent:Agent, tool)
+5. on_tool_end(self, context:RunContextWrapper, agent:Agent, tool, resulte)
+6. on_llm_start(ctx, agent, system_prompt, input_items)
+7. on_llm_end(ctx, agent, response)
 ---
 
 #### 1. on_start

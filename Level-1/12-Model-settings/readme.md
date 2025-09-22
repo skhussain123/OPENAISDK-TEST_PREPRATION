@@ -206,6 +206,9 @@ Definition: Top-k sampling mein model har step pe sabse zyada probability wale "
 | C       | High (1.0 ya us se upar) | High (k=200 ya open) | High (p≈1.0)         | Bohut creative, unpredictable; risk of off topic parts           |
 
 
+#### Top_p , Top_k, Temperature Combination
+
+
 # 3. Tool Choice
 
 1. auto bydefault (llm khud choice kryga konsa tool call krna ha)
