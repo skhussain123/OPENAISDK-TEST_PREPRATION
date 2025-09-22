@@ -345,3 +345,64 @@ agent.hooks = RunHooksBase()  # Wrong! Use AgentHooksBase for agents
 # Forgetting to pass run_hooks to run()
 result = run(agents=agent1)  # No monitoring!
 ```
+
+
+
+### 1. Generic kya hai?
+* Jadatar programming languages me, agar ek class ya function sirf ek ek hi type (jaise int, string, etc.) ke sath likhi ho, to agar doosre type ke sath use karna ho to baar-baar same code likhna padega.
+* Generics allow karte hain ke aap ek function/class/etc define karo jis me type define na ho abhi, balki placeholder ya type variable ho. Phir jab use karna ho to specific type pass karo.
+* Is se fayda ye hai ke code ek hi baar likhoge, phir alag alag types ke sath use ho sakta hai, aur compile-time pe type checking hoti hai, run-time errors kam hote hain.
+
+---
+* Type parameter / Type variable: Ye wo placeholder hai, jaise T, U, ContextType, etc.
+* Type argument: Jahaan use karoge, placeholder ki jagah actual type specify karoge, jaise int, string, MyContext, etc.
+
+### 2. Generics ke fayde
+* Reusability: Ek hi code alag alag types ke sath chal sakta hai.
+* Type safety: Compile time pe check hota hai ke sahi type use ho raha hai, galat type errors pehle hi catch hogayenge.
+* Less duplication: Bar-bar similar code likhne ki zaroorat kam.
+* Cleaner aur maintainable code.
+
+```python
+from typing import TypeVar, Generic
+
+# TypeVar se ek type placeholder banate hain
+T = TypeVar('T')
+
+# Generic[T] ka matlab hai ke Box class kisi bhi type T ka content rakh sakti hai
+class Box(Generic[T]):
+    def __init__(self, content: T) -> None:
+        self.content = content
+
+    def get_content(self) -> T:
+        return self.content
+
+    def set_content(self, new_content: T) -> None:
+        self.content = new_content
+
+# Ab hum alag alag types ke saath Box use kar sakte hain
+int_box = Box 
+print(int_box.get_content())  # output: 123, type int
+
+str_box = Box[str]("Hello")
+print(str_box.get_content())  # output: Hello, type str
+
+# Agar galti se wrong type daalte ho:
+# str_box.set_content(456)  # Static type checker warning dega kyunki str_box content str hona chahiye
+```
+
+---
+
+### 3. Generic Types aur TContext
+* [TContext] Python me generics ka part hai. Yani aap ek class ya function ko is tarah define karte ho ke usme context ki type dynamic ho sakti hai; generic parameter TContext define karta hai ke kis type ka context pass hoga.
+* Jab aap agent run karte ho, aap ek specific context object provide karte ho, jiska type TContext hoga. Isse SDK ko pata hai ke saari hooks / callbacks me context ka type kia hai.
+
+
+### 4. RunContextWrapper[TContext]
+Ye ek wrapper class hai jo aapke run ke local context ko carry karta hai. 
+* RunContextWrapper ke andar ek property context hogi jisme actual context object hota hai, jiski type TContext hai. 
+* Ye context object wo cheezein hoti hain jo aap run ke through chalayenge — jaise user info, dependencies (logger, database connector), etc. SDK use karta hai to pass that context through tools, agent lifecycle hooks etc.
+
+### 5. Agent[TContext]
+* Agent bhi generic hai is sense me ke wo janta hai ke uska context kis type ka hai. Yani agar aap Agent[SomeContextType] banoge, to is agent ka saara behavior/context tools, hooks, etc that type se related hoega. 
+* Ye ensure karta hai type safety: aap wrong type ka context pass nahi karoge, ya tools/hook functions me mismatch nahi hoga.
