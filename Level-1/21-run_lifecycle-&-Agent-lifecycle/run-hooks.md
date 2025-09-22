@@ -7,11 +7,11 @@
 * RunHooks ek class hoti hai jo RunHooksBase se derive hoti hai aur agent runs ke dauran lifecycle events ke callbacks define karne ki permission deti hai.
 
 ### Key Lifecycle Callbacks
-1. on_agent_start(ctx, agent)
-2. on_agent_end(ctx, agent, output)
-3. on_handoff(ctx, from_agent, to_agent)
-4. on_tool_start(ctx, agent, tool)
-5. on_tool_end(ctx, agent, tool, result)
+1. on_agent_start(self, ctx:RunContextWrapper, agent:Agent)
+2. on_agent_end(self, context, agent, output: Any)
+3. on_handoff(self, context, from_agent, to_agent)
+4. on_tool_start(self, context, agent, tool)
+5. on_tool_end(self, context, agent, tool, result)
 6. on_llm_start(ctx, agent, system_prompt, input_items)
 7. on_llm_end(ctx, agent, response)
 
