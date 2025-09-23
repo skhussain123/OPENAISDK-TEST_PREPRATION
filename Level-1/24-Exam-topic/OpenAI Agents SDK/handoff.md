@@ -20,4 +20,10 @@
 2. [Agent](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/07-Agent)
 3. [Agtent-Configuration](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/08-Agtent-Configuration)
 4. [Handoff Exam-topic](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/16-Handsoff)
+5. [Tools](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/10-Tools)
+6. [Advance Tools & error handling during execution](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/11-Advance-Tools)
+
+
+
+
 ---
