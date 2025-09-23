@@ -369,6 +369,49 @@ print("Final Output:", result.final_output)
 Yani specialist agent sirf tab trigger hoga jab usay EscalationData type ka input milega.
 
 
+### Callbacks in Handoffs
+```python
+from datetime import datetime
+from pydantic import BaseModel
+from typing import Optional
+from agents import handoff, RunContextWrapper
+
+class EscalationData(BaseModel):
+    reason: str
+    priority: Optional[str] = "medium"
+
+async def safety_callback(ctx: RunContextWrapper, input_data: Optional[EscalationData] = None):
+    timestamp = datetime.now()
+    print(f"[HANDOFF {timestamp}] Escalating: {input_data.reason if input_data else 'Unknown'}")
+    # Parallel data fetch (non-blocking)
+    # await fetch_user_history(ctx.user_id)
+    # Or notify: send_slack_alert(f"Safety handoff: {input_data.priority}")
+
+safety_agent = Agent(name="Safety Expert", instructions="Handle safety concerns.")
+
+custom_handoff = handoff(
+    safety_agent,
+    name="escalate_to_safety",
+    input_type=EscalationData,
+    on_handoff=safety_callback,
+)
+
+# In your main agent
+main_agent = Agent(handoffs=[custom_handoff], ...)
+```
+
+### Handoff perameters
+| Parameter                   | Purpose / Use                                                                            | Detail                                                                                                                         |
+| --------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `agent`                     | Woh agent jisko handoff karna hai.                                                       | Required. ([OpenAI Github][1])                                                                                                 |
+| `tool_name_override`        | Default tool name override karna.                                                        | Default hota hai `transfer_to_<agent_name>`. ([OpenAI Github][1])                                                              |
+| `tool_description_override` | Tool ka description change karna.                                                        | ([OpenAI Github][1])                                                                                                           |
+| `on_handoff`                | Callback jab handoff execute ho jaaye.                                                   | Yahan aap custom logic daal sakte hain jaise logging, data fetch karna etc. ([OpenAI Github][1])                               |
+| `input_type`                | Agar aap chahte hain ke LLM kuch additional structured data bhi de jab handoff ho.       | Yeh schema define karta hai, jaise “EscalationData” with `reason` field etc. ([OpenAI Github][2])                              |
+| `input_filter`              | History ya conversation ka woh hissa control karne ke liye jo next agent ko dikhai dega. | By default poora conversation history chala jata hai; filter se unwanted parts remove kiye ja sakte hain. ([OpenAI Github][1]) |
+| `is_enabled`                | Decide karna ke handoff available ho ya nahi, dynamically.                               | Boolean ya callback to enable/disable based on context. ([OpenAI Github][2])                                                   |
+
+
 
 
 
