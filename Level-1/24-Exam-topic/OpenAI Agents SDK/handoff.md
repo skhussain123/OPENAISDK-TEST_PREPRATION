@@ -15,7 +15,16 @@
 
 ---
 
-### 3. OpenAi sdk
+
+### 3. Pydantic
+---
+- @pydantic.dataclasses.dataclass vs BaseModel
+- Type hints for validation and schema definition
+- Using dataclasses as output_type in agents
+---
+
+
+### 4. OpenAi sdk
 ---
 - [Agent](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/07-Agent)
 - [Agtent-Configuration](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/08-Agtent-Configuration)
