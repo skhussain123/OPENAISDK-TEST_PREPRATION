@@ -23,9 +23,11 @@
 - [Tools](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/10-Tools)
 - [Advance Tools & error handling during execution](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/11-Advance-Tools)
 - [Dynamic Instructions & context objects](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/15-dynamic_instructions)
-- [Guardrails](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/20-guardrails)
-
-
-
-
+- [Guardrails (purpose, timing, tripwires)](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/20-guardrails)
+- [Tracing (traces vs spans, multi-run traces)](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/17-Tracing)
+- [Hooks (RunHooks, AgentHooks)](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/21-run_lifecycle-%26-Agent-lifecycle)
+- [Exception handling (MaxTurnsExceeded, ModelBehaviorError, etc.)]()
+- [Runner methods (run, run_sync, run_streamed) and use cases](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/09-Agent_run)
+- [ModelSettings and resolve() method]()
+- [output_type behavior and schema strictness]()
 ---
