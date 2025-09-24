@@ -55,3 +55,30 @@ Definition: Top-p sampling ek tarika hai jisme language model ek chhota sa group
   - Agar p chhota hai (jaise 0.5), to model sirf high-probability words chunta hai, jo output ko focused aur predictable banata hai.
   - Agar p bada hai (jaise 0.9), to zyada words shamil hote hain, jo output ko creative aur diverse banata hai, lekin shayad thoda kam coherent.
 - Example: Agar p = 0.9, to model wo chhota sa group chunta hai jo 90% probability cover karta hai aur usme se randomly word select karta hai.
+
+### 2. Top-k Kya Hai (k-Sampling)?
+Definition: Top-k sampling mein model top k sabse zyada probable words chunta hai aur unme se randomly select karta hai.
+
+**Kaise Kaam Karta Hai:**
+- Model sab tokens ke liye probability banata hai.
+- Top k tokens chunta hai jo sabse zyada probable hote hain (jaise k = 50 matlab top 50 words).
+- Phir in k tokens se randomly word select hota hai.
+
+**Asar:**
+- Chhota k (jaise 10) output ko bohot focused aur predictable banata hai kyunke sirf high-probability words use hote hain.
+- Bada k (jaise 100) zyada words ko shamil karta hai, jo output ko diverse banata hai lekin shayad kam coherent.
+- Example: Agar k = 50, to model sirf top 50 probable words ko dekhta hai aur unme se randomly chunta hai.
+
+
+### 3. Temperature Kya Hai?
+Definition: Temperature ek parameter hai jo model ke randomness ko control karta hai.
+
+**Kaise Kaam Karta Hai:**
+- Temperature probability distribution ko modify karta hai
+  - Low temperature (jaise 0.7): Probabilities ko sharp karta hai, high-probability words ko aur zyada likely banata hai. Output focused aur predictable hota hai.
+  - High temperature (jaise 1.5): Probabilities ko flatten karta hai, kam probable words ko bhi chance deta hai. Output creative hota hai lekin shayad kam coherent.
+  - Temperature = 1.0: Model ki original probability distribution use hoti hai bina kisi change ke.
+
+- Asar: Temperature globally randomness ko control karta hai, jo output ke creativity aur coherence ke balance ko set karta hai.
+
+---
