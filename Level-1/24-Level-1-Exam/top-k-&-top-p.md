@@ -95,3 +95,54 @@ Definition: Temperature ek parameter hai jo model ke randomness ko control karta
   - Phir Top-p apply hota hai: In k tokens se, wo chhota sa group chunta hai jiska combined probability p se zyada ho.
   - Aakhir mein, temperature in final tokens ke probabilities ko adjust karta hai aur phir randomly word select hota hai.
 
+**Asar:**
+- Top-k token pool ko fixed size tak limit karta hai.
+- Top-p us pool ko probability ke hisaab se aur chhota karta hai.
+- Temperature final set mein randomness ko control karta hai.
+- Yeh combination coherence aur creativity ke beech balance banati hai.
+
+**Output:**
+- Low Top-k (jaise 10), low Top-p (jaise 0.5), low temperature (jaise 0.7): Output bohot focused, predictable, aur coherent hoga.
+- High Top-k (jaise 100), high Top-p (jaise 0.9), high temperature (jaise 1.5): Output zyada diverse aur creative hoga, lekin shayad thoda kam coherent.
+- Top-p aur Top-k dono saath mein thodi redundancy create kar sakte hain, lekin yeh fine control dete hain.
+
+### Scenario 2: Sirf Top-p + Temperature
+**Kaise Kaam Karta Hai:**
+- Top-p ek chhota sa group chunta hai jiska combined probability p se zyada ho.
+- Temperature is group ke probabilities ko adjust karta hai phir randomly word select hota hai.
+
+**Asar:**
+- Top-p token pool ko dynamically adjust karta hai context ke hisaab se.
+- Temperature randomness ko fine-tune karta hai.
+- Low Top-p (jaise 0.5), low temperature (jaise 0.7): Output bohot focused aur predictable hoga.
+- High Top-p (jaise 0.9), high temperature (jaise 1.5): Output zyada creative aur diverse hoga.
+
+**Output:**
+- Yeh combination flexible hai aur aksar behtar hota hai kyunke Top-p context ke hisaab se token pool ko adjust karta hai. Output coherent hota hai lekin thodi creativity bhi hoti hai, depending on settings
+
+### Scenario 3: Sirf Top-k + Temperature
+**Kaise Kaam Karta Hai:**
+- Top-k top k probable tokens chunta hai.
+- Temperature in k tokens ke probabilities ko adjust karta hai aur phir randomly word select hota hai.
+
+**Asar:**
+- Top-k token pool ko fixed rakhta hai, chahe context kaisa bhi ho.
+- Temperature is fixed set mein randomness ko control karta hai.
+- Low Top-k (jaise 10), low temperature (jaise 0.7): Output bohot focused aur predictable hoga.
+- High Top-k (jaise 100), high temperature (jaise 1.5): Output zyada diverse hoga lekin shayad thoda kam coherent.
+
+**Output:**
+- Yeh combination predictable hota hai lekin Top-p ki tarah flexible nahi. Consistent output ke liye achha hai lekin context-specific nuances miss kar sakta hai.
+
+### Scenario 4: Top-p + Top-k + Temperature (Teeno Saath)
+**Kaise Kaam Karta Hai:**
+- Pehle Top-k top k tokens chunta hai.
+- Phir Top-p usme se chhota group chunta hai jiska probability p se zyada ho.
+- Temperature final probabilities ko adjust karta hai aur randomly word select hota hai.
+
+**Asar:**
+- Yeh bohot controlled setup hai:
+  - Top-k pehla filter hai, token pool ko limit karta hai.
+  - Top-p usko aur refine karta hai probability ke hisaab se.
+  - Temperature randomness ko adjust karta hai.
+- Agar k aur p dono low hain, to output bohot restricted ho sakta hai. Agar dono high hain aur temperature bhi high hai, to output creative lekin kam coherent ho sakta hai.
