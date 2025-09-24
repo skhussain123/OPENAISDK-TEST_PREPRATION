@@ -23,5 +23,14 @@ Note: For gemini temprature range extends to 2. Creativity ka matlab hai “naya
 | **0.5-0.7** | Thodi creativity – thode unexpected comparisons, metaphors ya ideas; phir bhi relevant.                   |
 | **0.9-1.0** | Zyada alag, creative aur kabhi kabhi unusual ya imaginative jawab; kabhi topic se thoda dur ja sakta hai. |
 
+## Code Example with temperature
+#### 1. Low Temperature (0.0 – 0.3)
+- Jab output ko consistent, precise, deterministic chahiye ho.
+- Jaise: translation, grammar fix, mathematical answer, data extraction, configuration generation.
+- Yeh output hamesha ek hi tarah aayega ya bahut similar hoga.
 
 
+#### 2. Medium Temperature (0.4 – 0.6)
+- Jab thodi creativity chahiye ho, lekin output zyada unpredictable na ho.
+- Jaise: blog writing, general content, storytelling jisme thoda rang-chang ho.
+- Ab thoda variation aa sakti hai, lekin content easily samajh aayega.
