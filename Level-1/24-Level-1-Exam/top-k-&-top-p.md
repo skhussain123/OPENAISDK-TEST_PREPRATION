@@ -41,6 +41,8 @@ Note: For gemini temprature range extends to 2. Creativity ka matlab hai “naya
 - Ab output bahut imaginative ho sakti hai — kabhi kabhi thodi weird bhi.
 
 
+---
+
 ## Top-p  vs Top-k vs Temperature
 ### 1. Top-p Kya Hai (Nucleus Sampling)?
 Definition: Top-p sampling ek tarika hai jisme language model ek chhota sa group of words (tokens) choose karta hai jinka total probability ek specific value p se zyada hota hai. Phir us group se randomly word select hota hai.
@@ -56,6 +58,7 @@ Definition: Top-p sampling ek tarika hai jisme language model ek chhota sa group
   - Agar p bada hai (jaise 0.9), to zyada words shamil hote hain, jo output ko creative aur diverse banata hai, lekin shayad thoda kam coherent.
 - Example: Agar p = 0.9, to model wo chhota sa group chunta hai jo 90% probability cover karta hai aur usme se randomly word select karta hai.
 
+---
 ### 2. Top-k Kya Hai (k-Sampling)?
 Definition: Top-k sampling mein model top k sabse zyada probable words chunta hai aur unme se randomly select karta hai.
 
@@ -69,6 +72,7 @@ Definition: Top-k sampling mein model top k sabse zyada probable words chunta ha
 - Bada k (jaise 100) zyada words ko shamil karta hai, jo output ko diverse banata hai lekin shayad kam coherent.
 - Example: Agar k = 50, to model sirf top 50 probable words ko dekhta hai aur unme se randomly chunta hai.
 
+---
 
 ### 3. Temperature Kya Hai?
 Definition: Temperature ek parameter hai jo model ke randomness ko control karta hai.
