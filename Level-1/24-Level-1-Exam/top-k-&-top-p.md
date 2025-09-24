@@ -34,3 +34,20 @@ Note: For gemini temprature range extends to 2. Creativity ka matlab hai “naya
 - Jab thodi creativity chahiye ho, lekin output zyada unpredictable na ho.
 - Jaise: blog writing, general content, storytelling jisme thoda rang-chang ho.
 - Ab thoda variation aa sakti hai, lekin content easily samajh aayega.
+
+#### 3. High Temperature (0.7 – 0.9 ya us se zyada)
+- Jab aap chahte ho creative, unexpected ideas.
+- Jaise: poetry, slogans, brainstorming, novel writing, imaginations.
+- Ab output bahut imaginative ho sakti hai — kabhi kabhi thodi weird bhi.
+
+
+## Top-p  vs Top-k vs Temperature
+### 1. Top-p Kya Hai (Nucleus Sampling)?
+Definition: Top-p sampling ek tarika hai jisme language model ek chhota sa group of words (tokens) choose karta hai jinka total probability ek specific value p se zyada hota hai. Phir us group se randomly word select hota hai.
+
+Kaise Kaam Karta Hai:
+
+- Model har possible word ke liye probability banata hai.
+  - Words ko probability ke hisaab se sort karta hai (zyada se kam).
+  - Phir wo chhota sa group chunta hai jiska combined probability p se zyada ho (jaise 0.9 ya 90%).
+  - Is group se randomly word choose hota hai.
