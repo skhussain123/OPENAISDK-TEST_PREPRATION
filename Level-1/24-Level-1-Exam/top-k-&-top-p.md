@@ -87,3 +87,11 @@ Definition: Temperature ek parameter hai jo model ke randomness ko control karta
 - Asar: Temperature globally randomness ko control karta hai, jo output ke creativity aur coherence ke balance ko set karta hai.
 
 ---
+
+## Top-p, Top-k aur Temperature Ko Combine
+### Scenario 1: Top-p + Top-k + Temperature
+- Kaise Kaam Karta Hai:
+  - Pehle Top-k apply hota hai: Model top k probable tokens chunta hai.
+  - Phir Top-p apply hota hai: In k tokens se, wo chhota sa group chunta hai jiska combined probability p se zyada ho.
+  - Aakhir mein, temperature in final tokens ke probabilities ko adjust karta hai aur phir randomly word select hota hai.
+
