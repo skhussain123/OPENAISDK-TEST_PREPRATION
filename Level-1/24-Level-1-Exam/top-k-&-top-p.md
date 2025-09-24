@@ -58,6 +58,7 @@ Definition: Top-p sampling ek tarika hai jisme language model ek chhota sa group
   - Agar p bada hai (jaise 0.9), to zyada words shamil hote hain, jo output ko creative aur diverse banata hai, lekin shayad thoda kam coherent.
 - Example: Agar p = 0.9, to model wo chhota sa group chunta hai jo 90% probability cover karta hai aur usme se randomly word select karta hai.
 
+- top_p must be in the range [0.0, 1.0]
 ---
 ### 2. Top-k Kya Hai (k-Sampling)?
 Definition: Top-k sampling mein model top k sabse zyada probable words chunta hai aur unme se randomly select karta hai.
