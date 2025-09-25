@@ -5,14 +5,13 @@
 - Temperature, top_k, and top_p effects [View](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/blob/main/Level-1/24-Level-1-Exam/top-k-%26-top-p.md)
 - Safe system messages for sensitive data
 - Chain of Thought prompting [Doc](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/blob/main/Level-1/02-prompt_eng_markdown/Open_AI_sdk_prompting_guide.md)
-- Tree of Thoughts prompting
+- Tree of Thoughts prompting [Doc](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/blob/main/Level-1/02-prompt_eng_markdown/kaggle-prompt-engineering.md)
 
 ---
 
 ### 2. Markdown
 ---
 - [Markdown](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/blob/main/Level-1/02-prompt_eng_markdown/README.md)
-- [GPT-4.1 Prompting and Agentic Guide](https://notebooklm.google.com/notebook/ad7fa881-1ead-4fe5-b64a-12cf2f8ed1f5)
 
 ---
 
