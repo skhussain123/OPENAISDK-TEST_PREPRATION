@@ -4,7 +4,7 @@
 ### 1. Prompt Engineering
 - Temperature, top_k, and top_p effects [View](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/blob/main/Level-1/24-Level-1-Exam/top-k-%26-top-p.md)
 - Safe system messages for sensitive data
-- Chain of Thought prompting
+- Chain of Thought prompting [Doc](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/blob/main/Level-1/02-prompt_eng_markdown/Open_AI_sdk_prompting_guide.md)
 - Tree of Thoughts prompting
 
 ---
