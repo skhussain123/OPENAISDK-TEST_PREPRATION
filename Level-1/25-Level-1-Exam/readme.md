@@ -18,9 +18,9 @@
 
 ### 3. Pydantic
 ---
-- @pydantic.dataclasses.dataclass vs BaseModel [View](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/23-dataclass-%26-Pydentic)
-- Type hints for validation and schema definition[View](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/23-dataclass-%26-Pydentic)
-- Using dataclasses as output_type in agents[View](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/23-dataclass-%26-Pydentic)
+- @pydantic.dataclasses.dataclass vs BaseModel [View](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/24-dataclass-%26-Pydentic)
+- Type hints for validation and schema definition[View](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/24-dataclass-%26-Pydentic)
+- Using dataclasses as output_type in agents[View](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/24-dataclass-%26-Pydentic)
 ---
 
 
