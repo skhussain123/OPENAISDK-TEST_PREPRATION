@@ -38,6 +38,6 @@
 - [Hooks (RunHooks, AgentHooks)](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/21-run_lifecycle-%26-Agent-lifecycle)
 - [Exception handling (MaxTurnsExceeded, ModelBehaviorError, etc.)]()
 - [Runner methods (run, run_sync, run_streamed) and use cases](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/09-Agent_run)
-- [ModelSettings and resolve() method]()
+- [ModelSettings and resolve() method](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/12-Model-settings)
 - [output_type behavior and schema strictness]()
 ---

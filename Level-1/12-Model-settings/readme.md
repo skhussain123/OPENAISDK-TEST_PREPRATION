@@ -621,7 +621,34 @@ focused_agent = Agent(
 | **Low Max Tokens** | Need brief responses | Quick answers, summaries |
 | **High Max Tokens** | Need detailed explanations | Tutorials, documentation |
 
-
-
-
 ---
+
+### resolve() Methods
+Jab humare paas ek base setting ho (jaise temperature = 0.5, max_tokens = 100), aur hum chahte hain ke kuch runs mein kuch cheezein change ho jaayen (jaise temperature = 0.8) — to resolve() method use karke hum ek naya settings object bana sakte hain jisme base settings + override settings merge ho.
+
+```python
+base_settings = ModelSettings(
+    temperature=0.5,
+    max_tokens=100,
+)
+
+# Override settings at runtime
+override_settings = ModelSettings(
+    temperature=0.9,
+)
+
+# Resolve merged settings
+final_settings = base_settings.resolve(override_settings)
+
+myagent =  Agent(
+    name="assistance",
+    instructions='you are a helpfull assistant',
+    model=OpenAIChatCompletionsModel(model='gemini-2.0-flash',openai_client=external_client),
+    model_settings=final_settings
+)
+
+result = Runner.run_sync(starting_agent=myagent, input='what is the age of hussain')
+print(result.last_agent)
+```
+
+
