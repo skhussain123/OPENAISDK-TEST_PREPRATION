@@ -210,3 +210,27 @@ Exception raised when a guardrail tripwire is triggered.
 #### 4. OutputGuardrailTripwireTriggered
 - Bases: AgentsException <br>
 Exception raised when a guardrail tripwire is triggered.
+
+
+### How to Exception handling
+* Aap try / except blocks use kar sakte ho jab aap Runner.run ya run_sync call karte ho. Aur based on exception type, alag behavior define kar sakte ho.
+```python
+from agents.exceptions import MaxTurnsExceeded, ModelBehaviorError, AgentsException
+
+try:
+    result = Runner.run_sync(starting_agent=myagent, input="some question", context=my_context)
+    print("Final output:", result.final_output)
+except MaxTurnsExceeded as e:
+    print("Error: too many turns, giving best guess:", e)
+    # fallback: maybe request final answer from last state
+except ModelBehaviorError as e:
+    print("Model misbehaved:", e)
+    # fallback: fallback instructions, or simpler prompt
+except AgentsException as e:
+    # catch all agent SDK exceptions
+    print("Agent error:", e)
+    # maybe fallback or log details
+except Exception as e:
+    # other errors (network, etc.)
+    print("Other error:", e)
+```
