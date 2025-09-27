@@ -92,6 +92,79 @@ result = Runner.run_sync(
 print("Final Output:", result.final_output)
 ```
 
+### schema strictness
+```python
+import os
+from typing import Any
+from agents import Agent, RunContextWrapper, Runner, OpenAIChatCompletionsModel,AsyncOpenAI, function_tool,AgentOutputSchema
+from agents.run import RunConfig
+from dotenv import load_dotenv
+from pydantic import BaseModel
+
+load_dotenv()
+
+gemini_key = os.getenv('GEMINI_API_KEY')
+# enable_verbose_stdout_logging()
+
+if not gemini_key:
+    raise ValueError("API KEY is NOT Laoded")
+
+
+external_client = AsyncOpenAI(
+    api_key=gemini_key,
+     base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+)
+
+model = OpenAIChatCompletionsModel(
+    model='gemini-2.0-flash',
+    openai_client=external_client
+)
+
+config = RunConfig(
+    model=model,
+    model_provider=external_client,
+    tracing_disabled=True    
+)
+
+# --- 1. Define a schema for output -- using Pydantic model ---
+class PersonInfo(BaseModel):
+    name: str
+    age: int
+
+# --- 2. Tool to provide info, if needed ---
+@function_tool
+def get_person_info(wrapper: RunContextWrapper[None]) -> PersonInfo:
+    # Just a dummy— return a PersonInfo object
+    return PersonInfo(name="Hussain", age=22)
+
+# --- 3a. Agent with strict JSON schema output_type ---
+agent_strict = Agent[None](
+    name="AgentStrict",
+    instructions="Return a PersonInfo as JSON",
+    tools=[get_person_info],
+    output_type=AgentOutputSchema(PersonInfo, strict_json_schema=True)
+)
+
+# --- 3b. Agent with non-strict JSON schema (strict off) ---
+agent_non_strict = Agent[None](
+    name="AgentNonStrict",
+    instructions="Return a PersonInfo as JSON",
+    tools=[get_person_info],
+    output_type=AgentOutputSchema(PersonInfo, strict_json_schema=False)
+)
+
+# --- 4. Run both agents and see output ---
+def run_examples():
+    result_strict = Runner.run_sync(starting_agent=agent_strict, input="Who is the person?", context=None)
+    print("Strict agent final:", result_strict.final_output)
+    
+    result_non = Runner.run_sync(starting_agent=agent_non_strict, input="Who is the person?", context=None)
+    print("Non-strict agent final:", result_non.final_output)
+
+if __name__ == "__main__":
+    run_examples()
+```
+
 ### Example 1 (default Pydantic-based schema)
 ```python
 from dotenv import load_dotenv
