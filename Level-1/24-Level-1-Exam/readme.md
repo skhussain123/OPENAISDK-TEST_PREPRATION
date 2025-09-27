@@ -31,7 +31,7 @@
 - [Handoffs (concept, usage, parameters, callbacks)](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/16-Handsoff)
 - [Tools](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/10-Tools)
 - [Advance Tools & error handling during execution](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/11-Advance-Tools)
-- [Dynamic Instructions & context objects](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/15-dynamic_instructions)
+- [Dynamic Instructions](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/15-dynamic_instructions) & context objects
 - [Guardrails (purpose, timing, tripwires)](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/20-guardrails)
 - [Tracing (traces vs spans, multi-run traces)](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/17-Tracing)
 - [Hooks (RunHooks, AgentHooks)](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/21-run_lifecycle-%26-Agent-lifecycle)

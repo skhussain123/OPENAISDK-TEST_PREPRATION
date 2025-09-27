@@ -28,7 +28,9 @@ agent = Agent(
 ```python
   tool_use_behavior="stop_on_first_tool"
 ```
-to sirf first tool ka output ayega direct function sy..  
+to sirf first tool ka output ayega direct function sy.. 
+* reset_tool_choice=True (default True)
+
 
 
 ## 2. `StopAtTools` – Agr ap Specific tool ka output finaloutput banana cahaty ha..
