@@ -36,7 +36,7 @@
 - [Guardrails (purpose, timing, tripwires)](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/20-guardrails)
 - [Tracing (traces vs spans, multi-run traces)](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/17-Tracing)
 - [Hooks (RunHooks, AgentHooks)](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/21-run_lifecycle-%26-Agent-lifecycle)
-- [Exception handling (MaxTurnsExceeded, ModelBehaviorError, etc.)]()
+- [Exception handling (MaxTurnsExceeded, ModelBehaviorError, etc.)](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/23-Exception_handeling)
 - [Runner methods (run, run_sync, run_streamed) and use cases](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/09-Agent_run)
 - [ModelSettings and resolve() method](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/12-Model-settings)
 - [output_type behavior and schema strictness](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Level-1/14-structured_output)
