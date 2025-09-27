@@ -237,6 +237,7 @@ triage_agent =  Agent(
 result = Runner.run_sync(starting_agent=triage_agent, input='i want to return by bag and 1 want to purchase a new bag',run_config=config)
 rich.print(result.final_output)
 ```
+* Lmm ke pass agent description or handoff_description apass me merge hokr jayengi.agr ap dono dety ho
 
 ### custom_output_extractor
 Jab tum ek agent ko as_tool method ke zariye tool ke tor par use karte ho, to woh tool ek specific output deta hai. Lekin kabhi-kabhi, tumhe us output ko apne hisaab se process ya modify karna hota hai, taake woh doosre agent ke liye ziyada mufeed ho. Yahan custom_output_extractor kaam aata hai.<br>
