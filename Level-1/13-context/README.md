@@ -99,7 +99,7 @@ def check_info(wrapper: RunContextWrapper[UserInfo],agent:Agent):
 
 myagent =  Agent[UserInfo](
     name="assistance",
-    instructions={check_info},
+    instructions="you are a helpfull assistant",
     model=OpenAIChatCompletionsModel(model='gemini-2.0-flash',openai_client=external_client)
 )
 
@@ -110,61 +110,66 @@ print(result.final_output)
 ---
 * check_info simple python function ha jo RunContextWrapper sy user ki info nikal kr agent ko de raha hoga.
 
-```bash
-myagent =  Agent[UserInfo](  # user class ka sturcture agent ko diya gaya ha [UserInfo]
-    name="assistance",
-    instructions={check_info},
-    model=OpenAIChatCompletionsModel(model='gemini-2.0-flash',openai_client=external_client)
-)
-```
-
-### With DataClasses Example
+## Local or LLm Context Example one
 ```python
 import os
-from dataclasses import dataclass
-from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel, set_tracing_disabled, RunContextWrapper
+from typing import Any
+from agents import Agent, RunContextWrapper, Runner, OpenAIChatCompletionsModel,AsyncOpenAI,handoff, function_tool,enable_verbose_stdout_logging
+from agents.run import RunConfig
+from dotenv import load_dotenv
+from pydantic import BaseModel
 
-# pehle external_client define jaisa pehle tha (main code mein)
-# assume external_client already defined
 
-@dataclass
-class UserInfo:
+load_dotenv()
+
+gemini_key = os.getenv('GEMINI_API_KEY')
+# enable_verbose_stdout_logging()
+
+if not gemini_key:
+    raise ValueError("API KEY is NOT Laoded")
+
+
+external_client = AsyncOpenAI(
+    api_key=gemini_key,
+     base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+)
+
+model = OpenAIChatCompletionsModel(
+    model='gemini-2.0-flash',
+    openai_client=external_client
+)
+
+config = RunConfig(
+    model=model,
+    model_provider=external_client,
+    tracing_disabled=True    
+)
+
+class UserInfo(BaseModel):
     name: str
     age: int
     city: str
     roll_num: str
+    
+    
+my_info  = UserInfo(name="hussain",age=22,city="Karachi",roll_num="343432")  
+ 
+# this is a python custom function for fetch user info with RunContextWrapper
+def check_info(wrapper: RunContextWrapper[UserInfo],agent:Agent):
+    return f"the user name is {wrapper.context.name}, the user age is {wrapper.context.age} the user city is {wrapper.context.city}the user roll_num is {wrapper.context.roll_num}"
 
-    def __post_init__(self):
-        # optional validation
-        if not isinstance(self.name, str):
-            raise TypeError("name must be a string")
-        if not isinstance(self.age, int):
-            raise TypeError("age must be an integer")
-        # etc. ho sakta hai aur checks karna ho
-        # agar tum chaho, default values bhi de sakte ho
-
-# function to fetch info
-def check_info(wrapper: RunContextWrapper[UserInfo], agent: Agent):
-    u = wrapper.context
-    return (f"the user name is {u.name}, the user age is {u.age}, "
-            f"the user city is {u.city}, the user roll_num is {u.roll_num}")
-
-# define agent
-myagent = Agent[UserInfo](
+myagent =  Agent[UserInfo](
     name="assistance",
-    instructions={check_info},
-    model=OpenAIChatCompletionsModel(model='gemini-2.0-flash', openai_client=external_client)
+    instructions=check_info,
+    model=OpenAIChatCompletionsModel(model='gemini-2.0-flash',openai_client=external_client)
 )
 
-# create context
-my_info = UserInfo(name="hussain", age=22, city="Karachi", roll_num="343432")
-
-# run
-result = Runner.run_sync(starting_agent=myagent, input='what is the age of hussain', context=my_info)
+result = Runner.run_sync(starting_agent=myagent, input='what is the age of hussain',context=my_info)
 print(result.final_output)
 ```
 
-## Local or Agent/LLM context 
+---
+## Local or Agent/LLM context Example 2
 ```bash
 import os
 from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel,set_tracing_disabled,RunContextWrapper,function_tool,enable_verbose_stdout_logging
