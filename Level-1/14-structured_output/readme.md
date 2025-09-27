@@ -92,7 +92,7 @@ result = Runner.run_sync(
 print("Final Output:", result.final_output)
 ```
 
-### schema strictness
+### Schema Strictness / non-strict JSON schema
 ```python
 import os
 from typing import Any
