@@ -102,17 +102,19 @@ Quality control checklist: subject clearly described, pose/positioning specific,
 #### Study Tips:
 **Essential Practice:**
 
-Hands-On Testing: Use free tools (Grok, ChatGPT for text; Google Gemini for images) to practice prompts. Test configuration variations and different techniques (CoT, ReAct, temperature settings).
-Master Key Distinctions: Memorize critical concepts - prompt vs. context engineering, top-K vs. top-P, agent components, MoE routing, photography terminology (85mm portraits, f/1.4 shallow depth, Rembrandt lighting).
-Example Analysis: Study successful/failed prompts from tutorials. For images, analyze the 6 Nano Banana examples; for text, understand why specific prompts succeed in different scenarios.
-Structured Learning:
-Framework Application: Practice the 7-component image prompt structure (Subject → Pose → Environment → Lighting → Style → Technical → Mood) and 6-Step Framework for text prompts.
-Template Building: Create reusable templates for common tasks (corporate headshots, technical analysis, creative content) following best practices.
-Integration Focus: Understand how prompt + context work together in RAG systems and agents. Practice combining techniques across domains.
-Quality Control:
-Before/After Comparisons: Rewrite weak prompts using specificity principles. Practice identifying vague vs. clear instructions.
-Systematic Checking: Use quality checklists before submitting any prompt. Ensure completeness of key elements.
-Failure Mode Recognition: Connect image generation failures (conflicting styles, missing elements) to general LLM issues (hallucinations, vague outputs).
-Advanced Preparation:
-Cross-Domain Application: Combine general prompt engineering (Chain of Thought) with specialized techniques (image generation, MoE routing).
-Supplementary Reading: Review transformer basics, RAG papers, MoE architectures. Practice on prompt engineering platforms for additional exposure.
+* Hands-On Testing: Use free tools (Grok, ChatGPT for text; Google Gemini for images) to practice prompts. Test configuration variations and different techniques (CoT, ReAct, temperature settings).
+* Master Key Distinctions: Memorize critical concepts - prompt vs. context engineering, top-K vs. top-P, agent components, MoE routing, photography terminology (85mm portraits, f/1.4 shallow depth, Rembrandt lighting).
+* Example Analysis: Study successful/failed prompts from tutorials. For images, analyze the 6 Nano Banana examples; for text, understand why specific prompts succeed in different scenarios.
+
+#### Structured Learning:
+* Framework Application: Practice the 7-component image prompt structure (Subject → Pose → Environment → Lighting → Style → Technical → Mood) and 6-Step Framework for text prompts.
+* Template Building: Create reusable templates for common tasks (corporate headshots, technical analysis, creative content) following best practices.
+* Integration Focus: Understand how prompt + context work together in RAG systems and agents. Practice combining techniques across domains.
+
+#### Quality Control:
+* Before/After Comparisons: Rewrite weak prompts using specificity principles. Practice identifying vague vs. clear instructions.
+* Systematic Checking: Use quality checklists before submitting any prompt. Ensure completeness of key elements.
+* Failure Mode Recognition: Connect image generation failures (conflicting styles, missing elements) to general LLM issues (hallucinations, vague outputs).
+* Advanced Preparation:
+* Cross-Domain Application: Combine general prompt engineering (Chain of Thought) with specialized techniques (image generation, MoE routing).
+* Supplementary Reading: Review transformer basics, RAG papers, MoE architectures. Practice on prompt engineering platforms for additional exposure.
