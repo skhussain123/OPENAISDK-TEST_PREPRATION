@@ -19,12 +19,11 @@ Your teachers will now schedule the following exam:
 
 #### Recommended Study Materials: 
 The exam references learning materials at: 
----
-https://github.com/panaversity/learn-n8n-agentic-ai/blob/main/00_prompt_engineering/readme.md 
-https://github.com/panaversity/learn-low-code-agentic-ai/blob/main/00_prompt_engineering/six_part_prompting_framework.md
-https://github.com/panaversity/learn-n8n-agentic-ai/blob/main/00_prompt_engineering/context_engineering_tutorial.md 
----
-https://github.com/panaversity/learn-low-code-agentic-ai/blob/main/00_prompt_engineering/image_generation/readme.md 
+
+* https://github.com/panaversity/learn-n8n-agentic-ai/blob/main/00_prompt_engineering/readme.md 
+* https://github.com/panaversity/learn-low-code-agentic-ai/blob/main/00_prompt_engineering/six_part_prompting_framework.md
+* https://github.com/panaversity/learn-n8n-agentic-ai/blob/main/00_prompt_engineering/context_engineering_tutorial.md 
+* https://github.com/panaversity/learn-low-code-agentic-ai/blob/main/00_prompt_engineering/image_generation/readme.md 
 
 #### Key Topics Covered
 The exam is divided into thematic sections, with questions building from basics to advanced applications.
