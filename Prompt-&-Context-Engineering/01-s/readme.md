@@ -6,21 +6,22 @@
 * The second most-used chatbot, DeepSeek at 2.74B visits, has barely 6% of ChatGPT’s traffic.
 * While traffic is concentrated, the list includes a mix of U.S., Chinese, and European players.
 
+---
 
-
-### What is Prompt Engineering
+### 1. What is Prompt Engineering
 Prompt engineering is the art of creating clear and specific instructions or questions to get the best possible answers from an AI. It’s like giving the AI a well-written guide to follow so it understands exactly what you want. For example, instead of saying “Tell me about dogs,” you might say, “List three fun facts about golden retrievers in simple sentences.” It’s all about tweaking your words to get better results!
 
 
-
-### What is Context Engineering
+### 2. What is Context Engineering
 Context engineering is the process of designing and providing relevant background information or context within a prompt to help an AI model better understand and respond to a query. It’s about setting the stage so the AI can give more accurate, relevant, or tailored answers. While prompt engineering focuses on crafting the overall instruction, context engineering zooms in on embedding specific details, constraints, or scenarios that guide the AI’s response.
 
+---
 
 ### Which is the best LLM?
 See how leading models stack up across text, image, vision, and beyond. This page gives you a snapshot of each Arena:
 https://lmarena.ai/leaderboard
 
+---
 
 ### How LLM Works
 How LLMs Work: Top 10 Executive-Level Questions:
