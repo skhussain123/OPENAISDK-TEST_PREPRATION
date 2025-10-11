@@ -8,15 +8,6 @@
 
 ---
 
-### 1. What is Prompt Engineering
-Prompt engineering is the art of creating clear and specific instructions or questions to get the best possible answers from an AI. It’s like giving the AI a well-written guide to follow so it understands exactly what you want. For example, instead of saying “Tell me about dogs,” you might say, “List three fun facts about golden retrievers in simple sentences.” It’s all about tweaking your words to get better results!
-
-
-### 2. What is Context Engineering
-Context engineering is the process of designing and providing relevant background information or context within a prompt to help an AI model better understand and respond to a query. It’s about setting the stage so the AI can give more accurate, relevant, or tailored answers. While prompt engineering focuses on crafting the overall instruction, context engineering zooms in on embedding specific details, constraints, or scenarios that guide the AI’s response.
-
----
-
 ### Which is the best LLM?
 See how leading models stack up across text, image, vision, and beyond. This page gives you a snapshot of each Arena:<br>
 https://lmarena.ai/leaderboard
@@ -59,3 +50,6 @@ Here’s my rough prompt: [INSERT YOUR PROMPT HERE]
 
 
 ---
+## What is Prompt Engineering?
+Prompt engineering is the art and science of crafting instructions that guide AI language models to produce desired outputs. Think of it as learning to communicate effectively with AI systems to achieve specific goals.
+
