@@ -58,3 +58,6 @@ Prompt engineering is the art and science of crafting instructions that guide AI
 * Good prompts can dramatically improve AI performance
 * It's an iterative skill that improves with practice
 * It's becoming essential for productivity in many fields
+
+
+Context engineering is the process where, instead of just giving the AI model a prompt, we also provide all the necessary background information, rules, constraints, or scenarios so the model can correctly understand our query and give a relevant, accurate, and targeted response
