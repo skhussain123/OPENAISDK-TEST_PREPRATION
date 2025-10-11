@@ -66,3 +66,50 @@ Context engineering is the process where, instead of just giving the AI model a 
 Context engineering means providing a large language model (LLM) with the external information or background details it needs to better understand your query and give the correct response. Telling the model what kind of external elements (like specific data, scenarios, or constraints) to use and how to use them is called context engineering.
 
 Simple definition: It’s about giving the LLM a framework or guide so that, while answering your question, it knows what to consider, what to focus on, and how to process it. The goal is to make the model’s output more relevant and accurate.
+
+
+### Prompt engineering vs. context engineering
+Prompt engineering = crafting the instruction you give the model. Context engineering = curating the information the model can see when following that instruction.
+
+
+### Quick contrast
+
+| Aspect          | Prompt engineering                                                       | Context engineering                                                                      |
+| --------------- | ------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| Goal            | Tell the model *how* to behave and *what* to produce                     | Give the model the *facts/examples* it should rely on                                    |
+| Levers          | Wording, structure, roles, constraints, output schema, few-shot examples | Retrieval (RAG), documents, knowledge bases, tools/APIs, memory, state across turns      |
+| Typical changes | “Be concise. Return valid JSON with fields X/Y/Z.”                       | “Attach the company glossary, latest policy PDF, and retrieved passages for this query.” |
+| Failure mode    | Vague instructions → messy/incorrect format                              | Missing/irrelevant info → hallucinations/outdated answers                                |
+| Ownership       | UX/prompt designers, app devs                                            | Data/ML/platform teams (pipelines, indexing, chunking, evals)                            |
+
+### How they work together
+
+* Start with a **good prompt**: clear task, constraints, and an **output contract** (e.g., JSON schema).
+* Then **ground it with context**: supply only the *most relevant* passages, tables, and tool results.
+* The prompt guides *behavior*; the context supplies *knowledge*. You usually need both.
+
+### Concrete examples
+
+1. **Invoice → JSON extractor**
+
+* *Prompt engineering*: “Extract fields {vendor, date, total}. Return JSON only. If a field is missing, use null.”
+* *Context engineering*: Provide a few labeled examples and attach the vendor’s invoice spec retrieved via embeddings.
+
+2. **Policy Q\&A bot**
+
+* *Prompt engineering*: “Answer using the attached passages; if unsure, say ‘Not in policy.’ Cite section IDs.”
+* *Context engineering*: RAG over your policy repo (chunking, metadata filters like `department=HR`, freshness boosts), plus a recency cache for updates.
+
+3. **Agentic workflow**
+
+* *Prompt engineering*: Tool-use instructions and function signatures.
+* *Context engineering*: Feed tool responses (DB rows, API payloads) back into the context window each step; maintain short-term memory/state.
+
+### Practical tips
+
+* Keep prompts **short, specific, and testable**; define output schemas.
+* Prefer **few-shot** examples only when they generalize; otherwise move them into **retrieval**.
+* For context: optimize **chunking**, **ranking**, **deduping**, and **token budgets**; log what was retrieved for each answer.
+* Add **citations** and “answer only from context” instructions when correctness matters.
+* Evaluate both layers separately: prompt A/B tests and retrieval quality (precision/recall, groundedness).
+
