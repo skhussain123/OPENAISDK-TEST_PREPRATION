@@ -62,3 +62,7 @@ Prompt engineering is the art and science of crafting instructions that guide AI
 
 ## Context engineering 
 Context engineering is the process where, instead of just giving the AI model a prompt, we also provide all the necessary background information, rules, constraints, or scenarios so the model can correctly understand our query and give a relevant, accurate, and targeted response
+
+Context engineering means providing a large language model (LLM) with the external information or background details it needs to better understand your query and give the correct response. Telling the model what kind of external elements (like specific data, scenarios, or constraints) to use and how to use them is called context engineering.
+
+Simple definition: It’s about giving the LLM a framework or guide so that, while answering your question, it knows what to consider, what to focus on, and how to process it. The goal is to make the model’s output more relevant and accurate.
