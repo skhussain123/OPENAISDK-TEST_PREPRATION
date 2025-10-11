@@ -28,7 +28,7 @@ How LLMs Work: Top 10 Executive-Level Questions: <br>
 https://sloanreview.mit.edu/article/how-llms-work/
 
 
-### Prompt Try this Model
+### We Eill use this model for prompt and context engineering
 1. chatgpt
 2. gemini
 3. colud
