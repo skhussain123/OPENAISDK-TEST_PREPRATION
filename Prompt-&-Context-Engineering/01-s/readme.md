@@ -33,3 +33,10 @@ https://sloanreview.mit.edu/article/how-llms-work/
 2. gemini
 3. colud
 4. grok
+
+---
+
+### Use these Prompt Engineering Tools to Learn
+* https://platform.openai.com/chat/
+* https://aistudio.google.com/
+* https://console.anthropic.com/
