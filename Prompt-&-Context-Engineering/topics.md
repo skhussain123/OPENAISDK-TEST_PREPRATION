@@ -1,5 +1,3 @@
-Prompt and Context Engineering Certification Exam is Now Ready for You
-
 The foundation course for Agentic AI program covering Prompt and Context Engineering is now complete:
 
 #### 1. Class Recording Playlist:
