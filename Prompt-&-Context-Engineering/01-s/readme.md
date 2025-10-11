@@ -18,13 +18,13 @@ Context engineering is the process of designing and providing relevant backgroun
 ---
 
 ### Which is the best LLM?
-See how leading models stack up across text, image, vision, and beyond. This page gives you a snapshot of each Arena:
+See how leading models stack up across text, image, vision, and beyond. This page gives you a snapshot of each Arena:<br>
 https://lmarena.ai/leaderboard
 
 ---
 
 ### How LLM Works
-How LLMs Work: Top 10 Executive-Level Questions:
+How LLMs Work: Top 10 Executive-Level Questions: <br>
 https://sloanreview.mit.edu/article/how-llms-work/
 
 
