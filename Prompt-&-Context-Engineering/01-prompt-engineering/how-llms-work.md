@@ -26,3 +26,21 @@ Jab hum ChatGPT jaisay tools web par istemal karte hain, to yeh pura process hum
 Sab se aham baat yeh hai ke jawab rokne ka “faisla” LLM ki token prediction aur bahar ke control logic ke darmiyan aik interaction hota hai — yeh faisla sirf LLM akela nahi leta.
 
 
+2. Agar LLM koi ghalti kare aur main usey correct karun, kya woh foran apne aap ko update kar lega?
+---
+Nahi, agar aap LLM (jaise ChatGPT ya Claude) ko correct karte hain, to woh foran apni knowledge ya model ko update nahi karta.
+
+Agar aap correction dete hain, to yeh sirf usi conversation ke context me kaam aata hai. Model apne aap ko turant “seekh” kar permanently update nahi karta.
+
+Kab update hota hai?
+Agar aapka chat data future training me shamil kiya jaye, to shayad wo correction kisi agle version me madad kare — lekin yeh process mahino lagata hai, foran nahi hota.
+
+Memory feature ka kya role hai?
+Kuch apps (jaise ChatGPT) me memory feature hota hai jo real-time me sirf aisi cheezein yaad rakh sakta hai:
+
+* Aapka naam
+* Aapki preferences
+* Aapki location waghera
+
+Lekin yeh memory sirf personalization ke liye hoti hai — yeh LLM ke factual knowledge ya reasoning mistakes ko correct nahi karti. Model apni general understanding ya information base ko is se update nahi karta.
+
