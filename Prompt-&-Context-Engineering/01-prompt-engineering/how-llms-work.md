@@ -96,3 +96,29 @@ Agar browsing/system access disabled ho ya available na ho, to model:
 Is liye aise jawab har waqt reliable nahi hote.
 
 Har LLM ya app me yeh feature nahi hota. Kuch sirf training cutoff tak limited rehte hain, aur guesses ya assumptions par jawab dete hain agar unko real-time info na di jaye.
+
+
+---
+**5. Agar main prompt ke saath koi document attach karun, to kya main yakeen kar sakta hoon ke LLM jawab sirf usi document ki bunyaad par de — aur apni training data ya doosri policies ko ignore kare?**
+
+##### Jawab: Nahi, poori guarantee nahi di ja sakti.
+Aap chahe:
+* Apni corporate expense policy upload karein,
+* Aur kahen ke jawab sirf isi document se dein,
+
+##### phir bhi aik standard LLM:
+* Apni training data se seekhi hui maloomat ko access kar sakta hai,
+* Aur jawab dete waqt us knowledge ko document ke content ke saath mix kar sakta hai,
+
+Khaaskar jab training me milta-julta data pehle se ho.
+
+##### To phir kya ho sakta hai?
+
+* Careful prompting (jaise: “Answer ONLY from the attached document”)
+* Ya RAG jaisi techniques (Retrieval-Augmented Generation)
+
+…model ko motivate kar sakti hain ke woh provided document ko zyada importance dey.
+Lekin phir bhi 100% control nahi hota ke woh sirf wahi source use kare.
+
+##### Yani:
+Model ko rokna mushkil hai ke woh apni training ki maloomat ko bilkul ignore kare — kyunke woh us knowledge ko naturally mix karne ke liye design hua hota hai.
