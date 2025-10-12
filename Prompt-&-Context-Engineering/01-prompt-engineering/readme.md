@@ -344,3 +344,92 @@ Response:
 
 **Explanation of Concept:**
 Step-Back Prompting involves first asking a broader, foundational question to establish key principles or context before tackling the specific task. This approach ensures the model grounds its response in general knowledge (e.g., factors affecting website speed) before applying it to the specific problem (e-commerce site optimization). By breaking the task into two steps, the model produces more informed and structured recommendations, reducing the risk of overlooking critical factors.
+
+
+---
+
+### ReAct (Reasoning + Acting)
+ReAct ka matlab hai Reasoning + Acting — yaani AI ya agent pehle sochta hai (reasoning), phir koi action leta hai (tool use, search, calculation, etc.), phir dobara soch ke next step decide karta hai.
+* Combine reasoning with tool use or actions.
+
+**Example 1**
+```bash
+I need to find out how many children the members of Metallica have in total.
+
+Thought: I need to find information about each band member and their children.
+Action: Search for "Metallica band members"
+Observation: [results]
+Thought: Now I need to search for each member individually...
+```
+
+**Example 2**
+```bash
+Question: What is the current population of Tokyo, and how does it compare to New York City?
+
+Thought: I need to find the current population of Tokyo and New York City to compare them. I should start by searching for the latest population data for Tokyo.
+
+Action: web_search
+<parameter name="query">current population of Tokyo 2025</parameter
+
+Observation: [Assume tool response: According to recent estimates, Tokyo's population in 2025 is approximately 37.4 million in the metropolitan area.]
+
+Thought: Now I have Tokyo's population. Next, I need the population for New York City.
+
+Action: web_search
+<parameter name="query">current population of New York City 2025</parameter
+
+Observation: [Assume tool response: New York City's metropolitan area population in 2025 is estimated at about 23.6 million.]
+
+Thought: With both figures, I can compare them. Tokyo has a larger population than New York City by about 13.8 million people.
+
+Final Answer: Tokyo's population is approximately 37.4 million, compared to New York City's 23.6 million, making Tokyo significantly larger.
+```
+Explanation of Concept: ReAct (Reasoning + Acting) is a prompting strategy that interleaves reasoning steps (Thoughts) with actions (tool calls or external queries) to solve complex problems iteratively. Each cycle includes a Thought (planning the next step), an Action (executing a tool or search), and an Observation (processing the result). This loop continues until the question is resolved, allowing the model to dynamically gather information and refine its approach. It's particularly useful for tasks requiring real-time data or multi-step verification, as demonstrated by sequentially fetching and comparing population data.
+
+---
+
+### Tree of Thoughts (ToT)
+
+Explore multiple reasoning branches simultaneously for complex problems.
+
+**When to use:**
+- Creative problem solving
+- Strategic planning
+- Complex decision-making
+- Tasks requiring exploration of alternatives
+
+
+**Example:**
+
+Question: What is the best marketing strategy for launching a new eco-friendly clothing brand targeting young adults?
+
+Task: Explore multiple strategic approaches, evaluate them, and select the best one.
+
+**Branch 1: Social Media Campaign**
+Thought: Young adults are active on platforms like Instagram and TikTok. A campaign using influencers could build brand awareness.
+Exploration:
+- Pros: High engagement, visually appealing for clothing, cost-effective with micro-influencers.
+- Cons: Risk of inauthentic partnerships, oversaturation in influencer marketing.
+Evaluation: Strong for visibility but needs unique content to stand out. Score: 8/10.
+
+**Branch 2: Sustainable Pop-Up Events**
+Thought: Hosting pop-up shops at eco-conscious festivals or college campuses could create direct engagement.
+Exploration:
+- Pros: Hands-on experience with products, builds community, aligns with eco-friendly values.
+- Cons: High logistical costs, limited geographic reach.
+Evaluation: Great for brand authenticity but resource-intensive. Score: 7/10.
+
+**Branch 3: Collaborative Partnerships**
+Thought: Partnering with eco-friendly brands (e.g., sustainable accessories) could cross-promote to aligned audiences.
+Exploration:
+- Pros: Expands reach via partner networks, reinforces eco-mission.
+- Cons: Complex coordination, potential brand dilution.
+Evaluation: Effective for niche targeting but requires careful partner selection. Score: 7.5/10.
+
+**Synthesis**: Combine a social media campaign (Branch 1) with selective pop-up events (Branch 2) for maximum impact. Use partnerships (Branch 3) to amplify reach at events.
+
+Final Strategy: Launch with a TikTok influencer campaign showcasing eco-friendly clothing, paired with pop-up shops at green festivals to engage young adults directly. Collaborate with a sustainable accessory brand to co-promote at events.
+
+
+**Explanation of Concept:**
+Tree of Thoughts (ToT) involves generating multiple reasoning branches to explore different solutions to a problem, evaluating each, and synthesizing the best ideas into a final answer. Each branch represents a distinct approach, which is explored, assessed for pros and cons, and scored. This method is ideal for complex, open-ended tasks like strategic planning, as it encourages creative exploration and systematic comparison, as shown in the marketing strategy example above.
