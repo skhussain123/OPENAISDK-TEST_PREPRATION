@@ -113,3 +113,51 @@ Prompt engineering = crafting the instruction you give the model. Context engine
 * Add **citations** and “answer only from context” instructions when correctness matters.
 * Evaluate both layers separately: prompt A/B tests and retrieval quality (precision/recall, groundedness).
 
+One-liner: Prompt engineering is how you ask; context engineering is what you show. Combine them for reliable, scalable LLM apps.
+
+---
+
+## Understanding Large Language Models
+#### How LLMs Work (The Basics)
+Large Language Models are prediction engines that:
+* Take text input (your prompt)
+* Predict the next most likely word/token
+* Continue this process to generate complete responses
+* Base predictions on patterns learned from training data
+
+
+#### Key Concept: Autocompletion
+LLMs don't "understand" in the human sense—they're sophisticated autocomplete systems. Your prompt sets up the context for what should come next.
+
+
+## Essential Configuration Settings
+Before diving into prompt techniques, understand these key parameters that control AI behavior:
+
+### Temperature (0-1)
+* Low (0-0.3): Focused, consistent, deterministic responses
+* Medium (0.4-0.7): Balanced creativity and consistency
+* High (0.8-1.0): Creative, diverse, but potentially unpredictable
+
+**When to use:**
+* Temperature 0: Math problems, factual questions
+* Temperature 0.7: Creative writing, brainstorming
+* Temperature 0.9: Poetry, experimental content
+
+### Output Length/Token Limits
+* Controls maximum response length
+* Higher limits = more computational cost
+* Set appropriately for your task needs
+
+### Top-K and Top-P (Nucleus Sampling)
+* Top-K: Limits choices to top K most likely tokens
+* Top-P: Limits choices based on cumulative probability
+* Work together with temperature to control randomness
+
+#### Recommended starting points:
+* Conservative: Temperature 0.1, Top-P 0.9, Top-K 20
+* Balanced: Temperature 0.2, Top-P 0.95, Top-K 30
+* Creative: Temperature 0.9, Top-P 0.99, Top-K 40
+
+---
+
+## Fundamental Prompting Techniques
