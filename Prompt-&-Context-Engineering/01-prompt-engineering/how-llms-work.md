@@ -67,3 +67,32 @@ Ji haan, zyada platforms users ko memory dekhne, edit karne ya band karne ka opt
 
 RAG kya hota hai? (agar aap nahi jaante):
 RAG ek aisi technique hai jisme model ko kisi khaas external ya proprietary data tak access diya jata hai, taa ke woh zyada relevant aur madadgar jawab de sake.
+
+---
+
+**4. Mujhe pata hai ke LLMs ka ek training cutoff date hota hai, aur uske baad ke events ke baare me woh “jaan” nahi sakte. Lekin phir bhi woh cutoff ke baad wali cheezon ka jawab kaise dete hain?**
+
+Agar aap kisi aise waqeye ya topic ke baare me sawaal pochte hain jo model ke training cutoff date ke baad hua ho, to LLM khud uska ilm nahi rakhta — jab tak usay fresh info di na jaye.
+
+Yeh kaam do tarikon se hota hai:
+
+#### ✅ 1. Live data / browsing ka use
+Kuch systems (jaise ChatGPT jab “browsing” ya “live search” on ho) aapka sawaal le kar automatically web search karte hain. Phir:
+* LLM pehle aapke question se ek search query banata hai.
+* System ka external part (jo model se bahar hota hai) actual search karta hai.
+* Results wapas model ko diye jate hain.
+* Phir model us fresh info ki bunyaad par jawab generate karta hai.
+
+Is tarah lagta hai ke model “jaan raha hai” ke baad ki updates kya hain.
+
+#### ✅ 2. Live access na ho to kya hota hai?
+
+Agar browsing/system access disabled ho ya available na ho, to model:
+
+* Apni purani training data ke hisaab se jawab banata hai
+* Jo ho sakta hai outdated ho
+* Aur asal duniya se match na karta ho
+
+Is liye aise jawab har waqt reliable nahi hote.
+
+Har LLM ya app me yeh feature nahi hota. Kuch sirf training cutoff tak limited rehte hain, aur guesses ya assumptions par jawab dete hain agar unko real-time info na di jaye.
