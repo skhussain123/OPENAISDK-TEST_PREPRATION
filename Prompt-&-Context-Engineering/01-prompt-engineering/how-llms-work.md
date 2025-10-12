@@ -1,6 +1,6 @@
 
 
-1. Mujhe samajh hai ke LLMs (Large Language Models) aik aik hissa karke text generate karte hain. LLM “kab” decide karta hai ke jawab dena band karna hai?
+**1. Mujhe samajh hai ke LLMs (Large Language Models) aik aik hissa karke text generate karte hain. LLM “kab” decide karta hai ke jawab dena band karna hai?**
 
 Dusre lafzon me, LLM kab faisla karta hai ke user ko final jawab de diya gaya hai?
 
