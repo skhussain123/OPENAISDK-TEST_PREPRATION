@@ -45,3 +45,25 @@ Kuch apps (jaise ChatGPT) me memory feature hota hai jo real-time me sirf aisi c
 
 Lekin yeh memory sirf personalization ke liye hoti hai — yeh LLM ke factual knowledge ya reasoning mistakes ko correct nahi karti. Model apni general understanding ya information base ko is se update nahi karta.
 
+---
+**3. Agar LLM har dafa sirf current conversation ke hisaab se token-by-token jawab banata hai, to phir woh pichli chats (jaise ek haftay pehle wali) ki info kaise use karta nazar aata hai?**
+
+LLM asal me sirf uss input par jawab banata hai jo usay us waqt diya jata hai. By default, yeh purani chats ko yaad nahi rakhta.
+
+Lekin kuch LLM apps (jaise ChatGPT) ke andar memory feature hota hai. Yeh feature aapki kuch cheezein save kar leta hai, jaise:
+
+* Aapka naam
+* Aapki pasand-na-pasand
+* Projects jin par aap kaam kar rahe hain
+* Topics jo aap baar baar puchte hain
+
+Jab aap nayi chat shuru karte hain, to yeh saved info chup chaap prompt ke saath include kar di jati hai (aap ko nazar nahi aati). Is tarah lagta hai ke model ne “pichli baat yaad” rakhi hai, lekin asal me usko woh info phir se input ke through di ja rahi hoti hai.
+
+Yeh memory kab aur kya store karti hai?
+Yeh system par depend karta hai — har platform ke rules alag hain aur pura process openly disclose nahi kiya gaya. Ho sakta hai ke Retrieval-Augmented Generation (RAG) jaisi technique use ho rahi ho, jo decide karti hai ke konsi info nayi prompt me daalni hai.
+
+Memory control ka option hota hai?
+Ji haan, zyada platforms users ko memory dekhne, edit karne ya band karne ka option dete hain. ChatGPT app me yeh option Settings > Personalization me hota hai.
+
+RAG kya hota hai? (agar aap nahi jaante):
+RAG ek aisi technique hai jisme model ko kisi khaas external ya proprietary data tak access diya jata hai, taa ke woh zyada relevant aur madadgar jawab de sake.
