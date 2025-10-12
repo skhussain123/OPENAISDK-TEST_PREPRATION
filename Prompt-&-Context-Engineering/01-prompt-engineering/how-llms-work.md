@@ -195,3 +195,29 @@ Poora khatma to mumkin nahi, lekin kuch tareeqe unhein control ya reduce karne m
 4. Post-processing / external checks
 — Jaise rule-based validation, APIs, ya fact-check systems.
 
+---
+**9. Kyun ke LLM ki hallucinations aur ghaltiyan poori tarah khatam nahi ki ja sakti, is liye humein jawab check karne padte hain. Ye kaam efficiently kaise kiya ja sakta hai?**
+
+LLM ke outputs ko efficiently check karna task ki type aur risk level par depend karta hai. Aam tor par do strategies hoti hain: human review aur automated methods.
+
+Open-ended tasks, jaise summaries, essays, reports ya analysis ke liye, insanon ka review sab se zyada reliable hota hai. Lekin ye mehnga, slow, aur scale karna mushkil hota hai — khas tor par jab fast ya real-time responses chahiye hon. Efficiency barhane ka ek tareeqa ye hai ke har output check na kiya jaye, balkay sampling use ki jaye, ya risk-based triage kiya jaye, jahan sirf critical cases par insani tawajjo di jaye.
+
+Aaj kal ek aur mashhoor tareeqa hai "AI judge" ka istemal, jo aam tor par doosra LLM hota hai jo pehle model ke jawab ko evaluate ya verify karta hai. Ye tareeqa fast aur scalable hai, magar iski apni limitations hain — AI judge bhi hallucinate kar sakta hai ya har dafa insani judgment se match nahi karta, khas tor par complex situations me. Kuch behtari ke tareeqe hain: multiple judges ka istemal, retrieval-based fact-checking ke sath judge feedback ko combine karna, ya workflows banana jahan low-confidence outputs insan tak escalate kiye jayein.
+
+Structured tasks — jaise code generate karna, information classify karna, ya SQL/JSON jaise structured formats banana — automation ke liye aur bhi asaan hote hain. Generated code ko unit tests ya sandbox environment me automatically run kar ke test kiya ja sakta hai. Classification outputs ko predefined categories ke mutabiq check kiya ja sakta hai. JSON, SQL ya XML jaisi formats ko syntactic validity ke liye automatically verify kiya ja sakta hai — lekin ye sirf formatting check karta hai, content ki accuracy nahi.
+
+Akhri baat: sab se efficient checking wo hoti hai jahan automation aur human oversight dono ko mila kar use kiya jaye. Automation speed aur scale deta hai, jab ke insaan reliability aur accuracy ensure karte hain. In dono ka combination, aur risk-based triage, organizations ko quality aur efficiency ka behtareen balance hasil karne me madad deta hai.
+
+---
+**10. We are building an LLM-based chatbot and would like to guarantee that its answer to a question stays unchanged when different users ask that same question (or one user asks the same question at different times). Is this possible?**
+
+If by “guarantee” you mean exactly the same wording every time, the short answer is no.
+
+If the same question is posed on different occasions using different words, the LLM’s answers will very likely change. But even if the exact same question statement is used, it’s almost impossible to guarantee that exactly the same answer will be generated every single time.
+
+You can reduce variability by configuring certain LLM settings (for example, setting “temperature” to zero), locking the exact model version, and even self-hosting so you control the entire hardware and software stack. But even then, technical factors make it exceedingly difficult to eliminate all variation in real-world production environments. Thus, you’ll still occasionally see small wording or emphasis shifts that don’t change the meaning of the underlying answer. Note that this may be adequate if you mainly care about the meaning of the answers rather than their exact wording.
+
+The only way to truly guarantee identical wording is to store (cache) the answer the first time it is generated and serve that stored text whenever the same question is detected. This approach works well if your repeat detection is perfect, but in practice, reworded or slightly altered questions may bypass the cache and trigger LLM regeneration — which can produce a different answer.
+
+In short: You can make answers extremely consistent, but a 100% wording guarantee is not achievable with current technology.
+
