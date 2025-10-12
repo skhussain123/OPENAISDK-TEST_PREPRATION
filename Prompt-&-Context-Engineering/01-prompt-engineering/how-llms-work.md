@@ -122,3 +122,50 @@ Lekin phir bhi 100% control nahi hota ke woh sirf wahi source use kare.
 
 ##### Yani:
 Model ko rokna mushkil hai ke woh apni training ki maloomat ko bilkul ignore kare — kyunke woh us knowledge ko naturally mix karne ke liye design hua hota hai.
+
+---
+**6. Kabhi kabhi LLMs apne jawab ke saath sources ya citations bhi dete hain. Agar koi jawab citations ke saath ho, kya us par bharosa kiya ja sakta hai?**
+
+Jawab: Nahi, sirf citations dekh kar trust nahi kiya ja sakta.
+
+##### Bohat se LLMs:
+
+❌ Fake (hallucinated) citations bana dete hain – yani aise references de dete hain jo asal me hote hi nahi.
+❌ Ya phir original sources ka ghalat istemal karte hain – matlab reference to real ho, lekin uska content jawab ko support nahi karta.
+
+**Kuch AI systems me citations verify karne ke liye post-processing steps maujood hote hain, lekin:**
+* Wo hamesha reliable nahi hote
+* Aur tamam references ka theek-check nahi karte
+
+##### Best practice:
+Hamesha yeh confirm karein ke:
+* Source waqayi exist karta hai
+* Aur uska content asal me us baat ko support karta hai jo jawab me likhi gayi hai
+
+Yani citations hone ka matlab yeh nahi ke jawab automatically sahi ho. Verification zaroori hai.
+
+---
+**7. Jab bohot saare documents hon to hum RAG use karte hain — pehle relevant hisse nikaalte hain aur phir unhein prompt me daalte hain. Lekin ab modern LLMs ke paas bohot lamba context window hota hai (jaise GPT-4.1, Gemini 2.5), jismein tamam documents aasani se fit ho jate hain. To phir RAG ki zarurat reh bhi jati hai?**
+
+Baid nazar lagta hai ke agar context window itna bara ho ke sab kuch daala ja sake, to RAG ki ahmiyat khatam ho jani chahiye — lekin asalat me aisa nahi hai. RAG phir bhi important hai, aur iske peeche kai practical wajahain hain:
+
+##### ✅ 1. RAG sirf prompt chhota karne ke liye nahi hota
+Iska asli kaam relevant hisse choose karna hota hai.
+Agar aap har cheez context me daal denge — irrelevant, repetitive ya fizool info — to jawab kam accurate ya confusing ho sakta hai.
+
+##### ✅ 2. LLM lambi context ko equally process nahi karta
+Research se pata chala hai ke models:
+* Prompt ke shuru aur aakhir par zyada dhyaan dete hain
+* Aur beech ke hisson ko kabhi kabhi ignore ya miss kar dete hain
+
+Is liye context bara hona ≠ pura context effective hona.
+
+##### ✅ 3. Zyada tokens = zyada cost + slow response
+Real-world apps me:
+* Token usage directly cost ko affect karta hai
+* Bada prompt response ko slow karta hai
+
+RAG se context relevant, sasta aur fast rehta hai.
+
+---
+
