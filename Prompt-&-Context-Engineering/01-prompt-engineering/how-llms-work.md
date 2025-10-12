@@ -169,3 +169,29 @@ RAG se context relevant, sasta aur fast rehta hai.
 
 ---
 
+**8. Kya LLM hallucinations ko poori tarah khatam kiya ja sakta hai?**
+Nahi — abhi ke LLMs me hallucinations ko 100% eliminate karna mumkin nahi.
+
+##### Iski bunyaadi wajah yeh hai ke:
+
+* LLMs probability ke zariye text generate karte hain,
+* Yeh facts verify nahi karte,
+* Inka kaam hai “jo agla lafz ya jumla logically lagta ho, woh predict karna,”
+* Na ke kisi real source se tasdeeq karna.
+* Is liye kabhi kabhi yeh confident lekin ghalat jawab bana dete hain — jise hallucination kehte hain.
+
+##### ✅ Hallucinations kam kaise ki ja sakti hain?
+Poora khatma to mumkin nahi, lekin kuch tareeqe unhein control ya reduce karne me madad dete hain:
+
+1. Careful Prompting (prompt engineering)
+— Sahi instructions se model ghaltiyan kam karta hai.
+
+2. RAG (Retrieval-Augmented Generation)
+— Model ko specific, verified documents ya data ke zariye jawab generate karwaya jaye.
+
+3. Fine-tuning on domain-specific data
+— Agar model kisi khaas field (jaise medical, legal ya finance) ke liye train ho to answers zyada relevant hote hain.
+
+4. Post-processing / external checks
+— Jaise rule-based validation, APIs, ya fact-check systems.
+
