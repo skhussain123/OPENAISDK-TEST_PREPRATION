@@ -158,8 +158,6 @@ Before diving into prompt techniques, understand these key parameters that contr
 * Balanced: Temperature 0.2, Top-P 0.95, Top-K 30
 * Creative: Temperature 0.9, Top-P 0.99, Top-K 40
 
----
-
 ## Fundamental Prompting Techniques
 ### 1. Zero-Shot Prompting
 
@@ -255,3 +253,94 @@ Context: You're writing for a tech blog aimed at beginners who have never coded 
 
 Write a 200-word explanation of what an API is, using simple language and practical examples.
 ```
+
+## Advanced Prompting Strategies
+
+### Chain of Thought (CoT) Prompting
+
+Encourage step-by-step reasoning for complex problems.
+
+**Example:**
+```
+Solve this step by step:
+If I was 6 when my sister was half my age, how old is my sister when I'm 40?
+
+Let me think through this step by step:
+```
+
+**When to use:**
+- Math problems
+- Logical reasoning
+- Complex analysis
+- Multi-step processes
+
+**Best practices:**
+- Use "Let's think step by step" or similar phrases
+- Set temperature to 0 for consistent reasoning
+- Extract final answers separately from reasoning
+
+### Self-Consistency
+
+Generate multiple reasoning paths and select the most common answer.
+
+**Process:**
+1. Ask the same question multiple times with different phrasings
+2. Compare the answers
+3. Choose the most frequently occurring result
+
+**Example:**
+```
+Question: If a store offers a 20% discount on a $50 item, what is the final price?
+
+Generate 3 different reasoning paths for this question and select the most consistent answer.
+
+Path 1: To find the final price, calculate the discount: 20% of $50 is 0.20 × 50 = $10. Subtract this from the original price: $50 - $10 = $40. The final price is $40.
+
+Path 2: A 20% discount means paying 80% of the original price. So, 80% of $50 is 0.80 × 50 = $40. Therefore, the final price is $40.
+
+Path 3: Compute the discount amount: 20% = 0.20, so 0.20 × $50 = $10 off. The original price is $50, so after the discount, it’s $50 - $10 = $40. The final price is $40.
+
+Most common answer: $40
+```
+
+**Explanation of Concept:**
+Self-Consistency involves generating multiple answers to the same question using varied reasoning approaches to ensure reliability. By comparing the results, you select the most frequent or consistent outcome, reducing the chance of errors from a single flawed reasoning path. This method leverages the model's ability to approach the problem from different angles, increasing confidence in the final answer when all paths converge, as seen here with the consistent result of $40.
+
+### Step-Back Prompting
+
+Ask a more general question first, then use that context for the specific question.
+
+**Example 1:**
+```
+First, what are the key principles of good user interface design?
+
+[Get response]
+
+Now, using those principles, redesign this mobile app's login screen: [description]
+```
+
+**Example 2:**
+Question: How should I optimize the loading speed of my e-commerce website?
+```
+Step 1: First, what are the key factors that generally affect website loading speed?
+
+Response: Key factors include:
+- Server response time (hosting quality, server location)
+- Image and asset optimization (file size, compression)
+- Code efficiency (minifying CSS/JavaScript, reducing HTTP requests)
+- Caching strategies (browser caching, CDNs)
+- Third-party scripts (ads, analytics)
+
+Step 2: Using these factors, provide specific recommendations to optimize the loading speed of an e-commerce website with heavy product images and multiple third-party plugins.
+
+Response:
+1. **Server Optimization**: Choose a reliable hosting provider with servers close to your audience. Enable server-side caching (e.g., Redis or Varnish).
+2. **Image Optimization**: Compress product images using formats like WebP. Implement lazy loading to defer off-screen images.
+3. **Code Efficiency**: Minify CSS and JavaScript files. Combine small files to reduce HTTP requests.
+4. **Caching**: Use a Content Delivery Network (CDN) like Cloudflare to cache static content globally. Set browser cache headers for repeat visitors.
+5. **Third-Party Plugins**: Audit and remove unnecessary plugins. Asynchronously load scripts for analytics or ads to avoid blocking page rendering.
+
+```
+
+**Explanation of Concept:**
+Step-Back Prompting involves first asking a broader, foundational question to establish key principles or context before tackling the specific task. This approach ensures the model grounds its response in general knowledge (e.g., factors affecting website speed) before applying it to the specific problem (e-commerce site optimization). By breaking the task into two steps, the model produces more informed and structured recommendations, reducing the risk of overlooking critical factors.
