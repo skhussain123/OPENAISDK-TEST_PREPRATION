@@ -25,9 +25,10 @@ Jab hum ChatGPT jaisay tools web par istemal karte hain, to yeh pura process hum
 
 Sab se aham baat yeh hai ke jawab rokne ka “faisla” LLM ki token prediction aur bahar ke control logic ke darmiyan aik interaction hota hai — yeh faisla sirf LLM akela nahi leta.
 
-
-2. Agar LLM koi ghalti kare aur main usey correct karun, kya woh foran apne aap ko update kar lega?
 ---
+
+**2. Agar LLM koi ghalti kare aur main usey correct karun, kya woh foran apne aap ko update kar lega?**
+
 Nahi, agar aap LLM (jaise ChatGPT ya Claude) ko correct karte hain, to woh foran apni knowledge ya model ko update nahi karta.
 
 Agar aap correction dete hain, to yeh sirf usi conversation ke context me kaam aata hai. Model apne aap ko turant “seekh” kar permanently update nahi karta.
