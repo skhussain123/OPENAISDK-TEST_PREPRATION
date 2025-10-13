@@ -162,6 +162,7 @@ Before diving into prompt techniques, understand these key parameters that contr
 ### 1. Zero-Shot Prompting
 
 The simplest approach—just ask directly without examples.
+In short: Zero-shot prompting is used when you want an immediate and relevant answer from the AI without giving any example. It’s fast and flexible, but to get good results, your prompt needs to be clear and detailed.
 
 **Example:**
 ```
