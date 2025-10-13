@@ -218,8 +218,9 @@ JSON:
 - Ensure examples are high-quality and consistent
 
 ### 4. System Prompting
-
 Set overall context and behavior guidelines.
+System prompting ek tareeka hai jismein aap AI ko ek high-level instruction ya role dete hain jo uske overall behavior ya tone ko define karta hai. Yeh prompt task-specific nahi hota, balki AI ke liye ek general framework ya personality set karta hai jo uske tamam jawabon pe asar daalta hai. System prompt aksar AI ke developers ya platform designers dete hain taake AI ka behavior consistent aur user ke maqsad ke mutabiq rahe.
+
 
 **Example:**
 ```
