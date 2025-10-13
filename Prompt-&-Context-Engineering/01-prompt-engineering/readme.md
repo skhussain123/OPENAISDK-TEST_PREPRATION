@@ -160,8 +160,8 @@ Before diving into prompt techniques, understand these key parameters that contr
 
 ## Fundamental Prompting Techniques
 ### 1. Zero-Shot Prompting
-
-The simplest approach—just ask directly without examples.
+* The simplest approach—just ask directly without examples.
+<br>
 Zero-shot prompting means giving the AI a task without providing any example or prior training. You only give clear instructions, and the AI responds using its general knowledge. In other words, the AI isn’t shown any example for the task — it’s simply told what to do.
 
 
@@ -177,8 +177,8 @@ Classify this movie review as positive, negative, or neutral:
 - Quick one-off requests
 
 ### 2. One-Shot Prompting
-
-Provide a single example to guide the response format.
+* Provide a single example to guide the response format.
+<br>
 One-shot prompting is a method where you give the AI a task and provide just one example to help it understand. It’s different from zero-shot because zero-shot doesn’t include any example, and it’s different from few-shot because few-shot includes multiple examples. In one-shot prompting, you give only one example so the AI can understand the task better and respond in a similar way.
 
 **Example:**
@@ -193,7 +193,8 @@ French:
 ```
 
 ### 3. Few-Shot Prompting
-Provide multiple examples to establish a clear pattern.
+* Provide multiple examples to establish a clear pattern.
+<br>
 Few-shot prompting is a method where you give the AI a task along with multiple examples so it can clearly understand the style, tone, or format and respond in the same way. It’s different from zero-shot (no examples) and one-shot (one example) because in few-shot prompting, you provide two or more examples. This helps the AI better understand the pattern of the task.
 
 
@@ -218,7 +219,8 @@ JSON:
 - Ensure examples are high-quality and consistent
 
 ### 4. System Prompting
-Set overall context and behavior guidelines.
+* Set overall context and behavior guidelines.
+<br>
 System prompting ek tareeka hai jismein aap AI ko ek high-level instruction ya role dete hain jo uske overall behavior ya tone ko define karta hai. Yeh prompt task-specific nahi hota, balki AI ke liye ek general framework ya personality set karta hai jo uske tamam jawabon pe asar daalta hai. System prompt aksar AI ke developers ya platform designers dete hain taake AI ka behavior consistent aur user ke maqsad ke mutabiq rahe.
 
 
@@ -249,7 +251,8 @@ Act as an experienced software architect. I need help designing a scalable web a
 - Communication styles (friendly tutor, formal advisor)
 
 ### 6. Contextual Prompting
-Provide specific background information relevant to the task.
+* Provide specific background information relevant to the task.
+<br>
 Contextual prompting is a method where you give an AI a task along with the necessary background information, data, or context so that the AI’s response is more accurate, specific, and aligned with your objective. It goes beyond just giving instructions; it includes external details, constraints, or scenarios that guide the AI’s answer. This is a part of context engineering, which focuses on providing relevant information so the AI can understand properly and respond correctly.
 
 **Example:**
@@ -285,7 +288,8 @@ Let me think through this step by step:
 - Extract final answers separately from reasoning
 
 ### Self-Consistency
-Generate multiple reasoning paths and select the most common answer.
+* Generate multiple reasoning paths and select the most common answer.
+<br>
 Self-consistency is a technique in which an AI generates answers for the same question or task using multiple different reasoning paths, and then selects the response that appears most frequently or is the most consistent. This method is especially used when there may be variability in the AI’s answers, or when you want a more reliable and accurate response. It reduces uncertainty and improves the quality of the output.
 
 **Process:**
@@ -312,8 +316,10 @@ Most common answer: $40
 Self-Consistency involves generating multiple answers to the same question using varied reasoning approaches to ensure reliability. By comparing the results, you select the most frequent or consistent outcome, reducing the chance of errors from a single flawed reasoning path. This method leverages the model's ability to approach the problem from different angles, increasing confidence in the final answer when all paths converge, as seen here with the consistent result of $40.
 
 ### Step-Back Prompting
+* Ask a more general question first, then use that context for the specific question.
+<br>
+Step-back prompting is a technique where you first ask the AI a broad or general question so that the foundational knowledge or principles needed for the task become clear. Then, using that knowledge as context, you ask the specific question. This two-step process helps the AI give more structured, informed, and accurate responses, because it first understands the key aspects of the task through the broader context.
 
-Ask a more general question first, then use that context for the specific question.
 
 **Example 1:**
 ```
