@@ -363,6 +363,10 @@ Step-Back Prompting involves first asking a broader, foundational question to es
 ReAct ka matlab hai Reasoning + Acting — yaani AI ya agent pehle sochta hai (reasoning), phir koi action leta hai (tool use, search, calculation, etc.), phir dobara soch ke next step decide karta hai.
 * Combine reasoning with tool use or actions.
 
+ReAct means Reasoning + Acting, meaning the AI first thinks (reasoning) about how to solve the task, then takes an action (such as using a tool, doing a web search, or making a calculation), and after that, based on the observation, it thinks again and decides the next step. It’s an iterative process in which the AI combines reasoning and actions to solve complex problems step by step.
+
+ReAct ek prompting strategy hai jo reasoning (soch) aur actions (tools, searches) ko combine karta hai taake complex tasks step-by-step solve ho sakein. Yeh iterative cycle (Thought-Action-Observation) follow karta hai, jo accuracy aur reliability barhata hai, khas kar jab external data ya multi-step verification chahiye.
+
 **Example 1**
 ```bash
 I need to find out how many children the members of Metallica have in total.
