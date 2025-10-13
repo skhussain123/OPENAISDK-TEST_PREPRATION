@@ -249,8 +249,8 @@ Act as an experienced software architect. I need help designing a scalable web a
 - Communication styles (friendly tutor, formal advisor)
 
 ### 6. Contextual Prompting
-
 Provide specific background information relevant to the task.
+Contextual prompting is a method where you give an AI a task along with the necessary background information, data, or context so that the AI’s response is more accurate, specific, and aligned with your objective. It goes beyond just giving instructions; it includes external details, constraints, or scenarios that guide the AI’s answer. This is a part of context engineering, which focuses on providing relevant information so the AI can understand properly and respond correctly.
 
 **Example:**
 ```
@@ -285,8 +285,8 @@ Let me think through this step by step:
 - Extract final answers separately from reasoning
 
 ### Self-Consistency
-
 Generate multiple reasoning paths and select the most common answer.
+Self-consistency is a technique in which an AI generates answers for the same question or task using multiple different reasoning paths, and then selects the response that appears most frequently or is the most consistent. This method is especially used when there may be variability in the AI’s answers, or when you want a more reliable and accurate response. It reduces uncertainty and improves the quality of the output.
 
 **Process:**
 1. Ask the same question multiple times with different phrasings
