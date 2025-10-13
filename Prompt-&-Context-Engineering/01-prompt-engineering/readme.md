@@ -404,8 +404,9 @@ Explanation of Concept: ReAct (Reasoning + Acting) is a prompting strategy that 
 ---
 
 ### Tree of Thoughts (ToT)
-
-Explore multiple reasoning branches simultaneously for complex problems.
+* Explore multiple reasoning branches simultaneously for complex problems.
+<br>
+Tree of Thoughts (ToT) is an advanced prompting technique in which the AI explores multiple reasoning paths or branches—like a tree structure—to solve a complex problem. Each branch represents a different approach or idea, and the AI evaluates these branches to choose the best solution. This method is especially useful for complex, multi-step, or creative problems where a single linear approach is not sufficient.
 
 **When to use:**
 - Creative problem solving
