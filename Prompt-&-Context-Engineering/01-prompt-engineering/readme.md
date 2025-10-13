@@ -33,6 +33,22 @@ https://sloanreview.mit.edu/article/how-llms-work/
 * https://console.anthropic.com/
 
 
+## Table of Contents
+
+1. [What is Prompt Engineering?](#what-is-prompt-engineering)
+2. [Understanding Large Language Models](#understanding-large-language-models)
+3. [Essential Configuration Settings](#essential-configuration-settings)
+4. [Fundamental Prompting Techniques](#fundamental-prompting-techniques)
+5. [Advanced Prompting Strategies](#advanced-prompting-strategies)
+6. [Best Practices for Effective Prompts](#best-practices-for-effective-prompts)
+7. [Common Pitfalls and How to Avoid Them](#common-pitfalls-and-how-to-avoid-them)
+8. [Hands-On Examples](#hands-on-examples)
+9. [Testing and Iteration](#testing-and-iteration)
+10. [Resources and Next Steps](#resources-and-next-steps)
+11. [Mixture-of-Experts (MoE) and Prompt Engineering](#mixture-of-experts-moe-and-prompt-engineering)
+12. [The 6-Part Prompting Framework](https://github.com/skhussain123/OPENAISDK-TEST_PREPRATION/tree/main/Prompt-%26-Context-Engineering/02-six-part-prompting)
+
+
 ### Prompt Coach
 Here’s a reusable “Prompt Coach” prompt you can keep handy. You’ll paste this into ChatGPT (or any LLM), then just drop in your messy idea, and it will rewrite it into a polished, effective prompt for you:
 
@@ -526,10 +542,10 @@ Context: This is for a {industry} company with {company_size} employees
 - Document your successful prompts
 - Test variations to improve performance
 
+
 ## Common Pitfalls and How to Avoid Them
 
 ### 1. Ambiguous Instructions
-
 **Problem:** Vague requests lead to unpredictable outputs
 **Solution:** Be specific about what you want
 
