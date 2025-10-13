@@ -179,6 +179,7 @@ Classify this movie review as positive, negative, or neutral:
 ### 2. One-Shot Prompting
 
 Provide a single example to guide the response format.
+One-shot prompting is a method where you give the AI a task and provide just one example to help it understand. It’s different from zero-shot because zero-shot doesn’t include any example, and it’s different from few-shot because few-shot includes multiple examples. In one-shot prompting, you give only one example so the AI can understand the task better and respond in a similar way.
 
 **Example:**
 ```
@@ -192,8 +193,9 @@ French:
 ```
 
 ### 3. Few-Shot Prompting
-
 Provide multiple examples to establish a clear pattern.
+Few-shot prompting is a method where you give the AI a task along with multiple examples so it can clearly understand the style, tone, or format and respond in the same way. It’s different from zero-shot (no examples) and one-shot (one example) because in few-shot prompting, you provide two or more examples. This helps the AI better understand the pattern of the task.
+
 
 **Example:**
 ```
