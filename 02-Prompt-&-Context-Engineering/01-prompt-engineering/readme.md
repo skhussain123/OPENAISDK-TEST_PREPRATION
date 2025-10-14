@@ -549,7 +549,7 @@ Context: This is for a {industry} company with {company_size} employees
 **Problem:** Vague requests lead to unpredictable outputs<br>
 **Solution:** Be specific about what you want
 
-If your prompt is vague or unclear, the AI’s response can also become unpredictable or irrelevant. The AI doesn’t understand exactly what you want.Give specific details in the prompt so the AI gets a clear direction.
+If your prompt is vague or unclear, the AI’s response can also become unpredictable or irrelevant. The AI doesn’t understand exactly what you want. Give specific details in the prompt so the AI gets a clear direction.
 
 
 ### 2. Contradictory Instructions
@@ -557,20 +557,33 @@ If your prompt is vague or unclear, the AI’s response can also become unpredic
 **Problem:** Conflicting requirements confuse the model<br>
 **Solution:** Review prompts for internal consistency
 
+If a prompt contains conflicting requirements, the AI gets confused and the response can become inconsistent or incorrect. Review the prompt before writing it to ensure internal consistency.
+
+**Example:** ‘Write a professional email that is casual and funny.’ This is contradictory because a professional and a casual tone are difficult to combine at the same time.
+
 ### 3. Too Many Constraints
 
 **Problem:** Over-constraining limits model creativity<br>
 **Solution:** Focus on positive instructions rather than long lists of don'ts
+
+If a prompt has too many restrictions or ‘don’t do this’ type rules, the AI’s creativity or flexibility decreases, and the response may become boring or incomplete. Instead of focusing on constraints, focus on positive instructions—meaning tell the AI what to do, not what not to do.
+**Example:** ‘Write a story, but no magic, no aliens, no modern setting, and no sad ending.’ This puts too many limits on the AI.
+
 
 ### 4. Ignoring Token Limits
 
 **Problem:** Responses get cut off mid-sentence<br>
 **Solution:** Set appropriate limits and structure accordingly
 
+Every AI model has a token limit (a limit on words or characters), and if the prompt or output exceeds this limit, the response may be incomplete or cut off. Structure the prompt according to the token limit and control the output length.
+**Example:** If you request a 500-word essay but the model’s limit is 300 tokens, the essay may end in the middle
+
 ### 5. Not Testing Variations
 
 **Problem:** Assuming first attempt is optimal<br>
 **Solution:** Test different phrasings, examples, and approaches
+If you try only one prompt and assume it’s the best, you might not get the optimal output. Different phrasings or approaches can give better results. Test different prompt wordings, examples, or strategies to get the best outcome.
+**Example:** Just using ‘Write a story’ once, whereas different wording or examples could result in a more engaging story.
 
 ## Hands-On Examples
 
