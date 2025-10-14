@@ -546,9 +546,11 @@ Context: This is for a {industry} company with {company_size} employees
 ## Common Pitfalls and How to Avoid Them
 
 ### 1. Ambiguous Instructions
-**Problem:** Vague requests lead to unpredictable outputs
-<br>
+**Problem:** Vague requests lead to unpredictable outputs<br>
 **Solution:** Be specific about what you want
+
+If your prompt is vague or unclear, the AI’s response can also become unpredictable or irrelevant. The AI doesn’t understand exactly what you want.Give specific details in the prompt so the AI gets a clear direction.
+
 
 ### 2. Contradictory Instructions
 
