@@ -546,7 +546,8 @@ Context: This is for a {industry} company with {company_size} employees
 ## Common Pitfalls and How to Avoid Them
 
 ### 1. Ambiguous Instructions
-**Problem:** Vague requests lead to unpredictable outputs <br>
+**Problem:** Vague requests lead to unpredictable outputs
+<br>
 **Solution:** Be specific about what you want
 
 ### 2. Contradictory Instructions
