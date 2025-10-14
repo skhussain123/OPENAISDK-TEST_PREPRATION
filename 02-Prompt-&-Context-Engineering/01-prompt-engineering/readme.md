@@ -546,27 +546,27 @@ Context: This is for a {industry} company with {company_size} employees
 ## Common Pitfalls and How to Avoid Them
 
 ### 1. Ambiguous Instructions
-**Problem:** Vague requests lead to unpredictable outputs
+**Problem:** Vague requests lead to unpredictable outputs <br>
 **Solution:** Be specific about what you want
 
 ### 2. Contradictory Instructions
 
-**Problem:** Conflicting requirements confuse the model
+**Problem:** Conflicting requirements confuse the model<br>
 **Solution:** Review prompts for internal consistency
 
 ### 3. Too Many Constraints
 
-**Problem:** Over-constraining limits model creativity
+**Problem:** Over-constraining limits model creativity<br>
 **Solution:** Focus on positive instructions rather than long lists of don'ts
 
 ### 4. Ignoring Token Limits
 
-**Problem:** Responses get cut off mid-sentence
+**Problem:** Responses get cut off mid-sentence<br>
 **Solution:** Set appropriate limits and structure accordingly
 
 ### 5. Not Testing Variations
 
-**Problem:** Assuming first attempt is optimal
+**Problem:** Assuming first attempt is optimal<br>
 **Solution:** Test different phrasings, examples, and approaches
 
 ## Hands-On Examples
