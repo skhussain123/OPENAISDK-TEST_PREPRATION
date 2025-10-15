@@ -281,7 +281,7 @@ Write a 200-word explanation of what an API is, using simple language and practi
 
 ## Advanced Prompting Strategies
 
-### Chain of Thought (CoT) Prompting
+### 1. Chain of Thought (CoT) Prompting
 
 Encourage step-by-step reasoning for complex problems.
 
@@ -304,7 +304,7 @@ Let me think through this step by step:
 - Set temperature to 0 for consistent reasoning
 - Extract final answers separately from reasoning
 
-### Self-Consistency
+### 2. Self-Consistency
 * Generate multiple reasoning paths and select the most common answer.
 <br>
 Self-consistency is a technique in which an AI generates answers for the same question or task using multiple different reasoning paths, and then selects the response that appears most frequently or is the most consistent. This method is especially used when there may be variability in the AI’s answers, or when you want a more reliable and accurate response. It reduces uncertainty and improves the quality of the output.
@@ -332,7 +332,7 @@ Most common answer: $40
 **Explanation of Concept:**
 Self-Consistency involves generating multiple answers to the same question using varied reasoning approaches to ensure reliability. By comparing the results, you select the most frequent or consistent outcome, reducing the chance of errors from a single flawed reasoning path. This method leverages the model's ability to approach the problem from different angles, increasing confidence in the final answer when all paths converge, as seen here with the consistent result of $40.
 
-### Step-Back Prompting
+### 3. Step-Back Prompting
 * Ask a more general question first, then use that context for the specific question.
 <br>
 Step-back prompting is a technique where you first ask the AI a broad or general question so that the foundational knowledge or principles needed for the task become clear. Then, using that knowledge as context, you ask the specific question. This two-step process helps the AI give more structured, informed, and accurate responses, because it first understands the key aspects of the task through the broader context.
@@ -376,7 +376,7 @@ Step-Back Prompting involves first asking a broader, foundational question to es
 
 ---
 
-### ReAct (Reasoning + Acting)
+### 5. ReAct (Reasoning + Acting)
 ReAct ka matlab hai Reasoning + Acting — yaani AI ya agent pehle sochta hai (reasoning), phir koi action leta hai (tool use, search, calculation, etc.), phir dobara soch ke next step decide karta hai.
 * Combine reasoning with tool use or actions.
 
@@ -420,7 +420,7 @@ Explanation of Concept: ReAct (Reasoning + Acting) is a prompting strategy that 
 
 ---
 
-### Tree of Thoughts (ToT)
+### 6. Tree of Thoughts (ToT)
 * Explore multiple reasoning branches simultaneously for complex problems.
 <br>
 Tree of Thoughts (ToT) is an advanced prompting technique in which the AI explores multiple reasoning paths or branches—like a tree structure—to solve a complex problem. Each branch represents a different approach or idea, and the AI evaluates these branches to choose the best solution. This method is especially useful for complex, multi-step, or creative problems where a single linear approach is not sufficient.
