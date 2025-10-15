@@ -522,11 +522,27 @@ Examples are the most powerful way to communicate your expectations.
 ### 4. Structure Your Prompts
 
 Use clear formatting:
+**Example 1**
 ```
 Task: [What you want done]
 Context: [Background information]
 Format: [How you want the output structured]
 Example: [Sample of desired output]
+```
+
+**Example 2**
+```bash
+Task:
+Generate marketing ideas for an eco-friendly clothing brand.
+
+Context:
+The target audience is young adults aged 18–30. The budget is limited. The brand focuses on sustainability.
+
+Format:
+Provide the ideas in a list. Include a short explanation with each idea.
+
+Example:
+Idea 1: Instagram Reels Campaign — Influencers create short videos showcasing the clothing and highlighting its sustainability.
 ```
 
 ### 5. Use Instructions Over Constraints
