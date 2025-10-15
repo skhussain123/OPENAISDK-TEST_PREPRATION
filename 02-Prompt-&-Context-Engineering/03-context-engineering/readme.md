@@ -24,6 +24,10 @@ In simpler terms, you're strategically "packing" the context window (the input a
 ### Key Analogy
 As André Karpathy explains: **The LLM is the CPU, and the context window is the RAM**. Context engineering is about optimizing how you use that "RAM" space.
 
+Context engineering ek aisa process hai jisme kisi system, jaise ke AI ya software, ko is tarah design kiya jata hai ke wo specific situation ya context ke mutabiq behtar tareeke se kaam kare. Yani, system ko samajhaya jata hai ke wo data, user ke needs, ya environment ke hisaab se apne jawab ya output ko adjust kare.
+Masalan, agar aap ek AI se sawal karte hain, to context engineering ke zariye wo AI aapke sawal ke peechay ka background, aapki language, ya aapke intent ko samajh kar zyada munasib jawab deta hai. Isme prompts, data structuring, aur algorithms ka istemal hota hai taake system ke responses zyada accurate aur relevant hon.
+Roman Urdu mein yeh keh sakte hain ke context engineering AI ya software ko “samajhdaar” banane ka tareeka hai, jisse wo har situation ke mutabiq apna kaam behtar kare.
+
 ---
 
 ## Context Engineering vs Prompt Engineering
