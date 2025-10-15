@@ -438,7 +438,7 @@ Tree of Thoughts (ToT) is an advanced prompting technique in which the AI explor
 - Tasks requiring exploration of alternatives
 
 
-**Example:**
+**Example : 1**
 
 Question: What is the best marketing strategy for launching a new eco-friendly clothing brand targeting young adults?
 
@@ -473,6 +473,24 @@ Final Strategy: Launch with a TikTok influencer campaign showcasing eco-friendly
 **Explanation of Concept:**
 Tree of Thoughts (ToT) involves generating multiple reasoning branches to explore different solutions to a problem, evaluating each, and synthesizing the best ideas into a final answer. Each branch represents a distinct approach, which is explored, assessed for pros and cons, and scored. This method is ideal for complex, open-ended tasks like strategic planning, as it encourages creative exploration and systematic comparison, as shown in the marketing strategy example above.
 
+
+**Example 2**
+```bash
+Answer in Tree of Thoughts style. Create at least 3 reasoning branches to solve the problem. In each branch, include:
+
+Thought
+
+Pros
+
+Cons
+
+Score (out of 10)
+
+After evaluating the branches, select the best one (or a combination of them) and give the Final Answer at the end.
+
+Problem:
+I want to start a YouTube channel but I can’t decide which niche (topic) to focus on. Explore multiple options and suggest the best one.”**
+```
 
 ---
 
