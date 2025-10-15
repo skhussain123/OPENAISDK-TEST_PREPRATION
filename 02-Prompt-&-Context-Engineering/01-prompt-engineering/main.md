@@ -418,6 +418,12 @@ Final Answer: Tokyo's population is approximately 37.4 million, compared to New 
 ```
 Explanation of Concept: ReAct (Reasoning + Acting) is a prompting strategy that interleaves reasoning steps (Thoughts) with actions (tool calls or external queries) to solve complex problems iteratively. Each cycle includes a Thought (planning the next step), an Action (executing a tool or search), and an Observation (processing the result). This loop continues until the question is resolved, allowing the model to dynamically gather information and refine its approach. It's particularly useful for tasks requiring real-time data or multi-step verification, as demonstrated by sequentially fetching and comparing population data.
 
+**Example 3**
+```bash
+"Aap ReAct style me jawab dein. Jab koi problem mile, pehle 'Thought' likhein (aap kya soch rahe hain), phir agar koi kaam karna ho to 'Action' likhein (jaise search karna), phir 'Observation' likhein (jo result mila), aur end me 'Final Answer' dein.
+Question: Pakistan ka national animal kaunsa hai?"
+```
+
 ---
 
 ### 6. Tree of Thoughts (ToT)
