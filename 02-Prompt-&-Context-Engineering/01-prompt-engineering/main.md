@@ -561,12 +561,30 @@ Write an email but don't make it too long or too informal or too detailed.
 ### 6. Control Output Format
 
 Specify exactly how you want the response structured:
+
+**Example 1**
 ```
 Return your answer as a JSON object with the following structure:
 {
   "main_idea": "string",
   "supporting_points": ["string", "string"],
   "confidence_level": "high/medium/low"
+}
+```
+**Example 2**
+```bash
+Prompt:
+Generate marketing ideas for an eco-friendly clothing brand.
+
+Return your answer as a JSON object with the following structure:
+
+{
+  "main_idea": "Launch a social media campaign showcasing the brand’s sustainable production process and eco-friendly materials.",
+  "supporting_points": [
+    "Share behind-the-scenes short videos or reels of recycling, ethical sourcing, and low-waste packaging.",
+    "Collaborate with micro-influencers who promote sustainable living to amplify reach on a limited budget."
+  ],
+  "confidence_level": "high"
 }
 ```
 
