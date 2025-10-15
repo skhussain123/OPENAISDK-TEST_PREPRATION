@@ -590,10 +590,22 @@ Return your answer as a JSON object with the following structure:
 
 ### 7. Use Variables for Reusability
 
+**Example 1**
 ```
 Role: You are a {expertise} expert
 Task: Analyze the {document_type} and provide recommendations for {target_audience}
 Context: This is for a {industry} company with {company_size} employees
+```
+
+**Example 2**
+```bash
+Prompt:
+“Convert the following details into JSON format:
+Name: Hussain
+Father: Faheem
+Age: 22
+Output format:
+{"Name": "{name}", "Father": "{father}", "Age": "{age}"}”
 ```
 
 ### 8. Iterate and Document
