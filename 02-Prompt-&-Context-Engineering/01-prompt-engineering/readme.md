@@ -1,6 +1,6 @@
 
 
-<img src="image.png" style="width:300px">
+<img src="image.png" style="width:350px">
 
 
 * With 46.59B visits, ChatGPT accounts for more than 83% of total traffic among the top 10 chatbots.
