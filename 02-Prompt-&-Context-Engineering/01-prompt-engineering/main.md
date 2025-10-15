@@ -546,7 +546,8 @@ Idea 1: Instagram Reels Campaign — Influencers create short videos showcasing 
 ```
 
 ### 5. Use Instructions Over Constraints
-
+* Directly tell the AI what to do.
+* Replace negative constraints with positive instructions.
 **Better:**
 ```
 Write a professional email summarizing the key points from our meeting.
