@@ -420,8 +420,38 @@ Explanation of Concept: ReAct (Reasoning + Acting) is a prompting strategy that 
 
 **Example 3**
 ```bash
-if a book cost 200 pkr and i get 10% discount, how should we write a ReAct prompt to colve it 
-step by step
+if a book cost 200 pkr and i get 10% discount, how should we write a ReAct prompt to solve it 
+step by step?
+
+---
+**ReAct Prompt**
+You are tasked with solving the following problem using the ReAct (Reasoning and Acting) framework. The problem is: A book costs 200 PKR, and you get a 10% discount. What is the final price after the discount?
+
+Follow these steps:
+1. **Observation**: Restate the problem in your own words to confirm understanding.
+2. **Reasoning**: Explain the logical steps needed to solve the problem. Break it down into clear, sequential steps.
+3. **Action**: Perform the necessary calculations or actions based on your reasoning. Show all work clearly.
+4. **Evaluation**: Verify your calculations or reasoning to ensure correctness. If needed, consider alternative methods to confirm the result.
+5. **Final Answer**: Provide the final answer in a clear, concise format.
+
+Use the following format for your response:
+
+[Observation]
+[Your observation here]
+
+[Reasoning]
+[Your reasoning here]
+
+[Action]
+[Your calculations or actions here]
+
+[Evaluation]
+[Your evaluation here]
+
+[Final Answer]
+[Your final answer here]
+
+
 ```
 
 ---
