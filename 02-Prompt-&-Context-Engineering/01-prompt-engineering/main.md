@@ -420,8 +420,8 @@ Explanation of Concept: ReAct (Reasoning + Acting) is a prompting strategy that 
 
 **Example 3**
 ```bash
-"Aap ReAct style me jawab dein. Jab koi problem mile, pehle 'Thought' likhein (aap kya soch rahe hain), phir agar koi kaam karna ho to 'Action' likhein (jaise search karna), phir 'Observation' likhein (jo result mila), aur end me 'Final Answer' dein.
-Question: Pakistan ka national animal kaunsa hai?"
+if a book cost 200 pkr and i get 10% discount, how should we write a ReAct prompt to colve it 
+step by step
 ```
 
 ---
