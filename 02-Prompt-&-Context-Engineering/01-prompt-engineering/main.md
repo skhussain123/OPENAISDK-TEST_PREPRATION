@@ -424,6 +424,7 @@ if a book cost 200 pkr and i get 10% discount, how should we write a ReAct promp
 step by step?
 
 ---
+
 **ReAct Prompt**
 You are tasked with solving the following problem using the ReAct (Reasoning and Acting) framework. The problem is: A book costs 200 PKR, and you get a 10% discount. What is the final price after the discount?
 
