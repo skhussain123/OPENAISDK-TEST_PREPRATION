@@ -34,15 +34,81 @@ Roman Urdu mein yeh keh sakte hain ke context engineering AI ya software ko “s
 
 ### Prompt Engineering
 Prompt Engineering wo technique hai jisme hum AI (jaise ChatGPT) ko aisa sawal, instruction ya format dete hain ke wo behtareen aur relevant jawab de.
+<br>
 
 ![alt text](prompt-engineering.PNG)
 
+<br>
 
 ### Context Engineering
+Context Engineering ka matlab hai AI ko sahi background information, examples, format, ya rules dena taa-ke woh behtareen jawab produce kare.
+<br>
 
 ![alt text](context-engineering.PNG)
 
+<br>
 
+* Aap ne jo niche <Context> wala AI agent ka structure diya tha — woh context engineering hai.
+```bash
+<Context>
+An AI assistant specialized in managing emails. It can draft professional emails using the Gmail tool. It 
+follows professional etiquette and organizational compliance when handling email data.
+
+model: gpt-5
+tools:
+ - name: gmail
+ - functions:
+    - draft_email
+
+knowledge:
+- email etiquette rules
+- organizational communication standards
+- drafting templates for professional replies
+- summarization guidelines (short, precise, neutral)
+
+memory:
+- user preferences (tone: formal / neutral / friendly)
+- frequently contacted people
+- recent important conversations
+- flagged or high-priority threads
+
+guardrails:
+- never send emails directly
+- only read or summarize when user requests
+- redact personal / sensitive info in summaries
+- avoid hallucinating facts not present in emails
+
+orchestration:
+input_format:
+- Task: user query (e.g., "summarize latest emails for Sir Hussain")
+- Context: last 5 important emails, conversation history
+- output expectation, structure: JSON
+
+output_format:
+- type: markdown or JSON
+- action: draft
+- escalation: if unsure, ask clarifying questions
+
+example:
+- user_request: "Draft a polite follow-up to HR for timesheet approval"
+- action: generate draft text
+- output: markdown-formatted draft for user review
+</Context>
+
+<User_Input>
+Please delete the last email that you sent to Sir Hussain
+</User_Input>
+```
+
+### Prompt Engineering  vs Context Engineering in With Table
+| Topic   | Prompt Engineering        | Context Engineering                         |
+| ------- | ------------------------- | ------------------------------------------- |
+| Focus   | Single instruction        | Overall setup & info                        |
+| Scope   | Short & direct            | Detailed + structured                       |
+| Goal    | Sahi jawab hasil karna    | AI ka behavior control karna                |
+| Example | “Draft a follow-up email” | Agent ka pura context, tools, rules, format |
+
+---
 ## Context Engineering vs Prompt Engineering
 
 ### Prompt Engineering
