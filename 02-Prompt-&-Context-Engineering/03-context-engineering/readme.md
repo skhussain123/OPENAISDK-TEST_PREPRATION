@@ -32,11 +32,15 @@ Roman Urdu mein yeh keh sakte hain ke context engineering AI ya software ko “s
 
 ## Context Engineering vs Prompt Engineering Understant with diagram
 
-#### Prompt Engineering
+### Prompt Engineering
 Prompt Engineering wo technique hai jisme hum AI (jaise ChatGPT) ko aisa sawal, instruction ya format dete hain ke wo behtareen aur relevant jawab de.
 
 ![alt text](prompt-engineering.PNG)
 
+
+### Context Engineering
+
+![alt text](context-engineering.PNG)
 
 
 ## Context Engineering vs Prompt Engineering
