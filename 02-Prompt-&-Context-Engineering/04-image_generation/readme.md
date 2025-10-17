@@ -57,11 +57,11 @@ Mood & Style: modern, minimalistic, premium personal-branding aesthetic, sharp c
 
 Original Image:
 
-![](original.jpeg)
+![alt text](image.png)
 
 Generated:
 
-![](./g1.png)
+![alt text](image-1.png)
 
 ✅ **What Worked Here**
 
@@ -110,9 +110,10 @@ create moody black and white portrait of a man, hand resting near mouth, deep ga
 
 Generated:
 
-![](./g2.jpeg)
+![alt text](image-2.png)
 
-![](./g2b.png)
+
+![alt text](image-3.png)
 
 ✅ **What Worked Here**
 
@@ -134,8 +135,8 @@ Professional corporate headshot of a confident middle-aged man, wearing a tailor
 
 Generated:
 
-![](./g3.png)
 
+![alt text](image-4.png)
 
 ✅ **Why This Works:**
 It creates a clean, realistic image suitable for resumes, LinkedIn, or official documents.
@@ -155,7 +156,7 @@ Full-body futuristic portrait of the uploaded subject, standing in a sleek cyber
 
 Generated:
 
-![](./g4.png)
+![alt text](image-5.png)
 
 ---
 
@@ -171,8 +172,8 @@ Editorial fashion portrait of a man sitting on a modern chair, dressed in a shar
 
 Generated:
 
-![](./g5.png)
 
+![alt text](image-6.png)
 ---
 
 ## 🔹 Example 6: Abstract Creative Variant
@@ -187,8 +188,8 @@ Digital abstract vector art of the uploaded subject, face geometrically stylized
 
 Generated:
 
-![](./g6.png)
 
+![alt text](image-7.png)
 ---
 
 # 📝 Best Practices for Prompt Engineering in Nano Banana
