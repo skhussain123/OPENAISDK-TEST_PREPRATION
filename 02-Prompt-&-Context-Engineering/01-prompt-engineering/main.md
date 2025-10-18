@@ -777,7 +777,7 @@ Please include:
 ```
 
 ---
-## Testing and Iteration
+# 6. Testing and Iteration
 
 ### 1. Create a Testing Framework
 
@@ -823,7 +823,7 @@ Consider:
 - **Creativity** (when desired): Novel and interesting responses
 - **Factual accuracy**: Correctness of information
 
-## Advanced Tips for 2025
+# 7. Advanced Tips for 2025
 
 ### 1. Leverage Structured Outputs
 
@@ -866,7 +866,7 @@ Step 2: Create an outline based on research
 Step 3: Write the full content based on outline
 ```
 
-## Resources and Next Steps
+# 8. Resources and Next Steps
 
 ### Tools and Platforms
 - **OpenAI Playground**: Test prompts with GPT models
