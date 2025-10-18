@@ -881,4 +881,241 @@ Prompts ke outputs ko evaluate karne ke liye specific metrics use hote hain:
 ---
 
 ## 6
+# Advanced Techniques and Tips for Prompt Engineering (Roman Urdu with Examples)
+
+## 1. Context Management in Long Conversations
+
+**Explanation (Roman Urdu):**  
+Lambi conversations mein context management zaroori hai taake LLM relevant aur consistent jawab de sake. Yeh do tareekon se hota hai:  
+- **Summarize Past:** Pichle conversation ka summary provide karo taake context rot (jab LLM purana context bhool jata hai) se bacha ja sake aur token usage optimized rahe.  
+- **Break Tasks:** Complex tasks ko chhote, manageable steps mein toro taake har step clear ho aur LLM overwhelm na ho.
+
+**Example:**  
+- **Prompt:**  
+  ```
+  Pichli conversation: User ne AI ke medical benefits pe discussion ki aur diagnostics pe focus kiya.
+  Naya Task: AI ke surgical applications ka 100-word summary likho, pichle context ke basis pe.
+  ```  
+- **Output:**  
+  ```
+  Pichle context ke mutabiq, AI diagnostics mein revolutionary hai. Surgical applications mein, AI robotic surgeries ko enhance karta hai, jaise da Vinci system, jo precision barhata hai. AI real-time imaging aur predictive analytics se surgeons ko guide karta hai, complications kam karta hai. (100 words)
+  ```  
+- **Explanation:** Summary pichle context ko compact karta hai, aur task chhota rakha gaya hai.
+
+**Study Tip:** Conversation history ko summarize karne ke prompts banaye aur test karo on Grok ya ChatGPT, token limits ke saath.
+
+---
+
+## 2. Prompt Chaining (Sequential Steps)
+
+**Explanation (Roman Urdu):**  
+Prompt chaining mein complex tasks ko sequential steps mein tor kar har step ke liye alag prompt diya jata hai. Yeh LLM ko step-by-step guide karta hai, accuracy aur clarity barhata hai. Har step ka output agle step ka input ban sakta hai.
+
+**Example:**  
+- **Prompt Chain:**  
+  1. **Step 1:** “Customer feedback se key themes extract karo.”  
+     - **Output:** Themes: “fast design, slow performance.”  
+  2. **Step 2:** “In themes ke basis pe recommendations likho JSON format mein.”  
+     - **Output:**  
+       ```json
+       {
+         "recommendations": [
+           {"theme": "fast design", "action": "Maintain design quality"},
+           {"theme": "slow performance", "action": "Optimize app speed"}
+         ]
+       }
+       ```  
+- **Explanation:** Har step specific hai, aur Step 1 ka output Step 2 ke liye input bana.
+
+**Study Tip:** Complex tasks (jaise analysis ya planning) ke liye 2–3 step chains banaye aur test karo on [platform.openai.com](https://platform.openai.com/).
+
+---
+
+## 3. Structured Outputs (JSON for Analysis)
+
+**Explanation (Roman Urdu):**  
+Structured outputs, jaise JSON ya tables, data ko organized aur machine-readable banate hain, jo analysis ya integration ke liye ideal hai. Prompt mein clear format specify karna zaroori hai taake LLM desired structure de.
+
+**Example:**  
+- **Prompt:** “Customer reviews analyze karo aur positive/negative sentiments JSON format mein summarize karo.”  
+- **Output:**  
+  ```json
+  {
+    "positive": ["user-friendly interface", "great support"],
+    "negative": ["slow loading", "frequent crashes"]
+  }
+  ```  
+- **Explanation:** JSON format se data clear aur reusable hai, analysis ke liye perfect.
+
+**Study Tip:** JSON aur table formats ke prompts test karo on [console.anthropic.com](https://console.anthropic.com/) aur output structure check karo.
+
+---
+
+## 4. Multi-Modal Prompting (Explicit About Image Details)
+
+**Explanation (Roman Urdu):**  
+Multi-modal prompting mein text aur images dono ke liye prompts banaye jate hain, aur image details (jaise subject, lighting, style) ko explicitly specify karna zaroori hai. Yeh models jaise Gemini (jo multi-modal support karta hai) ke liye useful hai. Clear instructions se image outputs accurate hote hain.
+
+**Example:**  
+- **Prompt:** “Ek portrait generate karo: subject ek young woman hai, 85mm lens, f/1.4 aperture, soft natural lighting, corporate style, office background.”  
+- **Output (Description):** “Ek young woman ka portrait, sharp focus ke saath, shallow depth of field (f/1.4), soft lighting, aur professional office background mein.”  
+- **Explanation:** Specific details (lens, aperture, style) ensure realistic aur relevant image.
+
+**Study Tip:** Multi-modal prompts ke liye Gemini pe [aistudio.google.com](https://aistudio.google.com/) use karo aur photography terms (jaise 85mm, f/1.4) add karo.
+
+---
+
+## Practice Questions for Exam Prep (Roman Urdu)
+
+1. **Context management mein summary kyun zaroori hai?**  
+   - **Jawab:** Context rot se bachata hai aur token usage optimize karta hai.  
+   - **Example:** Pichle discussion ka summary surgical AI prompt ke liye diya.
+
+2. **Prompt chaining ka faida kya hai?**  
+   - **Jawab:** Complex tasks ko chhote steps mein tor kar clarity barhata hai.  
+   - **Example:** Feedback themes extract karo, phir JSON recommendations do.
+
+3. **Structured outputs kyun use hote hain?**  
+   - **Jawab:** Data ko organized aur reusable banate hain.  
+   - **Example:** JSON mein sentiments summarize karna analysis ke liye asaan hai.
+
+4. **Multi-modal prompting mein kya zaroori hai?**  
+   - **Jawab:** Image details explicitly specify karna.  
+   - **Example:** 85mm lens, f/1.4, corporate style portrait.
+
+5. **Context rot se kaise bacha ja sakta hai?**  
+   - **Jawab:** Conversation history summarize karke aur tasks break karke.  
+   - **Example:** Pichle medical AI discussion ka summary surgical task ke liye.
+
+**Study Tips (Roman Urdu):**  
+- **Practice:** Lambi conversations ke liye summarized context prompts banaye aur test karo on Grok ya ChatGPT.  
+- **Memorize:** Prompt chaining, structured outputs, aur multi-modal prompting ke key elements yaad karo.  
+- **Examples:** Syllabus ke complex tasks ko chain prompts mein convert karo aur JSON outputs test karo.  
+- **Tools:** Gemini pe multi-modal prompts try karo aur Grok ke Thinking Mode se context management test karo.
+
+---
+## 7
+# Mixture-of-Experts (MoE) & Prompting (Roman Urdu with Examples)
+
+## 1. MoE Architecture: Gating Network and Sparse Activation
+
+**Explanation (Roman Urdu):**  
+Mixture-of-Experts (MoE) ek architecture hai jisme ek **gating network** ya router input ko analyze karta hai aur usay relevant **experts** (sub-networks) ke paas bhejta hai jo specific tasks ke liye trained hote hain. **Sparse activation** ka matlab hai ke har input ke liye sirf kuch experts activate hote hain, baki idle rehte hain, jo efficiency aur scalability barhata hai. Yeh traditional dense models (jaise Claude) se different hai, jahan poora model har input ke liye activate hota hai.
+
+**Example:**  
+- **Scenario:** Ek MoE model (jaise speculated GPT-5) ek math question aur ek creative writing task ko handle karta hai.  
+  - **Input:** “Solve 2x + 4 = 10.”  
+  - **Gating Network:** Math expert ko select karta hai.  
+  - **Output:** “x = 3” (math expert se).  
+  - **Input:** “Ek sci-fi story likho.”  
+  - **Gating Network:** Creative writing expert ko select karta hai.  
+  - **Output:** “Ek alien civilization ne Earth pe contact kiya…”  
+- **Explanation:** Sparse activation se sirf relevant expert kaam karta hai, jo resources bachta hai.
+
+**Study Tip:** MoE ke gating aur sparse activation ke concept ko diagram ke saath samjho aur Grok ya Gemini pe test karo.
+
+---
+
+## 2. Impact on Prompting
+
+**Explanation (Roman Urdu):**  
+MoE models mein prompting ke liye specific strategies zaroori hain taake gating network sahi expert ko select kare:  
+- **Domain-Specific Signals Upfront:** Prompt ke shuru mein domain clear karo (jaise “math problem” ya “creative writing”) taake router sahi expert ko activate kare.  
+- **Separate Mixed Tasks:** Agar ek prompt mein multiple domains hain (jaise math + writing), toh tasks alag karo taake expert oscillation (ghalat expert selection) na ho.  
+- **Front-Load Cues:** Domain-specific keywords ya context pehle do taake router ke liye decision asaan ho.  
+- **Reduce Temperature for Consistency:** Low temperature (0–0.3) use karo taake routing stable rahe aur output predictable ho.
+
+**Example:**  
+- **Prompt (Good):** “Math problem: Solve 3x + 5 = 14 step by step. Use temperature=0.”  
+  - **Output:**  
+    ```
+    Step 1: 3x + 5 = 14
+    Step 2: Subtract 5: 3x = 9
+    Step 3: Divide by 3: x = 3
+    ```  
+  - **Explanation:** “Math problem” keyword aur low temperature math expert ko stably activate karta hai.  
+- **Prompt (Bad):** “Solve 3x + 5 = 14 aur ek story likho.”  
+  - **Output:** Mixed, inconsistent response kyunki router confuse ho sakta hai.  
+  - **Solution:** Tasks alag karo: “Pehle math solve karo, phir story likho.”  
+
+**Study Tip:** Domain-specific prompts banaye aur low temperature ke saath test karo on ChatGPT ya Gemini.
+
+---
+
+## 3. Benefits and Drawbacks of MoE
+
+**Explanation (Roman Urdu):**  
+- **Benefits:**  
+  - **Efficiency:** Sparse activation se sirf kuch experts kaam karte hain, jo computational resources bachta hai.  
+  - **Specialization:** Har expert ek specific domain mein expert hota hai, jo accuracy barhata hai.  
+  - **Scalability:** MoE models bade datasets aur tasks ke liye scale kar sakte hain.  
+- **Drawbacks:**  
+  - **Routing Instability:** Gating network galat expert select kar sakta hai agar prompt vague ho.  
+  - **Memory Overhead:** Multiple experts ke wajah se memory usage ziada ho sakta hai.
+
+**Example:**  
+- **Benefit Example:**  
+  - **Prompt:** “Medical diagnosis ke liye AI ka use summarize karo.”  
+  - **Output:** “AI diagnostics mein imaging aur predictive analytics improve karta hai…”  
+  - **Explanation:** Medical expert activate hota hai, efficient aur accurate output.  
+- **Drawback Example:**  
+  - **Prompt:** “AI ke baare mein likho.”  
+  - **Output:** Confused response kyunki router multiple experts ke beech oscillate karta hai.  
+  - **Explanation:** Vague prompt se routing instability hoti hai.
+
+**Study Tip:** Benefits (efficiency, specialization) aur drawbacks (routing instability, memory) ke examples yaad karo aur test karo.
+
+---
+
+## 4. Expert-Aware Prompting: Explicit Language/Style, Avoid Vagueness
+
+**Explanation (Roman Urdu):**  
+Expert-aware prompting mein prompts ko aise design kiya jata hai ke woh MoE ke experts ko clearly target karein:  
+- **Explicit Language/Style:** Domain-specific keywords aur style (jaise “formal,” “technical”) use karo.  
+- **Avoid Vagueness:** Vague prompts (jaise “kuch likho”) router ko confuse karte hain, jo galat expert select karta hai.  
+- Yeh ensure karta hai ke gating network sahi expert ko activate kare.
+
+**Example:**  
+- **Prompt (Explicit):** “Technical report: AI ke cybersecurity applications ko 200 words mein summarize karo, formal tone mein.”  
+  - **Output:** “AI cybersecurity mein intrusion detection aur malware analysis ko enhance karta hai…”  
+  - **Explanation:** “Technical report” aur “cybersecurity” keywords cybersecurity expert ko activate karte hain.  
+- **Prompt (Vague):** “AI ke applications bataye.”  
+  - **Output:** Random, mixed response kyunki router domain nahi samajhta.  
+
+**Study Tip:** Explicit aur vague prompts ke differences test karo on Grok ya [aistudio.google.com](https://aistudio.google.com/).
+
+---
+
+## Practice Questions for Exam Prep (Roman Urdu)
+
+1. **MoE architecture mein gating network ka kya kaam hai?**  
+   - **Jawab:** Input ko relevant experts ke paas route karta hai.  
+   - **Example:** Math question ko math expert ke paas bhejta hai.
+
+2. **Sparse activation ka faida kya hai?**  
+   - **Jawab:** Sirf kuch experts activate hote hain, jo efficiency barhata hai.  
+   - **Example:** Creative writing ke liye sirf writing expert kaam karta hai.
+
+3. **MoE prompting mein domain-specific signals kyun zaroori hain?**  
+   - **Jawab:** Sahi expert ko activate karte hain.  
+   - **Example:** “Math problem” keyword math expert ko select karta hai.
+
+4. **Routing instability ka kya nuksan hai?**  
+   - **Jawab:** Galat expert select hone se inconsistent output milta hai.  
+   - **Example:** Vague prompt “AI ke baare mein likho” se mixed response.
+
+5. **Expert-aware prompting mein kya avoid karna chahiye?**  
+   - **Jawab:** Vague language jo router ko confuse kare.  
+   - **Example:** “Technical report” clear hai, “kuch likho” vague hai.
+
+**Study Tips (Roman Urdu):**  
+- **Practice:** Domain-specific prompts banaye aur low temperature ke saath test karo on Grok ya ChatGPT.  
+- **Memorize:** MoE ke benefits (efficiency, specialization) aur drawbacks (routing instability, memory overhead) yaad karo.  
+- **Examples:** Syllabus ke MoE prompts (jaise math ya writing tasks) ko explicit banaye aur test karo.  
+- **Tools:** Grok ke Thinking Mode use karo taake expert routing ke effects samajh aayein, aur Gemini pe domain-specific prompts try karo.
+
+---
+
+## 8
+
 
