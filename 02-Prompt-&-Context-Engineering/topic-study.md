@@ -767,3 +767,118 @@ Ziada details ya unrealistic deadlines (jaise “10 minutes mein 5000 words likh
 - **Examples:** Syllabus ke weak prompts ko strong mein convert karo aur test karo.  
 - **Tools:** Grok ke Thinking Mode ya ChatGPT pe structured formats (JSON, tables) try karo.
 
+---
+
+## 5
+# Testing and Evaluation Frameworks for Prompt Engineering (Roman Urdu with Examples)
+
+## 1. Record Prompt Versions/Goals/Settings/Quality Notes
+
+**Explanation (Roman Urdu):**  
+Prompt engineering mein testing ke liye har prompt version, uska goal, settings (jaise temperature, top-K, top-P), aur quality notes (jaise output kaisa tha) record karna zaroori hai. Yeh systematic tracking se prompts ko improve kiya ja sakta hai aur best version select ho sakta hai. Records mein prompt ka text, task ka maqsad, configuration settings, aur output quality ka analysis shamil hona chahiye.
+
+**Example:**  
+- **Prompt Version 1:**  
+  - **Prompt:** “Customer feedback analyze karo aur positive/negative themes summarize karo.”  
+  - **Goal:** Sentiment analysis aur summary in bullet points.  
+  - **Settings:** Temperature=0.3, Top-P=0.9, Token Limit=200.  
+  - **Quality Notes:** Output clear, lekin kuch negative themes miss hue.  
+- **Prompt Version 2:**  
+  - **Prompt:** “Customer feedback analyze karo, positive aur negative themes JSON format mein summarize karo.”  
+  - **Goal:** Structured JSON output with all themes.  
+  - **Settings:** Temperature=0.2, Top-P=0.9, Token Limit=300.  
+  - **Quality Notes:** JSON format accurate, all themes captured, better than Version 1.  
+- **Output (Version 2):**  
+  ```json
+  {
+    "positive": ["user-friendly design", "fast response"],
+    "negative": ["slow loading", "bugs"]
+  }
+  ```
+
+**Study Tip:** Ek spreadsheet banaye jisme har prompt version, goal, settings, aur quality notes record karo. Grok ya ChatGPT pe test karke notes compare karo.
+
+---
+
+## 2. A/B Testing (Compare Versions)
+
+**Explanation (Roman Urdu):**  
+A/B testing mein do ya ziada prompt versions ko compare kiya jata hai taake pata chale kaunsa better output deta hai. Har version mein chhoti changes (jaise wording, format, ya settings) karke results ka comparison hota hai. Yeh best prompt design identify karne ke liye useful hai.
+
+**Example:**  
+- **Prompt A:** “Ek blog post likho AI ke medical benefits pe, 200 words mein.”  
+  - **Settings:** Temperature=0.7, Top-P=0.95, Token Limit=300.  
+  - **Output:** Engaging lekin thodi details miss hui.  
+- **Prompt B:** “Ek blog post likho AI ke medical benefits pe, 200 words mein, formal tone aur bullet points ke saath.”  
+  - **Settings:** Temperature=0.4, Top-P=0.9, Token Limit=300.  
+  - **Output:** Structured, detailed, aur formal; better than A.  
+- **Comparison:** Prompt B ne format aur tone ke wajah se better performance diya.
+
+**Study Tip:** A/B testing ke liye do prompts banaye (ek vague, ek specific) aur [platform.openai.com](https://platform.openai.com/) ya [aistudio.google.com](https://aistudio.google.com/) pe outputs compare karo.
+
+---
+
+## 3. Metrics for Evaluation
+
+**Explanation (Roman Urdu):**  
+Prompts ke outputs ko evaluate karne ke liye specific metrics use hote hain:  
+- **Accuracy:** Output kitna factually correct hai.  
+- **Relevance:** Output user ke intent se kitna match karta hai.  
+- **Completeness:** Output mein saari required information shamil hai ya nahi.  
+- **Style:** Tone aur style prompt ke mutabiq hain (jaise formal, creative).  
+- **Format:** Output desired format (jaise JSON, bullet points) mein hai.  
+- **Consistency Across Runs:** Har baar same prompt se similar output milta hai ya nahi.
+
+**Example:**  
+- **Prompt:** “Customer reviews analyze karo aur JSON format mein positive/negative sentiments summarize karo.”  
+- **Output:**  
+  ```json
+  {
+    "positive": ["great design", "easy to use"],
+    "negative": ["slow speed"]
+  }
+  ```  
+- **Evaluation:**  
+  - **Accuracy:** 100% (all sentiments factually correct).  
+  - **Relevance:** 90% (mostly relevant, lekin minor details miss hue).  
+  - **Completeness:** 85% (kuch minor negative themes miss hue).  
+  - **Style:** Formal, as requested (100%).  
+  - **Format:** JSON, as requested (100%).  
+  - **Consistency:** 3 runs mein same output (100%).  
+
+**Study Tip:** Har metric ke liye checklist banaye aur outputs ko evaluate karo on Grok ya Claude.
+
+---
+
+## Practice Questions for Exam Prep (Roman Urdu)
+
+1. **Prompt versions record karna kyun zaroori hai?**  
+   - **Jawab:** Tracking se prompt improvement aur best version selection asaan hota hai.  
+   - **Example:** Version 1 (vague) vs. Version 2 (JSON) mein quality notes se improvement dikha.
+
+2. **A/B testing ka maqsad kya hai?**  
+   - **Jawab:** Do prompt versions compare karna taake better output wala select ho.  
+   - **Example:** Prompt A (vague) vs. Prompt B (structured) mein B better tha.
+
+3. **Accuracy metric kya measure karta hai?**  
+   - **Jawab:** Output ki factual correctness.  
+   - **Example:** JSON output mein sentiments factually correct the.
+
+4. **Relevance kaise check karte hain?**  
+   - **Jawab:** Output user intent se match karta hai ya nahi.  
+   - **Example:** Customer feedback ka summary prompt ke mutabiq tha.
+
+5. **Consistency across runs kyun zaroori hai?**  
+   - **Jawab:** Har baar same prompt se similar output ensure karta hai reliability.  
+   - **Example:** 3 runs mein same JSON output mila.
+
+**Study Tips (Roman Urdu):**  
+- **Practice:** Har prompt ke 2–3 versions banaye aur A/B testing karo on grok.com ya [console.anthropic.com](https://console.anthropic.com/).  
+- **Memorize:** Metrics (accuracy, relevance, completeness, style, format, consistency) yaad karo aur unka use evaluate karne mein karo.  
+- **Examples:** Syllabus ke prompts ko analyze karo aur metrics ke hisaab se score do.  
+- **Tools:** Grok ke Thinking Mode ya ChatGPT pe multiple runs karke consistency check karo.
+
+---
+
+## 6
+
