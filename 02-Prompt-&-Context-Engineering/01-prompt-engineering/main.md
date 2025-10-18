@@ -829,7 +829,7 @@ Consider:
 
 Use JSON, XML, or other structured formats for complex data:
 ```
-Return analysis as JSON:
+Customer feedback analyze karo aur results JSON format mein return karo:
 {
   "summary": "brief overview",
   "key_insights": ["insight1", "insight2"],
@@ -838,6 +838,26 @@ Return analysis as JSON:
       "action": "specific action",
       "priority": "high/medium/low",
       "timeline": "timeframe"
+    }
+  ]
+}
+```
+
+**OUTPUT**
+```bash
+{
+  "summary": "App ke feedback mein design ki tareef aur speed issues report hue",
+  "key_insights": ["user-friendly interface", "slow loading times"],
+  "recommendations": [
+    {
+      "action": "Optimize app speed",
+      "priority": "high",
+      "timeline": "1 month"
+    },
+    {
+      "action": "Maintain design quality",
+      "priority": "medium",
+      "timeline": "3 months"
     }
   ]
 }
