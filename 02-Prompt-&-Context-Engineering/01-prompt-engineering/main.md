@@ -657,7 +657,7 @@ Output format:
 If your prompt is vague or unclear, the AI’s response can also become unpredictable or irrelevant. The AI doesn’t understand exactly what you want. Give specific details in the prompt so the AI gets a clear direction.
 
 
-### 2. Contradictory Instructions
+### 2. Contradictory(Jinko ek sath follow karna mumkin na ho) Instructions
 
 **Problem:** Conflicting requirements confuse the model<br>
 **Solution:** Review prompts for internal consistency
