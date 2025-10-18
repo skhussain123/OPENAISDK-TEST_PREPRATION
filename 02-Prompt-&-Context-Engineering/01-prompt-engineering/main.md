@@ -306,6 +306,7 @@ Let me think through this step by step:
 
 ### 2. Self-Consistency
 * Generate multiple reasoning paths and select the most common answer.
+* You solve the same question using different reasoning approaches (linear, one-by-one). Then you compare the answers and pick the one that appears most often.
 <br>
 Self-consistency is a technique in which an AI generates answers for the same question or task using multiple different reasoning paths, and then selects the response that appears most frequently or is the most consistent. This method is especially used when there may be variability in the AI’s answers, or when you want a more reliable and accurate response. It reduces uncertainty and improves the quality of the output.
 
@@ -459,6 +460,7 @@ Use the following format for your response:
 
 ### 5. Tree of Thoughts (ToT)
 * Explore multiple reasoning branches simultaneously for complex problems.
+* Instead of straight lines, you explore branches like a decision tree. Each step can lead to multiple next possibilities. You evaluate ideas along the way and continue only promising branches.
 <br>
 Tree of Thoughts (ToT) is an advanced prompting technique in which the AI explores multiple reasoning paths or branches—like a tree structure—to solve a complex problem. Each branch represents a different approach or idea, and the AI evaluates these branches to choose the best solution. This method is especially useful for complex, multi-step, or creative problems where a single linear approach is not sufficient.
 
