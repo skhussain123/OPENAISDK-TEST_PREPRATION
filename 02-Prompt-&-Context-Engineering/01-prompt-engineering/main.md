@@ -664,9 +664,9 @@ If your prompt is vague or unclear, the AI’s response can also become unpredic
 
 If a prompt contains conflicting requirements, the AI gets confused and the response can become inconsistent or incorrect. Review the prompt before writing it to ensure internal consistency.
 
-**Example 1:** ‘Write a professional email that is casual and funny.’ This is contradictory because a professional and a casual tone are difficult to combine at the same time.
+**❌ Wrong / Contradictory Prompt: Example 1:** ‘Write a professional email that is casual and funny.’ This is contradictory because a professional and a casual tone are difficult to combine at the same time.
 
-**Example 2:**
+**❌ Wrong / Contradictory Prompt: Example 2:**
 Write a short summary in exactly 50 words, and also make sure it does not exceed 30 words.
 
 
