@@ -18,7 +18,7 @@ Instead of waiting to be replaced by AI, learn to work with it effectively.
 
 This framework works across all major AI models (ChatGPT, Gemini, Claude) and is based on fundamental principles of how large language models operate.
 
-### 1. Command: Start Strong, Not Soft
+### 1. Command: (Start Strong, Not Soft)
 
 **The Problem:** Most people ask vague questions or make wishy-washy requests.
 
@@ -40,7 +40,7 @@ Recommend a diversified investment strategy for a moderate risk investor saving 
 - Be specific about what you want
 - Set a professional, focused tone
 
-### 2. Context: More is Always Better
+### 2. Context: (More is Always Better)
 
 **The Rule:** AI can take your prompt in any direction if you let it. Your job is to narrow it down with the right background, constraints, and goals.
 
@@ -64,7 +64,7 @@ Recommend an investment strategy for a 32-year-old with moderate risk tolerance,
 - Complex projects (business plan): Extensive context required
 - Life-changing decisions: Maximum context investment
 
-### 3. Logic: Define the Output Structure
+### 3. Logic: (Define the Output Structure)
 
 **The Problem:** Without guidance, AI will respond in whatever format it chooses, which might not be useful for your needs.
 
@@ -87,7 +87,7 @@ List the asset categories, explain the percent allocation for each, and briefly 
 - Will I need to share this with others?
 - How will I use this information next?
 
-### 4. Roleplay: Transform Generic into Expert-Level
+### 4. Roleplay: (Transform Generic into Expert-Level)
 
 **The Power:** The way you prompt doesn't just affect what AI says—it affects who it becomes.
 
@@ -108,7 +108,7 @@ You are a certified financial advisor with 15 years of experience specializing i
 - "Provide practical, actionable recommendations"
 - "Focus on data-driven insights"
 
-### 5. Formatting: Structure for Success
+### 5. Formatting: (Structure for Success)
 
 **The Goal:** Organize information in a way that's immediately useful and actionable.
 
