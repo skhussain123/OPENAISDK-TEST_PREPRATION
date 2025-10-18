@@ -376,7 +376,7 @@ Step-Back Prompting involves first asking a broader, foundational question to es
 
 ---
 
-### 5. ReAct (Reasoning + Acting)
+### 4. ReAct (Reasoning + Acting)
 ReAct ka matlab hai Reasoning + Acting — yaani AI ya agent pehle sochta hai (reasoning), phir koi action leta hai (tool use, search, calculation, etc.), phir dobara soch ke next step decide karta hai.
 * Combine reasoning with tool use or actions.
 
@@ -457,7 +457,7 @@ Use the following format for your response:
 
 ---
 
-### 6. Tree of Thoughts (ToT)
+### 5. Tree of Thoughts (ToT)
 * Explore multiple reasoning branches simultaneously for complex problems.
 <br>
 Tree of Thoughts (ToT) is an advanced prompting technique in which the AI explores multiple reasoning paths or branches—like a tree structure—to solve a complex problem. Each branch represents a different approach or idea, and the AI evaluates these branches to choose the best solution. This method is especially useful for complex, multi-step, or creative problems where a single linear approach is not sufficient.
