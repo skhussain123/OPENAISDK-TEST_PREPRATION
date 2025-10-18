@@ -217,11 +217,12 @@ Just as you need instructions to assemble a burger properly, you need context en
 ### The Role of Context Engineer
 As a context engineer, you create the "instruction manual" that details:
 - How all components work together
-- When and how to use tools
-- How to access memory and knowledge bases
-- When to utilize speech and audio
-- How to maintain guardrails
-- Escalation procedures
+- Tools kab aur kaise use karne hain
+- Memory aur knowledge base tak access ka tareeqa
+- Speech ya audio kab istemal karna hai
+- Guardrails (haddain aur safety rules) kaise maintain karne hain
+- Escalation procedures (jab masla aagay forward karna ho to kya karna hai)
+
 
 ### Prompt Complexity
 Context-engineered prompts often become:
