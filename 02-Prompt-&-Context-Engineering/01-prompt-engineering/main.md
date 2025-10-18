@@ -175,7 +175,7 @@ Before diving into prompt techniques, understand these key parameters that contr
 * Balanced: Temperature 0.2, Top-P 0.95, Top-K 30
 * Creative: Temperature 0.9, Top-P 0.99, Top-K 40
 
-## Fundamental Prompting Techniques
+# 1. Fundamental Prompting Techniques
 ### 1. Zero-Shot Prompting
 * The simplest approach—just ask directly without examples.
 <br>
@@ -279,7 +279,7 @@ Context: You're writing for a tech blog aimed at beginners who have never coded 
 Write a 200-word explanation of what an API is, using simple language and practical examples.
 ```
 
-## Advanced Prompting Strategies
+# 2. Advanced Prompting Strategies
 
 ### 1. Chain of Thought (CoT) Prompting
 
@@ -527,7 +527,7 @@ I want to start a YouTube channel but I can’t decide which niche (topic) to fo
 
 ---
 
-## Best Practices for Effective Prompts
+# 3. Best Practices for Effective Prompts
 
 ### 1. Be Specific and Clear
 
@@ -648,7 +648,7 @@ Output format:
 - Test variations to improve performance
 
 
-## Common Pitfalls and How to Avoid Them
+# 4. Common Pitfalls and How to Avoid Them
 
 ### 1. Ambiguous Instructions
 **Problem:** Vague requests lead to unpredictable outputs<br>
@@ -694,7 +694,7 @@ Every AI model has a token limit (a limit on words or characters), and if the pr
 If you try only one prompt and assume it’s the best, you might not get the optimal output. Different phrasings or approaches can give better results. Test different prompt wordings, examples, or strategies to get the best outcome.
 **Example:** Just using ‘Write a story’ once, whereas different wording or examples could result in a more engaging story.
 
-## Hands-On Examples
+# 5. Hands-On Examples
 
 ### Example 1: Content Creation
 
