@@ -59,10 +59,32 @@ genimi --m genini-2.5-flash
 #### Shell mode enabled
 ```bash
 ! --> esc to disable
+```
+
+### Simple Project with Agent Call
+
+```bash
+1-> mkdir cli_session
+2-> gemini --model gemini-2.5-flash
+3-> create a project with python and uv to build a simple calculator (agent command)
+```
+
+
+#### Permission Always Allow
+```bash
+gemini --model gemini-2.5-flash --yolo
 
 or 
 
-pwd
+gemini --model gemini-2.5-flash --y
+```
+* koe bhi kam krega agent  ko kisi point pr permission nh mangyga.
+
+
+#### File open in terminal
+* goto shell mode (!) and run this
+```bash 
+cat kids.md
 ```
 
 
