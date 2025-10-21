@@ -96,6 +96,11 @@ We will get to the GEMINI.md file a bit later, but here are a couple of things t
 ### What is GEMINI.md and why do I need it?
 Let’s relook at the high level information around GEMINI.md as mentioned in the documentation over here. Its actually quite well written and hence I do not wish to recreate it in some other way. I have highlighted key things in bold.
 
- While not strictly configuration for the CLI’s behavior, context files (defaulting to GEMINI.md but configurable via the context.fileName setting) are crucial for configuring the instructional context (also referred to as "memory") provided to the Gemini model. This powerful feature allows you to give project-specific instructions, coding style guides, or any relevant background information to the AI, making its responses more tailored and accurate to your needs. The CLI includes UI elements, such as an indicator in the footer showing the number of loaded context files, to keep you informed about the active context.
+While not strictly configuration for the CLI’s behavior, context files (defaulting to GEMINI.md but configurable via the context.fileName setting) are crucial for configuring the instructional context (also referred to as "memory") provided to the Gemini model. This powerful feature allows you to give project-specific instructions, coding style guides, or any relevant background information to the AI, making its responses more tailored and accurate to your needs. The CLI includes UI elements, such as an indicator in the footer showing the number of loaded context files, to keep you informed about the active context.
  
- Purpose: These Markdown files contain instructions, guidelines, or context that you want the Gemini model to be aware of during your interactions. The system is designed to manage this instructional context hierarchically.
+Purpose: These Markdown files contain instructions, guidelines, or context that you want the Gemini model to be aware of during your interactions. The system is designed to manage this instructional context hierarchically.
+
+There are a lot of articles that cover how best to write GEMINI.md files and it will continue to be something that keeps getting covered. For the moment, it is sufficient to understand that this is one of the key mechanisms by which we can instruct the Gemini CLI to follow our rules/recommendations in how code is generated, any versions, how dependencies should be managed, coding guidelines, etc. You get the gist of where this is going.
+
+I reproduce again, a part of the documentation, that shows a sample GEMINI.md file for a Typescript project. Even if you are not a Typescript person, this is a good template to take, customize it for your preferences, language, frameworks and more.
+
