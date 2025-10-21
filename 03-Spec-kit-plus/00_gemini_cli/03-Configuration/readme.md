@@ -35,9 +35,6 @@ context me bhjta ha. agr ap chahty ha kisi dusri file ko bhi context ka part ban
 
 
 
-
-
-
 ### Local (Project / Workspace) Settings
 The second location is within your project’s root directory. By creating a .gemini/settings.json file inside your project folder, you can define a configuration that applies only when you run the gemini command from within that project's directory or its subdirectories.
 
