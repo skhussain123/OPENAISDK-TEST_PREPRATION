@@ -102,6 +102,23 @@ gemini --model gemini-2.5-flash debug
 / stats
 ```
 
+#### Session Exit (run command in shell)
+```bash
+/quit
+```
+
+### Basic Cmd Commands
+| Command         | Description                                          |
+| --------------- | ---------------------------------------------------- |
+| `dir`           | Lists all files and folders in the current directory |
+| `cd foldername` | Opens (changes to) the specified folder              |
+| `cd ..`         | Goes back one folder level                           |
+| `cls`           | Clears the screen                                    |
+| `exit`          | Closes the Command Prompt                            |
+
+
+
+
 
 
 
