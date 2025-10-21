@@ -50,4 +50,20 @@ You can quit Gemini CLI via the /quit command and then ensure that you are in th
 #### model sweetch
 ```bash
 genimi --model genini-2.5-flash
+
+or
+
+genimi --m genini-2.5-flash
 ```
+
+#### Shell mode enabled
+```bash
+! --> esc to disable
+
+or 
+
+pwd
+```
+
+
+
