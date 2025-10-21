@@ -104,3 +104,112 @@ There are a lot of articles that cover how best to write GEMINI.md files and it 
 
 I reproduce again, a part of the documentation, that shows a sample GEMINI.md file for a Typescript project. Even if you are not a Typescript person, this is a good template to take, customize it for your preferences, language, frameworks and more.
 
+---
+
+At this point, if I do a /memory show command, I can see the current context, what files were loaded, etc. This is very useful to understand if the context was loaded correctly. While I do not have a GEMINI.mdfile at the moment, due to which there is nothing available as per the output below.
+
+If you happen to have a GEMINI.md file, modify it outside, you can always refresh it via the /memory refresh command. Try that command right now and see the similar debug statements that come up.
+
+Whew ! That was a lot of discussion just for debug. But do keep this option handy. In case you are reporting any specific issues that you find, it might be handy to turn on the debug mode and see what is going on.
+
+### Let’s have a checkpoint
+This is an interesting but an essential feature. Imagine you are going on with the Gemini CLI and it has used tools to write to file, etc. But something goes wrong and you would like to get back to the previous good state. That’s the checkpointing feature, which as the documentation states “automatically saves a snapshot of your project’s state before any file modifications are made by AI-powered tools. This allows you to safely experiment with and apply code changes, knowing you can instantly revert back to the state before the tool was run.”
+
+By default, when you launch the Gemini CLI, checkpointing is not enabled and you will need to enable it via the -c or --checkpointing flag, when you launch it.
+
+Let’s see this feature in action. First up, I have a small Go project. It is a command line utility that takes a sample text file and it provides the number of characters, words and lines in the text file. So I am in that current folder that has a main.go file and a sample file to test test.txt. This is also a Git enabled folder and I have committed main.go, test.txt and go.mod.
+
+I launch Gemini CLI with the checkpointing and debugging enabled as given below:
+```bash
+gemini -c -d
+```
+
+The status bar clearly shows that I am in --debugmode and the folder along with the Git branch are shown.
+
+* Let’s run a shell command via the ! to just validate a few things.
+* So I have run two commands, the pwd and the ls command
+
+At this point, there is nothing to restore or go back to. If you need to restore back to some point, you do that via the /restore command. If you just use the command as is, it says that there are no restorable tool calls found. And this is fair since we have not asked Gemini to do any task, that resulted in things like creating folders, writing files, etc.
+
+
+If you now run the command /restore, you can see that there is a checkpoint that it is generated. As per the documentation “these file names are typically composed of a timestamp, the name of the file being modified, and the name of the tool that was about to be run (e.g., 2025–09–10T06–56–49_549Z-README.md-write_file).\
+
+You can see that it has the timestamp-<filename>-<toolname>.
+Before we make another change to the README.md file, let us see where the checkpoint data is being stored? Go to the home directory (e.g. ~ on my Mac). This will have a .gemini/tmp folder. Expand that to see a folder that will contain your logs, shell history and checkpoints. A sample for the above operations that we have done is shown below:
+
+![alt text](image-3.png)
+
+Remember that Checkpointing is not available by default, so you need to provide the checkpointing flag when you start the Gemini CLI or better still, if this is a feature that you absolutely want running all the time, then you can put that in the settings.json file, which we shall see in the next part of this series.
+
+---
+
+### Session summary
+If you are looking for your session summary to be persisted, which you can then look into, you can try the--session-summary parameter.
+
+Launch it as follows: gemini --session-summary "session.txt"
+
+This will launch Gemini CLI and keep a track of the. A sample run for my project folder and a couple of interactions to get the list of files and to get an explanation for a file is shown below:
+
+```bash
+{
+  "sessionMetrics": {
+    "models": {
+      "gemini-2.5-pro": {
+        "api": {
+          "totalRequests": 1,
+          "totalErrors": 0,
+          "totalLatencyMs": 9119
+        },
+        "tokens": {
+          "prompt": 7068,
+          "candidates": 131,
+          "total": 7816,
+          "cached": 0,
+          "thoughts": 617,
+          "tool": 0
+        }
+      },
+      "gemini-2.5-flash": {
+        "api": {
+          "totalRequests": 1,
+          "totalErrors": 0,
+          "totalLatencyMs": 3589
+        },
+        "tokens": {
+          "prompt": 5853,
+          "candidates": 82,
+          "total": 6009,
+          "cached": 0,
+          "thoughts": 74,
+          "tool": 0
+        }
+      }
+    },
+    "tools": {
+      "totalCalls": 0,
+      "totalSuccess": 0,
+      "totalFail": 0,
+      "totalDurationMs": 0,
+      "totalDecisions": {
+        "accept": 0,
+        "reject": 0,
+        "modify": 0,
+        "auto_accept": 0
+      },
+      "byName": {}
+    },
+    "files": {
+      "totalLinesAdded": 0,
+      "totalLinesRemoved": 0
+    }
+  }
+}
+```
+It provides you information on the model used, the calls based, the tokens used and more. You could possibly use these metrics, aggregate in a central place for your own analysis.
+
+The data in session.txt file is similar to the one that you get on stats command inside of Gemini CLI. Alternately, if you /quit Gemini CLI, you get a summary too, that looks similar. A sample summary shown when I quit the above session is shown below.
+<br>
+![alt text](image-4.png)
+
+
+
