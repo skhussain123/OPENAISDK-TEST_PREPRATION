@@ -24,19 +24,18 @@ Alternately, if you need higher quota, feel free to provide your Gemini API Key 
 
 ### With Auth (connect with google account)
 * first run this command
+
 ```bash
 gemini
 ```
-
 ![alt text](image.png)
-```
+
 ---
 
 **check all command**
 ```bash
 /help
 ```
-
 
 
 
