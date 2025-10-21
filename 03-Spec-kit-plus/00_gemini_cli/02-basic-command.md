@@ -70,13 +70,17 @@ genimi --m genini-2.5-flash
 ```
 
 
-#### Permission Always Allow
+#### Permission Always Allow (Yolo Mode)
 ```bash
 gemini --model gemini-2.5-flash --yolo
 
 or 
 
 gemini --model gemini-2.5-flash --y
+
+or 
+
+Ctrl C (shortcut command) 
 ```
 * koe bhi kam krega agent  ko kisi point pr permission nh mangyga.
 
@@ -86,6 +90,20 @@ gemini --model gemini-2.5-flash --y
 ```bash 
 cat kids.md
 ```
+
+#### Debug
+```bash
+gemini --model gemini-2.5-flash debug
+```
+
+**Run Command**
+* you can check model and tools stats
+```bash
+/ stats
+```
+
+
+
 
 
 
