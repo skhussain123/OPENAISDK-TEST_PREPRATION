@@ -132,6 +132,13 @@ gemini --model gemini-2.5-flash --c
 gemini "what latest news from openai"
 ```
 
+#### you can use memory (shoe, add, refresh, list)
+```bash
+/memory
+```
+
+
+
 
 
 
