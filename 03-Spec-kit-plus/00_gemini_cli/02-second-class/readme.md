@@ -93,7 +93,7 @@ cat kids.md
 
 #### Debug
 ```bash
-gemini --model gemini-2.5-flash debug
+gemini --model gemini-2.5-flash --debug
 ```
 
 **Run Command**
@@ -117,8 +117,20 @@ gemini --model gemini-2.5-flash debug
 | `exit`          | Closes the Command Prompt                            |
 
 
+### Auto Checkpoint (changes revert method)
+```bash
+gemini --model gemini-2.5-flash --c
+```
 
+**restore a tool call. this will reset the conversation and file**
+```bash
+/restore
+```
 
+#### you and use without session start(personal Asiatant)
+```bash
+gemini "what latest news from openai"
+```
 
 
 
