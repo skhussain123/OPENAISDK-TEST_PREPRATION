@@ -27,7 +27,16 @@ Alternately, if you need higher quota, feel free to provide your Gemini API Key 
 ```bash
 gemini
 ```
+
 ![alt text](image.png)
+```
+---
+
+**check all command**
+```bash
+/help
+```
+
 
 
 
