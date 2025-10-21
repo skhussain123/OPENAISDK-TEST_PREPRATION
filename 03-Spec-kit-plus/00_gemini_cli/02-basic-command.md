@@ -37,8 +37,17 @@ gemini
 /help
 ```
 
+#### Available Gemini CLI Tools
+![alt text](image-1.png)
+
+**It says shell mode enabled and I am typing the pwd command to understand where I am. The output is shown as below:**
+![alt text](image-2.png)
+You can come out of the terminal mode, by hitting ESC key.
+
+You can quit Gemini CLI via the /quit command and then ensure that you are in the folder that you would like to be and then launch gemini from there.
 
 
-
-
-
+#### model sweetch
+```bash
+genimi --model genini-2.5-flash
+```
