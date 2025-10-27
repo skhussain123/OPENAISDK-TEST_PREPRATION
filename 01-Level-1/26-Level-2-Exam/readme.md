@@ -1,0 +1,27 @@
+### OpenAI Agents SDK core principles and architecture
+- Python-first orchestration and control flow in agent development
+- Agents, Tools, and Handoffs – roles, usage, and design patterns
+- Runner methods (run_sync, run, run_streamed) – behaviors and blocking
+- Pydantic models for input/output validation and default handling
+- @function_tool decorator – usage and schema generation
+- Dynamic instructions using callable functions with context
+- AgentHooks and lifecycle event handling
+- Synchronous vs asynchronous tools integration
+- Input and output guardrails for validation and compliance
+- Error handling during tool execution and error propagation
+- Tool choice and tool use behavior (auto, required, stop_on_first_tool, etc.)
+- Agent cloning vs creating new agents
+- Context management with RunContextWrapper
+- Conversation history handling in multi-agent handoffs
+- Output type parsing and handling invalid or extra fields
+- Prompt engineering techniques (system prompts, dynamic context, CoT)
+- Planning reminders and reasoning in prompts
+- Sensitive data handling and persona-based instruction design
+- Multi-agent workflows and sequential orchestration
+- Access control and permission checks for tools and handoffs
+- Regional compliance filtering in handoffs (e.g., GDPR, US regulations)
+- Feature gating and subscription-based tool access
+- Custom runners with orchestration hooks and context engineering
+- Keyword-based routing limitations in handoffs
+- Audit logging and tool call tracking with tool_call_id
+- Markdown basics (links and images)
